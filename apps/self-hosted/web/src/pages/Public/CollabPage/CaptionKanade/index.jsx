@@ -86,7 +86,7 @@ export default function ManageCaption() {
             style={{ maxHeight: "400px" }}
           >
             <source
-              src="https://captionkanade.chisadin.site/LocketQQ.mp4"
+              src="https://cdn.chisadin.site/Screenrecorder-2026-01-22-22-12-58-939.mp4"
               type="video/mp4"
             />
             Trình duyệt của bạn không hỗ trợ video.
@@ -186,7 +186,7 @@ export default function ManageCaption() {
               >
                 <span className="text-xl flex items-center gap-2">
                   {preset.type === "image_icon" ||
-                  preset.type === "image_gif" ? (
+                    preset.type === "image_gif" ? (
                     <img
                       src={preset.icon_url}
                       alt="icon"
