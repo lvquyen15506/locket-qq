@@ -38,7 +38,7 @@ export async function setDBOwner(uid) {
   await db.meta.put({
     key: "owner",
     uid,
-    author: "Dio",
+    author: "QQ",
     createdAt: Date.now(),
   });
 }

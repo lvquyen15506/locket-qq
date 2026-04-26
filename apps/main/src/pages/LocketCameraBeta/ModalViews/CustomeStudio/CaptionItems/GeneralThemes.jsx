@@ -88,7 +88,7 @@ export default function GeneralThemes({ title }) {
       });
 
       const musicType = formType === "apple" ? "Apple Music" : "Spotify";
-      SonnerSuccess(`${musicType} by Dio`, "Lấy nhạc thành công");
+      SonnerSuccess(`${musicType} by QQ`, "Lấy nhạc thành công");
 
       closeMusicForm();
     } catch {

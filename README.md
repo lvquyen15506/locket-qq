@@ -176,13 +176,13 @@ Chúng tôi yêu thích những đóng góp! Vui lòng đọc [Hướng Dẫn Đ
 
 **🚀 Được tạo với ❤️ bởi**
 
-[![Dio](https://img.shields.io/badge/👨‍💻_Dio-Lead_Developer-4285f4?style=for-the-badge)](https://github.com/doi2523)
+[![QQ](https://img.shields.io/badge/👨‍💻_Dio-Lead_Developer-4285f4?style=for-the-badge)](https://github.com/doi2523)
 
 <a href="https://github.com/doi2523">
   <img src="https://github.com/doi2523.png" width="100px" style="border-radius: 50%;">
 </a>
 
-**[Dio (@doi2523)](https://github.com/doi2523)**  
+**[QQ (@doi2523)](https://github.com/doi2523)**  
 _Full Stack Developer_
 
 </div>
@@ -243,7 +243,7 @@ _Full Stack Developer_
 
 ### ⭐ Hãy Star repository này nếu bạn thấy hữu ích!
 
-**Được tạo với ❤️ bởi [Dio](https://github.com/doi2523) | © 2025 [Locket QQ](https://locket-qq.com) | Tất cả quyền được bảo lưu**
+**Được tạo với ❤️ bởi [QQ](https://github.com/doi2523) | © 2025 [Locket QQ](https://locket-qq.com) | Tất cả quyền được bảo lưu**
 
 [![Về đầu trang](https://img.shields.io/badge/⬆️_Về_Đầu_Trang-Nhấn_Vào_Đây-blue?style=for-the-badge)](#-locket-qq)
 

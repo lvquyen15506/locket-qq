@@ -10,7 +10,7 @@ const SocketStatus = ({ isConnected }) => {
         <div className={`status ${statusClass}`}></div>
       </div>
       <span className={isConnected ? "text-success" : "text-error"}>
-        {isConnected ? "Connected to Dio Service" : "Disconnected"}
+        {isConnected ? "Connected to QQ Service" : "Disconnected"}
       </span>
     </div>
   );

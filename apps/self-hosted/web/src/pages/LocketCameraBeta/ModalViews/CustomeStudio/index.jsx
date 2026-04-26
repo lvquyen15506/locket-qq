@@ -181,7 +181,7 @@ const ScreenCustomeStudio = () => {
             onSelect={handleCustomeSelect}
           />
           <ThemesCustomes
-            title="🎨 Decorative by Dio"
+            title="🎨 Decorative by QQ"
             presets={captionOverlays.custome}
             onSelect={handleCustomeSelect}
           />
@@ -246,7 +246,7 @@ const ScreenCustomeStudio = () => {
                   to="/aboutdio"
                   className="text-primary font-semibold underline hover:text-primary-focus"
                 >
-                  trang giới thiệu Dio
+                  trang giới thiệu QQ
                 </Link>
               </p>
             </div>

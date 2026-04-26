@@ -132,7 +132,7 @@ const Sidebar = () => {
       items: [
         { to: "/", icon: Home, text: "Trang chủ" },
         { to: "/about", icon: Info, text: "Locket QQ" },
-        { to: "/about-dio", icon: UserCircle, text: "Về Dio" },
+        { to: "/about-qq", icon: UserCircle, text: "Về QQ" },
         { to: "/newsfeed", icon: Newspaper, text: "Bảng tin", badge: "New" },
         {
           to: "/download",
@@ -249,7 +249,7 @@ const Sidebar = () => {
           <p className="text-center text-xs pb-2 text-base-content/70">
             © {startYear}
             {currentYear > startYear && `–${currentYear}`}{" "}
-            <span className="font-semibold font-lovehouse">Dio</span>. All
+            <span className="font-semibold font-lovehouse">QQ</span>. All
             rights reserved.
           </p>
         </div>

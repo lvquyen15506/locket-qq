@@ -23,7 +23,7 @@ export const CONFIG = {
 
   app: {
     name: "Locket QQ", // Tên app hiển thị
-    author: "dio",
+    author: "QQ",
     shortname: "LocketQQ",
     fullName: "Locket QQ - Đăng ảnh & Video lên Locket", // Tên đầy đủ
     clientVersion: "Beta2.5.5.2.4", // Version client
@@ -86,7 +86,7 @@ export const CONFIG = {
       accountName: "DAO VAN DOI",
     },
     myInfo: {
-      fullName: "Đào Văn Đôi (Dio)",
+      fullName: "Đào Văn Đôi (QQ)",
       email: "doibncm2003@gmail.com",
       phone: "0123456789",
       github: "https://github.com/doi2523",

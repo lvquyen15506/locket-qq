@@ -4,7 +4,7 @@ const Docs = () => {
   return (
     <div className="min-h-screen px-4 flex flex-col items-center py-5">
       <h1 className="text-3xl font-semibold mb-5">
-        Hướng Dẫn Sử Dụng Trang Web Locket QQ by Dio
+        Hướng Dẫn Sử Dụng Trang Web Locket QQ by QQ
       </h1>
 
       <div className="max-w-3xl text-left mb-12">
@@ -108,7 +108,7 @@ const Docs = () => {
           </li>
           <li>
             <b>Người sáng lập Locket QQ là ai?</b> Locket QQ được phát triển
-            bởi Đào Văn Đôi (Dio), sinh viên năm cuối ngành Công nghệ Thông tin,
+            bởi Đào Văn Đôi (QQ), sinh viên năm cuối ngành Công nghệ Thông tin,
             với đam mê tạo ra sản phẩm sáng tạo và hữu ích.
           </li>
           <li>

@@ -36,7 +36,7 @@ const postImageToLocket = async ({ userId, idToken, image, optionsData }) => {
         });
         break;
 
-      // custom của Dio
+      // custom của QQ
       case "image_icon":
       case "image_gif":
       case "caption_icon":
@@ -113,7 +113,7 @@ const postImageToLocketV2 = async ({
         });
         break;
 
-      // custom của Dio
+      // custom của QQ
       case "image_icon":
       case "image_gif":
       case "caption_icon":

@@ -26,7 +26,7 @@ const APP_NAME = CONFIG.app.fullName;
 export const authRoutes = [
   { path: "/home", component: AuthHome, title: `Trang chủ | ${APP_NAME}` },
   { path: "/about", component: AboutLocketQQ, title: `Về Website Locket QQ | ${APP_NAME}` },
-  { path: "/about-dio", component: AboutMe, title: `Về Dio | ${APP_NAME}` },
+  { path: "/about-qq", component: AboutMe, title: `Về QQ | ${APP_NAME}` },
   { path: "/timeline", component: Timeline, title: `Dòng Thời Gian | ${APP_NAME}` },
   { path: "/sponsors", component: DonatePage, title: `Ủng hộ dự án | ${APP_NAME}` },
 
@@ -46,5 +46,5 @@ export const authRoutes = [
   { path: "/privacy", component: PrivacyPolicy, title: `Chính sách bảo mật | ${APP_NAME}` },
   { path: "/docs", component: Docs, title: `Tài liệu | ${APP_NAME}` },
 
-  { path: "/happy-birthday", component: BirthdayPage, title: `Chúc mừng sinh nhật Dio | ${APP_NAME}` },
+  { path: "/happy-birthday", component: BirthdayPage, title: `Chúc mừng sinh nhật QQ | ${APP_NAME}` },
 ];

@@ -35,7 +35,7 @@ export const publicRoutes = [
   { path: "/login", component: Login, title: `Đăng Nhập | ${APP_NAME}` },
 
   { path: "/about", component: AboutLocketQQ, title: `Về Website Locket QQ | ${APP_NAME}` },
-  { path: "/about-dio", component: AboutMe, title: `Về Dio | ${APP_NAME}` },
+  { path: "/about-qq", component: AboutMe, title: `Về QQ | ${APP_NAME}` },
 
   { path: "/newsfeed", component: NewsPage, title: `Bảng tin | ${APP_NAME}` },
   { path: "/newsfeed/:slug", component: NewsDetailPage, title: `Bảng tin | ${APP_NAME}` },
@@ -60,7 +60,7 @@ export const publicRoutes = [
 
   { path: "/collab/caption-kanade", component: ManageCaption, title: `Web hợp tác Caption Kanade | ${APP_NAME}` },
   { path: "/collab/locket-upload", component: LocketUpload, title: `Web hợp tác Locket Upload | ${APP_NAME}` },
-  { path: "/happy-birthday", component: BirthdayPage, title: `Chúc mừng sinh nhật Dio | ${APP_NAME}` },
+  { path: "/happy-birthday", component: BirthdayPage, title: `Chúc mừng sinh nhật QQ | ${APP_NAME}` },
 
   // { path: "/wt", component: WhitePage, title: `White Page for Development | ${APP_NAME}` },
   // { path: "/locket", component: LocketCameraBeta, title: `White Page for Development | ${APP_NAME}` },
