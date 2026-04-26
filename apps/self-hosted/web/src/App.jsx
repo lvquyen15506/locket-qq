@@ -133,7 +133,9 @@ function AppContent() {
           {/* Điều hướng ngược lại khi đã đăng nhập mà cố vào public route */}
           {!loading &&
             isAuth &&
-            publicRoutes.map(({ path }) => (
+            publicRoutes
+              .filter(({ path }) => !privateRoutes.some((r) => r.path === path))
+              .map(({ path }) => (
               <Route
                 key={path}
                 path={path}
