@@ -266,6 +266,23 @@ const CameraButton = () => {
     }
   };
 
+  // Cancel khi chuột rời khỏi nút - KHÔNG chụp ảnh
+  const cancelHold = (e) => {
+    e.preventDefault();
+    clearTimeout(holdTimeoutRef.current);
+    clearInterval(intervalRef.current);
+    isTryingToRecordRef.current = false;
+
+    if (
+      isRecordingRef.current &&
+      mediaRecorderRef.current?.state === "recording"
+    ) {
+      mediaRecorderRef.current.stop();
+    }
+    isRecordingRef.current = false;
+    setIsHolding(false);
+  };
+
   const captureImage = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -341,11 +358,11 @@ const CameraButton = () => {
       <button
         onMouseDown={startHold}
         onMouseUp={endHold}
-        onMouseLeave={endHold}
+        onMouseLeave={cancelHold}
         onTouchStart={startHold}
         onTouchEnd={endHold}
         // Thêm các event cho iOS
-        onTouchCancel={endHold}
+        onTouchCancel={cancelHold}
         onContextMenu={(e) => e.preventDefault()} // Prevent long press menu on iOS
         className="relative flex items-center justify-center w-24 h-24 active:scale-97"
         style={{
