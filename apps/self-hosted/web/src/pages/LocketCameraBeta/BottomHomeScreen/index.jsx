@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useApp } from "@/context/AppContext";
 import UploadingQueue from "./MomentsView/UploadingQueue";
 import MomentsGrid from "./MomentsView/MomentsGrid";
@@ -10,10 +10,12 @@ import "swiper/css";
 import MomentSlide from "./MomentsView/MomentSlide";
 import { useSocket } from "@/context/SocketContext";
 import { useAuthStore, useMomentsStoreV2 } from "@/stores";
+import { clearAllDB } from "@/cache/configDB";
 
 const BottomHomeScreen = () => {
   const { navigation, post } = useApp();
   const [swiperRef, setSwiperRef] = useState(null);
+  const [hasFetched, setHasFetched] = useState(false);
   const {
     isHomeOpen,
     isBottomOpen,
@@ -61,10 +63,22 @@ const BottomHomeScreen = () => {
     resetVisible(selectedFriendUid);
   }, [isBottomOpen, isHomeOpen, isProfileOpen, selectedFriendUid]);
 
-  // Fetch initial moments
+  // Fetch moments chỉ khi user đã bấm "Bắt đầu xem"
   useEffect(() => {
+    if (hasFetched) {
+      fetchMoments(user, selectedFriendUid);
+    }
+  }, [user, selectedFriendUid, hasFetched]);
+
+  const handleStartFetch = useCallback(() => {
+    setHasFetched(true);
     fetchMoments(user, selectedFriendUid);
-  }, [user, selectedFriendUid]);
+  }, [user, selectedFriendUid, fetchMoments]);
+
+  const handleClearCache = useCallback(async () => {
+    await clearAllDB();
+    window.location.reload();
+  }, []);
 
   useEffect(() => {
     if (!swiperRef) return;
@@ -190,6 +204,9 @@ const BottomHomeScreen = () => {
           loadMoreOlder={loadMoreOlder}
           hasMore={hasMore}
           loading={loading}
+          hasFetched={hasFetched}
+          onStartFetch={handleStartFetch}
+          onClearCache={handleClearCache}
         />
       </div>
     </>

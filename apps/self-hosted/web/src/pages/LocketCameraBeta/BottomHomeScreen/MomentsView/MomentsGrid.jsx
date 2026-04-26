@@ -11,6 +11,9 @@ const MomentsGrid = ({
   loadMoreOlder,
   hasMore,
   loading,
+  hasFetched = false,
+  onStartFetch,
+  onClearCache,
 }) => {
   const { post } = useApp();
   const {
@@ -22,6 +25,7 @@ const MomentsGrid = ({
 
   const reloadMoments = useMomentsStoreV2((s) => s.reloadMoments);
   const [loadingMoments, setLoadingMoments] = useState(false);
+  const [lastFetchTime, setLastFetchTime] = useState(null);
 
   const [loadedItems, setLoadedItems] = useState([]);
   const lastElementRef = useRef(null);
@@ -34,6 +38,7 @@ const MomentsGrid = ({
     setLoadingMoments(true);
     try {
       await reloadMoments();
+      setLastFetchTime(new Date());
       SonnerSuccess("Làm mới thành công!");
     } catch (err) {
       console.warn("Failed", err);
@@ -41,6 +46,13 @@ const MomentsGrid = ({
       setLoadingMoments(false);
     }
   };
+
+  // Set thời gian khi moments load lần đầu
+  useEffect(() => {
+    if (hasFetched && moments.length > 0 && !lastFetchTime) {
+      setLastFetchTime(new Date());
+    }
+  }, [hasFetched, moments.length]);
 
   // Intersection Observer
   useEffect(() => {
@@ -53,13 +65,11 @@ const MomentsGrid = ({
         const entry = entries[0];
         if (!entry.isIntersecting) return;
 
-        // 1️⃣ còn local thì show tiếp
         if (visibleCount < moments.length) {
           increaseVisibleCount();
           return;
         }
 
-        // 2️⃣ hết local → load API theo friend
         if (loadMoreOlder && hasMore) {
           loadMoreOlder(selectedFriendUid);
         }
@@ -87,7 +97,27 @@ const MomentsGrid = ({
     }
   };
 
-  if (moments.length === 0) {
+  // Chưa bấm tải → hiện nút "Bắt đầu xem"
+  if (!hasFetched) {
+    return (
+      <div className="grid grid-cols-3 md:grid-cols-6 md:gap-2 w-full h-full">
+        <div
+          onClick={onStartFetch}
+          className="aspect-square bg-base-200 rounded-2xl border-2 border-dashed border-base-content/30 flex flex-col justify-center items-center cursor-pointer hover:bg-base-300 transition-colors"
+        >
+          <div className="text-2xl mb-1">+</div>
+          <div className="text-xs font-medium text-base-content/70">
+            Bắt đầu xem
+          </div>
+          <div className="text-[10px] text-base-content/50 mt-1">
+            Nhấn để tải dữ liệu
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (moments.length === 0 && !loading) {
     return (
       <div className="grid grid-cols-3 md:grid-cols-6 md:gap-2 w-full h-full">
         <div className="aspect-square bg-base-300 rounded-2xl border-2 border-dashed border-base-content/30 flex flex-col justify-center items-center">
@@ -102,21 +132,35 @@ const MomentsGrid = ({
 
   return (
     <>
-      <div className="flex w-full justify-center items-center mb-2">
+      {/* Nút hành động */}
+      <div className="flex flex-wrap gap-2 w-full justify-center items-center mb-2">
         <button
-          className="btn rounded-full"
+          className="btn btn-sm btn-primary rounded-full"
           disabled={loadingMoments}
-          onClick={() => refreshMoments()}
+          onClick={refreshMoments}
         >
           {loadingMoments ? (
             <>
-              Đang tải <span className="loading loading-dots loading-sm"></span>
+              Đang tải <span className="loading loading-dots loading-xs"></span>
             </>
           ) : (
-            "Làm mới"
+            "📥 Lấy bài mới nhất"
           )}
         </button>
+        <button
+          className="btn btn-sm btn-outline btn-error rounded-full"
+          onClick={onClearCache}
+        >
+          🗑️ Xoá cache
+        </button>
       </div>
+
+      {lastFetchTime && (
+        <div className="text-xs text-base-content/50 text-center mb-2">
+          ⏰ Lần tải gần nhất: {lastFetchTime.toLocaleString()}
+        </div>
+      )}
+
       <div className="grid gap-1 grid-cols-3 md:grid-cols-6 md:gap-2">
         {visibleMoments.map((item, index) => {
           const isLoaded = loadedItems.includes(item.id);
@@ -191,3 +235,4 @@ const MomentsGrid = ({
 };
 
 export default MomentsGrid;
+
