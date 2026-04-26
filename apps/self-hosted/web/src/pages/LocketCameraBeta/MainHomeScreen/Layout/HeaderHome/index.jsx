@@ -64,29 +64,9 @@ const HeaderHome = ({
 
   return (
     <>
-      {selectedFile && (
-        <div
-          className={`fixed top-0 left-0 w-full px-2 pt-1 flex items-center justify-between z-50`}
-        >
-          <div></div>
-          <div className="absolute flex justify-center items-center flex-row gap-1 left-1/2 transform -translate-x-1/2 text-xl font-semibold text-base-content">
-            Gửi đến...
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleDownload}
-              className="w-11 h-11 flex items-center justify-center hover:bg-base-300 rounded-full transition"
-            >
-              <Download size={28} strokeWidth={2} />
-            </button>
-          </div>
-        </div>
-      )}
-      {!selectedFile && (
-        <div
-          className={`fixed top-0 left-0 w-full px-2 pt-1 flex items-center justify-between z-50`}
-        >
+      <div
+        className={`fixed top-0 left-0 w-full px-2 pt-1 flex items-center justify-between z-50`}
+      >
           {/* Avatar bên trái */}
           <button
             onClick={() => setIsProfileOpen(true)}
@@ -153,6 +133,14 @@ const HeaderHome = ({
 
           {/* Nút bên phải */}
           <div className="flex items-center gap-3">
+            {selectedFile && (
+              <button
+                onClick={handleDownload}
+                className="w-11 h-11 flex items-center justify-center bg-base-300/70 backdrop-blur-[4px] rounded-full hover:bg-base-300 transition active:scale-105"
+              >
+                <Download size={24} strokeWidth={2} />
+              </button>
+            )}
             <button
               onClick={() => setIsHomeOpen(true)}
               className="w-11 h-11 flex items-center justify-center bg-base-300/70 backdrop-blur-[4px] rounded-full hover:bg-base-300 transition active:scale-105"
@@ -175,7 +163,6 @@ const HeaderHome = ({
             friendList={friendList}
           />
         </div>
-      )}
     </>
   );
 };
