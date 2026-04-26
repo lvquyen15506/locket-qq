@@ -62,7 +62,6 @@ exports.generatePresignedUrlV3 = async (req, res) => {
       Key: filePath,
       // Must match client upload header exactly (e.g. image/jpeg, video/mp4)
       ContentType: contentType,
-      ACL: "public-read",
     });
 
     const url = await getSignedUrl(s3, command, { expiresIn: 300 });

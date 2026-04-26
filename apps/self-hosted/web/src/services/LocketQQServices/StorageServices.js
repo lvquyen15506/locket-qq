@@ -35,7 +35,7 @@ export const uploadFileAndGetInfoR2 = async (
   });
 
   if (!uploadRes.ok) {
-    throw new Error("❌ Upload to R2 failed");
+    throw new Error(`❌ Upload to R2 failed (${uploadRes.status} ${uploadRes.statusText})`);
   }
 
   return {
