@@ -2,7 +2,7 @@ import FeatureMarquee from "@/components/ui/Marquee/FeatureMarquee";
 import { Check } from "lucide-react";
 import React from "react";
 
-function PlanDetailCard({planData}) {
+function PlanDetailCard({ planData }) {
   return (
     <>
       {/* Plan Information */}

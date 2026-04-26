@@ -153,7 +153,7 @@ export default function PayPage() {
               <p>
                 • Cần hỗ trợ?{" "}
                 <a
-                  href="https://zalo.me/0329254203"
+                  href="https://zalo.me/0353234136"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 underline"

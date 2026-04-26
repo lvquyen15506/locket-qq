@@ -51,7 +51,7 @@ Token được trả về sau khi đăng nhập thành công qua `POST /locket/l
     "data": {
         "kind": "identitytoolkit#VerifyPasswordResponse",
         "localId": "your_user_id_locket",
-        "email": "dio@example.com",
+        "email": "qq@example.com",
         "displayName": "your_display_name",
         "idToken": "your_token",
         "expiresIn": "3600"
@@ -214,7 +214,7 @@ Content-Type: application/json
         "customAuth": true,
         "phoneNumber": "your_data",
         "displayName": "your_data",
-        "email": "dio@example.com",
+        "email": "qq@example.com",
         "lastLoginAt": "1773592546587",
         "lastRefreshAt": "2026-03-15T16:35:46.587Z",
         "emailVerified": null or true or false,

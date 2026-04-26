@@ -38,7 +38,7 @@ const AboutMe = () => {
         {/* About */}
         <div className="max-w-3xl text-left mb-12 px-4">
           <p className="text-lg leading-relaxed">
-            Mình là sinh viên năm cuối ngành CNTT, đam mê lập trình web và xây
+            Mình là sinh viên năm 3 ngành CNTT, đam mê lập trình web và xây
             dựng sản phẩm thực tế.
           </p>
         </div>
@@ -90,7 +90,7 @@ const AboutMe = () => {
           <div className="flex justify-center gap-4 text-2xl md:text-3xl">
             {/* Existing Social Links */}
             <a
-              href="https://github.com/doi2523"
+              href="https://github.com/lvquyen15506"
               target="_blank"
               rel="noopener noreferrer"
               className="transition"
@@ -98,7 +98,7 @@ const AboutMe = () => {
               <FaGithub className="w-6 h-6 text-black" />
             </a>
             <a
-              href="mailto:doibncm2003@gmail.com"
+              href="mailto:protv2006@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
               className="transition"
@@ -108,7 +108,7 @@ const AboutMe = () => {
 
             {/* New Social Links */}
             <a
-              href="https://facebook.com/daovandoi2003"
+              href="https://www.facebook.com/quynsad1"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-blue-600 transition"
@@ -116,7 +116,7 @@ const AboutMe = () => {
               <FaFacebook className="w-6 h-6 text-blue-600" />
             </a>
             <a
-              href="https://instagram.com/_am.dio"
+              href="https://www.instagram.com/lvquyncutii"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-pink-500 transition"
@@ -124,7 +124,7 @@ const AboutMe = () => {
               <FaInstagram className="w-6 h-6 text-pink-500" />
             </a>
             <a
-              href="https://tiktok.com/@amdio25"
+              href="https://www.tiktok.com/@lvquyncutii"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-black transition"
@@ -132,7 +132,7 @@ const AboutMe = () => {
               <FaTiktok className="w-6 h-6 text-black" />
             </a>
             <a
-              href="https://locket.cam/diodio"
+              href="https://locket.cam/lvquyen15506"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-black transition"

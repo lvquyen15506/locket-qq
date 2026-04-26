@@ -124,24 +124,21 @@ const ScreenCustomeStudio = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-90 flex justify-center items-end transition-transform duration-500 ${
-        isFilterOpen ? "" : "pointer-events-none"
-      }`}
+      className={`fixed inset-0 z-90 flex justify-center items-end transition-transform duration-500 ${isFilterOpen ? "" : "pointer-events-none"
+        }`}
     >
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-base-100/10 backdrop-blur-[2px] bg-opacity-50 transition-opacity duration-500 ${
-          isFilterOpen ? "opacity-100" : "opacity-0"
-        }`}
+        className={`fixed inset-0 bg-base-100/10 backdrop-blur-[2px] bg-opacity-50 transition-opacity duration-500 ${isFilterOpen ? "opacity-100" : "opacity-0"
+          }`}
         onClick={() => setIsFilterOpen(false)}
       ></div>
 
       {/* Popup */}
       <div
         ref={popupRef}
-        className={`w-full h-2/3 bg-base-100 text-base-content rounded-t-4xl shadow-lg transition-transform duration-500 flex flex-col ${
-          isFilterOpen ? "translate-y-0" : "translate-y-full"
-        }`}
+        className={`w-full h-2/3 bg-base-100 text-base-content rounded-t-4xl shadow-lg transition-transform duration-500 flex flex-col ${isFilterOpen ? "translate-y-0" : "translate-y-full"
+          }`}
       >
         {/* Header - Ghim cố định */}
         <div className="flex justify-between rounded-t-4xl items-center py-2 px-4 bg-base-100 sticky top-0 left-0 right-0 z-50">
@@ -170,7 +167,7 @@ const ScreenCustomeStudio = () => {
             onSelect={handleCustomeSelect}
           />
           <SpecialCaption
-            title = "⭐ Caption đặc biệt"
+            title="⭐ Caption đặc biệt"
             presets={captionOverlays.special}
             onSelect={handleCustomeSelect}
           />
@@ -222,7 +219,7 @@ const ScreenCustomeStudio = () => {
                 Theo dõi kênh{" "}
                 <a
                   className="text-primary font-semibold underline hover:text-primary-focus"
-                  href="https://t.me/ddevdio"
+                  href="https://t.me/+KWZ84cH7JxBkYWJl"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -233,7 +230,7 @@ const ScreenCustomeStudio = () => {
                 Tham gia nhóm Discord{" "}
                 <a
                   className="text-primary font-semibold underline hover:text-primary-focus"
-                  href="https://discord.gg/47buy9nMGc"
+                  href="https://discord.gg/yf5xvBVw"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

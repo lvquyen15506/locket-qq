@@ -63,10 +63,10 @@ export default function Contact() {
           <div className="bg-base-100 w-full flex flex-col items-center justify-start p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 animate-slideUp">
             <img
               src={avatarUrl}
-              alt="Đào Văn Đôi"
+              alt="La Văn Quyền"
               className="w-28 h-28 rounded-full object-cover border-4 border-base-300 mb-4 shadow-md hover:scale-105 transition duration-300"
             />
-            <h2 className="text-xl font-bold">Đào Văn Đôi</h2>
+            <h2 className="text-xl font-bold">La Văn Quyền</h2>
             <p className="mt-1 text-sm text-base-content/70">
               Full-stack Developer
             </p>
@@ -123,7 +123,7 @@ export default function Contact() {
 
         {/* Footer */}
         <div className="text-center mt-10 text-sm text-base-content/60 animate-fadeIn">
-          © 2025 Locket QQ. Made with ❤️ by Đào Văn Đôi
+          © 2026 Locket QQ. Made with ❤️ by La Văn Quyền
         </div>
       </div>
     </div>

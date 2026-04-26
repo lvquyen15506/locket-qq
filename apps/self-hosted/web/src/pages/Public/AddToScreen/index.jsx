@@ -72,22 +72,20 @@ const AddToHomeScreenGuide = () => {
           <div className="bg-base-100 rounded-xl p-1 shadow-lg flex">
             <button
               onClick={() => setActiveTab("android")}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
-                activeTab === "android"
+              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${activeTab === "android"
                   ? "bg-green-500 text-white shadow-md"
                   : "text-accent hover:bg-gray-50"
-              }`}
+                }`}
             >
               <Smartphone className="w-5 h-5" />
               Android
             </button>
             <button
               onClick={() => setActiveTab("ios")}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
-                activeTab === "ios"
+              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${activeTab === "ios"
                   ? "bg-blue-500 text-white shadow-md"
                   : "text-accent hover:bg-gray-50"
-              }`}
+                }`}
             >
               <Monitor className="w-5 h-5" />
               iOS
@@ -358,7 +356,7 @@ const AddToHomeScreenGuide = () => {
 
         {/* Footer */}
         <div className="text-center mt-8 text-gray-500">
-          <p className="text-sm">Cần hỗ trợ? Liên hệ: doibncm2003@gmail.com</p>
+          <p className="text-sm">Cần hỗ trợ? Liên hệ: protv2006@gmail.com</p>
         </div>
       </div>
     </div>

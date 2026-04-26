@@ -88,7 +88,7 @@ const Docs = () => {
         <p className="text-sm text-secondary">
           Nếu vẫn gặp lỗi, hãy liên hệ nhanh qua 👉🏻
           <a
-            href="sms:+84 329254203" // Thay số điện thoại của bạn vào đây
+            href="sms:+84 353234136"
             className="underline font-semibold"
           >
             iMessage
@@ -108,7 +108,7 @@ const Docs = () => {
           </li>
           <li>
             <b>Người sáng lập Locket QQ là ai?</b> Locket QQ được phát triển
-            bởi Đào Văn Đôi (QQ), sinh viên năm cuối ngành Công nghệ Thông tin,
+            bởi La Văn Quyền (QQ), sinh viên năm ba ngành Công nghệ Thông tin,
             với đam mê tạo ra sản phẩm sáng tạo và hữu ích.
           </li>
           <li>
@@ -175,8 +175,8 @@ const Docs = () => {
         <p className="text-sm">
           Nếu bạn có bất kỳ câu hỏi hoặc vấn đề gì, vui lòng liên hệ với tôi qua
           email:{" "}
-          <a href="mailto:doibncm2003@gmail.com" className="text-blue-500">
-            doibncm2003@gmail.com
+          <a href="mailto:protv2006@gmail.com" className="text-blue-500">
+            protv2006@gmail.com
           </a>
           .
         </p>

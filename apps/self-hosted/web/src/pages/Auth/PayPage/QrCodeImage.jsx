@@ -1,7 +1,7 @@
 export default function VietQRImage({ description, amount }) {
   if (!description || !amount) return null;
 
-  const src = `https://api.vietqr.io/image/970422-66222222222266-vietqr_pro.jpg?addInfo=${encodeURIComponent(description)}&amount=${amount}`;
+  const src = `/images/STK.png`;
 
   return (
     <div className="flex flex-col items-center space-y-2">
