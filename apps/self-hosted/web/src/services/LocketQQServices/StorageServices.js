@@ -12,7 +12,7 @@ export const uploadFileAndGetInfoR2 = async (
   const timestamp = Date.now();
   const extension = file.name.split(".").pop(); // jpg, mp4...
 
-  const fileName = `locketdio_${timestamp}_${localId}_cli${CONFIG.app.clientVersion}.${extension}`;
+  const fileName = `LocketQQ_${timestamp}_${localId}_cli${CONFIG.app.clientVersion}.${extension}`;
 
   // === Bước 1: Gọi BE để lấy Presigned URL
   const res = await api.post(`${CONFIG.api.storage}/api/presignedV3`, {

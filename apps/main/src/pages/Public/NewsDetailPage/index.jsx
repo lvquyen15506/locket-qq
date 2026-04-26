@@ -19,8 +19,8 @@ export default function NewsDetailPage() {
 
   useEffect(() => {
     if (news?.title) {
-      document.title = `${news.title} | Locket Dio - Đăng ảnh & Video lên Locket`;
-      const url = "https://locket-dio.com" + location.pathname;
+      document.title = `${news.title} | Locket QQ - Đăng ảnh & Video lên Locket`;
+      const url = "https://locket-qq.com" + location.pathname;
       const link =
         document.querySelector("link[rel='canonical']") ||
         document.head.appendChild(

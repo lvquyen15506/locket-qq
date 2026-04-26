@@ -45,13 +45,13 @@ export default function CelebrateItem({ user, slotdata, onAdd }) {
             {/* Ưu tiên hiển thị badge nếu có, nếu không thì celeb */}
             {user.badge === "locket_gold" ? (
               <img
-                src="https://cdn.locket-dio.com/v1/caption/caption-icon/locket_gold_badge.png"
+                src="https://cdn.locket-qq.com/v1/caption/caption-icon/locket_gold_badge.png"
                 alt="Gold Badge"
                 className="absolute bottom-0 right-0 w-4 h-4 p-0.5 bg-base-100 rounded-full"
               />
             ) : user.celebrity ? (
               <img
-                src="https://cdn.locket-dio.com/v1/caption/caption-icon/celebrity_badge.png"
+                src="https://cdn.locket-qq.com/v1/caption/caption-icon/celebrity_badge.png"
                 alt="Celebrity"
                 className="absolute bottom-0 right-0 w-4 h-4 p-0.5 bg-base-100 rounded-full"
               />

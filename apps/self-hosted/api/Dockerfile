@@ -1,4 +1,4 @@
-# Locket Dio Self-hosted API
+# Locket QQ Self-hosted API
 FROM node:20-slim
 
 # Tạo thư mục làm việc trong container

@@ -224,13 +224,13 @@ function Avatar({ friend }) {
 
       {friend.badge === "locket_gold" ? (
         <img
-          src="https://cdn.locket-dio.com/v1/caption/caption-icon/locket_gold_badge.png"
+          src="https://cdn.locket-qq.com/v1/caption/caption-icon/locket_gold_badge.png"
           alt="Gold Badge"
           className="absolute bottom-0 right-0 w-6 h-6 p-0.5 bg-base-100 rounded-full"
         />
       ) : friend.isCelebrity ? (
         <img
-          src="https://cdn.locket-dio.com/v1/caption/caption-icon/celebrity_badge.png"
+          src="https://cdn.locket-qq.com/v1/caption/caption-icon/celebrity_badge.png"
           alt="Celebrity"
           className="absolute bottom-0 right-0 w-6 h-6 p-0.5 bg-base-100 rounded-full"
         />

@@ -1,8 +1,8 @@
 import Dexie from "dexie";
 
 // 👉 Khởi tạo lại DB
-export function createLocketDioDB() {
-  const db = new Dexie("LocketDioDB");
+export function createLocketQQDB() {
+  const db = new Dexie("LocketQQDB");
 
   db.version(1).stores({
     meta: "&key",
@@ -18,7 +18,7 @@ export function createLocketDioDB() {
   return db;
 }
 // 👉 Tạo instance ban đầu
-let db = createLocketDioDB();
+let db = createLocketQQDB();
 
 export default db;
 

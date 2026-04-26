@@ -33,7 +33,7 @@ const ForgotPassword = () => {
       await forgotPassword(email);
 
       SonnerSuccess(
-        "Thông báo từ Locket Dio",
+        "Thông báo từ Locket QQ",
         "Link đặt lại mật khẩu đã được gửi đến email của bạn!",
       );
 

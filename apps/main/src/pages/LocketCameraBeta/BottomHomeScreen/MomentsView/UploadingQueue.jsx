@@ -21,7 +21,7 @@ const UploadingQueue = () => {
   if (uploadItems.length === 0)
     return (
       <div className="flex justify-center items-center w-full">
-        <p className="text-sm">i love Locket Dio</p>
+        <p className="text-sm">i love Locket QQ</p>
       </div>
     );
 

@@ -1,4 +1,4 @@
 export * from "./ExtensionsServices";
-export * from "./LocketDioServices";
+export * from "./LocketQQServices";
 export * from "./BrowserServices";
 export * from "./LocketServices";

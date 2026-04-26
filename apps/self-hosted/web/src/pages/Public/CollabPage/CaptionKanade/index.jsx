@@ -46,7 +46,7 @@ export default function ManageCaption() {
     <div className="p-6 mx-auto min-h-screen">
       {/* Tiêu đề */}
       <h1 className="text-3xl md:text-4xl font-bold mb-2">
-        Locket Dio x Caption Kanade
+        Locket QQ x Caption Kanade
       </h1>
       <p className="text-sm text-gray-600">
         Bạn có ID của caption do bạn bè gửi hoặc lấy được? Hãy dán nó vào đây để
@@ -86,7 +86,7 @@ export default function ManageCaption() {
             style={{ maxHeight: "400px" }}
           >
             <source
-              src="https://captionkanade.chisadin.site/locketdio.mp4"
+              src="https://captionkanade.chisadin.site/LocketQQ.mp4"
               type="video/mp4"
             />
             Trình duyệt của bạn không hỗ trợ video.

@@ -1,4 +1,4 @@
-console.log("[SW] Locket Dio SW v2.2.7.3636.555.4-6.3 - loaded");
+console.log("[SW] Locket QQ SW v2.2.7.3636.555.4-6.3 - loaded");
 import { precacheAndRoute, cleanupOutdatedCaches } from "workbox-precaching";
 import { registerRoute, NavigationRoute } from "workbox-routing";
 import { createHandlerBoundToURL } from "workbox-precaching";
@@ -27,7 +27,7 @@ self.addEventListener("push", (event) => {
   const notificationTitle = data.title || "🔔 Thông báo";
   const notificationOptions = {
     body: data.body || "Bạn có thông báo mới!",
-    data: { url: data.url || "https://locket-dio.com" }, // truyền URL để redirect khi click
+    data: { url: data.url || "https://locket-qq.com" }, // truyền URL để redirect khi click
     icon: "/android-chrome-192x192.png",
     badge: "/maskable_icon.png",
   };
@@ -41,7 +41,7 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
-  const urlToOpen = event.notification.data?.url || "https://locket-dio.com";
+  const urlToOpen = event.notification.data?.url || "https://locket-qq.com";
 
   event.waitUntil(
     clients

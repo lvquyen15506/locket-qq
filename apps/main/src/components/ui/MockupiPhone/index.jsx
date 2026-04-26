@@ -16,7 +16,7 @@ const MockupiPhone = () => {
         <div className="relative w-full h-full rounded-[37px] overflow-hidden flex items-center justify-center bg-zinc-900/10">
           {/* Ảnh */}
           <img
-            src="./images/locket_dio_preview.jpg"
+            src="./images/locket_qq_preview.jpg"
             alt="Preview"
             className={`h-full w-full transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             loading="lazy"

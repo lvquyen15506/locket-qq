@@ -12,14 +12,14 @@ const NewsPage = React.lazy(() => import("@/pages/Public/NewsPage"));
 const NewsDetailPage = React.lazy(() => import("@/pages/Public/NewsDetailPage"));
 const ForgotPassword = React.lazy(() => import("@/pages/Public/ForgotPassword"));
 const DonatePage = React.lazy(() => import("@/pages/Public/Sponsors"));
-const AboutLocketDio = React.lazy(() => import("../pages/Public/About"));
+const AboutLocketQQ = React.lazy(() => import("../pages/Public/About"));
 const AboutMe = React.lazy(() => import("../pages/Auth/AboutMe"));
 const Timeline = React.lazy(() => import("../pages/Public/Timeline"));
 const Docs = React.lazy(() => import("../pages/Public/Docs"));
 const CollectionPage = React.lazy(() => import("@/pages/Public/CollectionPage"));
 const Contact = React.lazy(() => import("../pages/Public/Contact"));
 const PrivacyPolicy = React.lazy(() => import("../pages/Public/PrivacyPolicy"));
-const ToolsLocket = React.lazy(() => import("../pages/Auth/LocketDioTools"));
+const ToolsLocket = React.lazy(() => import("../pages/Auth/LocketQQTools"));
 const Settings = React.lazy(() => import("../pages/Public/Settings"));
 const DevPage = React.lazy(() => import("../pages/Public/DevPage"));
 const ManageCaption = React.lazy(() => import("@/pages/Public/CollabPage/CaptionKanade"));
@@ -34,7 +34,7 @@ export const publicRoutes = [
   { path: "/", component: Home, title: `Trang Chủ | ${APP_NAME}` },
   { path: "/login", component: Login, title: `Đăng Nhập | ${APP_NAME}` },
 
-  { path: "/about", component: AboutLocketDio, title: `Về Website Locket Dio | ${APP_NAME}` },
+  { path: "/about", component: AboutLocketQQ, title: `Về Website Locket QQ | ${APP_NAME}` },
   { path: "/about-dio", component: AboutMe, title: `Về Dio | ${APP_NAME}` },
 
   { path: "/newsfeed", component: NewsPage, title: `Bảng tin | ${APP_NAME}` },
@@ -50,7 +50,7 @@ export const publicRoutes = [
 
   { path: "/privacy", component: PrivacyPolicy, title: `Chính sách riêng tư | ${APP_NAME}` },
 
-  { path: "/locketdio-tools", component: ToolsLocket, title: `Công cụ mở rộng | ${APP_NAME}` },
+  { path: "/LocketQQ-tools", component: ToolsLocket, title: `Công cụ mở rộng | ${APP_NAME}` },
 
   { path: "/settings", component: Settings, title: `Cài đặt | ${APP_NAME}` },
   { path: "/devpage", component: DevPage, title: `Dev Page | ${APP_NAME}` },

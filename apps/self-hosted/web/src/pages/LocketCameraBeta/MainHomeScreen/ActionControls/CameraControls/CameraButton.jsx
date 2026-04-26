@@ -132,7 +132,7 @@ const CameraButton = () => {
 
         // Tạo file name với extension phù hợp
         const extension = finalMimeType.includes("webm") ? "webm" : "mp4";
-        const file = new File([blob], `locket_dio.${extension}`, {
+        const file = new File([blob], `locket_qq.${extension}`, {
           type: finalMimeType,
         });
 
@@ -300,7 +300,7 @@ const CameraButton = () => {
     canvas.toBlob(
       (blob) => {
         if (blob) {
-          const file = new File([blob], "locket_dio.jpg", {
+          const file = new File([blob], "locket_qq.jpg", {
             type: "image/jpeg",
           });
           const imgUrl = URL.createObjectURL(file);

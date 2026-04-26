@@ -20,7 +20,7 @@ router.get("/getInfoUser", verifyIdToken, locketController.getInfoLocket);
 //API bản V1 yêu cầu tải trực tiếp file trong request
 router.post("/postMomentV1", verifyIdToken, saveUploadFile, locketController.uploadMediaV1);
 
-//API bản V2 chính là công nghệ hiện tại Locket Dio đang sử dụng
+//API bản V2 chính là công nghệ hiện tại Locket QQ đang sử dụng
 router.post("/postMomentV2", verifyIdToken, locketController.uploadMediaV2);
 
 router.post("/getInfoMomentV2", verifyIdToken, locketController.getInfoMoments);

@@ -54,7 +54,7 @@ export default function Contact() {
           </h1>
           <p className="mt-3 text-base-content/70 text-lg">
             Kết nối với <span className="font-semibold">{fullName}</span> - Tác
-            giả <span className="font-semibold">Locket Dio</span>
+            giả <span className="font-semibold">Locket QQ</span>
           </p>
         </div>
 
@@ -123,7 +123,7 @@ export default function Contact() {
 
         {/* Footer */}
         <div className="text-center mt-10 text-sm text-base-content/60 animate-fadeIn">
-          © 2025 Locket Dio. Made with ❤️ by Đào Văn Đôi
+          © 2025 Locket QQ. Made with ❤️ by Đào Văn Đôi
         </div>
       </div>
     </div>

@@ -4,16 +4,16 @@ const Docs = () => {
   return (
     <div className="min-h-screen px-4 flex flex-col items-center py-5">
       <h1 className="text-3xl font-semibold mb-5">
-        Hướng Dẫn Sử Dụng Trang Web Locket Dio by Dio
+        Hướng Dẫn Sử Dụng Trang Web Locket QQ by Dio
       </h1>
 
       <div className="max-w-3xl text-left mb-12">
         {/* Giới Thiệu */}
         <h2 className="text-2xl font-semibold mt-4">
-          1. Giới Thiệu Về Locket Dio
+          1. Giới Thiệu Về Locket QQ
         </h2>
         <p className="text-sm leading-relaxed">
-          Locket Dio là nền tảng WebApp giúp bạn dễ dàng tải lên, lưu trữ và
+          Locket QQ là nền tảng WebApp giúp bạn dễ dàng tải lên, lưu trữ và
           chia sẻ ảnh, video với phong cách riêng biệt qua các caption tùy
           chỉnh. Chúng tôi cam kết mang đến cho bạn trải nghiệm quản lý nội dung
           thuận tiện, bảo mật và tối ưu nhất trên web.
@@ -107,7 +107,7 @@ const Docs = () => {
             trong tương lai.
           </li>
           <li>
-            <b>Người sáng lập Locket Dio là ai?</b> Locket Dio được phát triển
+            <b>Người sáng lập Locket QQ là ai?</b> Locket QQ được phát triển
             bởi Đào Văn Đôi (Dio), sinh viên năm cuối ngành Công nghệ Thông tin,
             với đam mê tạo ra sản phẩm sáng tạo và hữu ích.
           </li>
@@ -123,7 +123,7 @@ const Docs = () => {
             khoản hoặc ví điện tử khác.
           </li>
           <li>
-            <b>Trang web hỗ trợ các trình duyệt nào?</b> Locket Dio hỗ trợ tất
+            <b>Trang web hỗ trợ các trình duyệt nào?</b> Locket QQ hỗ trợ tất
             cả các trình duyệt hiện đại như Chrome, Firefox, Safari, Edge và
             trình duyệt di động Android/iOS.
           </li>
@@ -144,11 +144,11 @@ const Docs = () => {
           </li>
           <li>
             <b>Mã nguồn API?</b> Nếu bạn muốn tìm hiểu hoặc tích hợp API từ
-            Locket Dio, hãy liên hệ quản trị viên qua email để được cấp quyền
+            Locket QQ, hãy liên hệ quản trị viên qua email để được cấp quyền
             hoặc tài liệu hướng dẫn.
           </li>
           <li>
-            <b>Trang web có quảng cáo không?</b> Không. Locket Dio hoạt động
+            <b>Trang web có quảng cáo không?</b> Không. Locket QQ hoạt động
             hoàn toàn không có quảng cáo để giữ trải nghiệm người dùng liền mạch và
             sạch sẽ.
           </li>
@@ -163,7 +163,7 @@ const Docs = () => {
         {/* Cam Đoan Bảo Mật */}
         <h2 className="text-2xl font-semibold mt-6">6. Chính Sách Bảo Mật</h2>
         <p className="text-sm">
-          Locket Dio cam kết bảo mật thông tin tài khoản của bạn. Tất cả các tệp
+          Locket QQ cam kết bảo mật thông tin tài khoản của bạn. Tất cả các tệp
           tin và dữ liệu mà bạn tải lên sẽ được bảo vệ bằng các biện pháp an
           toàn, và tôi không lưu trữ bất kỳ thông tin nhạy cảm nào liên quan đến
           tài khoản của bạn. Tôi luôn nỗ lực để đảm bảo rằng các thông tin cá

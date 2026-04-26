@@ -5,7 +5,7 @@ import { MusicPlayer } from "./Widgets/MusicPlayer";
 import { useUIStore } from "@/stores/useUIStore";
 // import CropVideoStudio from "./ModalViews/CropVideoStudio";
 // const Snowfall = lazy(() => import("@/components/Effects/SnowBanner"));
-const BgLocketDio = lazy(() => import("@/components/Effects/BgLocketDio"));
+const BgLocketQQ = lazy(() => import("@/components/Effects/BgLocketQQ"));
 
 const LeftHomeScreen = lazy(() => import("./LeftHomeScreen"));
 const RightHomeScreen = lazy(() => import("./RightHomeScreen"));
@@ -44,7 +44,7 @@ export default function LocketCameraBeta() {
   return (
     <>
       <Suspense fallback={null}>
-        <BgLocketDio bgSrc={background?.url}/>
+        <BgLocketQQ bgSrc={background?.url}/>
       </Suspense>
 
       <MainHomeScreen />
@@ -72,7 +72,7 @@ export default function LocketCameraBeta() {
       {/* Audio Music */}
       {postOverlay.music && <MusicPlayer music={postOverlay.music} />}
       <span className="fixed pointer-events-none z-60 bottom-3 right-4 text-xs text-gray-400 select-none">
-        © Locket Dio
+        © Locket QQ
       </span>
     </>
   );

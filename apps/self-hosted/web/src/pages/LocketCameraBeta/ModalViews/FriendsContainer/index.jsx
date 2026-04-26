@@ -47,12 +47,12 @@ const FriendsContainer = () => {
         addFriendLocal(data);
         // ✅ Hiển thị thông báo
         SonnerSuccess(
-          "Thông báo từ Locket Dio",
+          "Thông báo từ Locket QQ",
           `Đã chấp nhận ${data.firstName}`,
         );
       } else {
         SonnerError(
-          "Thông báo từ Locket Dio",
+          "Thông báo từ Locket QQ",
           "Không tìm thấy lời mời để chấp nhận.",
         );
       }

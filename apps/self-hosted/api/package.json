@@ -1,14 +1,14 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "Locket Dio Seft Hosted API",
+  "description": "Locket QQ Seft Hosted API",
   "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "cross-env NODE_ENV=production node app.js"
   },
-  "author": "Locket Dio",
+  "author": "Locket QQ",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.13.6",

@@ -106,7 +106,7 @@ export const UserPlanCard = React.memo(({ userPlan, onRefresh, loading }) => {
               className="w-18 h-18 lg:w-18 lg:h-18 rounded-full object-cover p-[2px] outline-accent outline-3 shadow-lg"
             />
             <img
-              src="https://cdn.locket-dio.com/v1/caption/caption-icon/locket_gold_badge.png"
+              src="https://cdn.locket-qq.com/v1/caption/caption-icon/locket_gold_badge.png"
               alt="Gold Badge"
               className="absolute -bottom-0.5 -right-0.5 w-6 h-6 p-0.5 bg-base-100 rounded-full"
             />
@@ -135,7 +135,7 @@ export const UserPlanCard = React.memo(({ userPlan, onRefresh, loading }) => {
           {isFree ? (
             <div className="flex items-center justify-between">
               <span className="font-semibold text-amber-600">
-                🌟 Locket Dio Membership
+                🌟 Locket QQ Membership
               </span>
               <span className="text-sm font-medium text-amber-500">
                 Gói miễn phí
@@ -145,7 +145,7 @@ export const UserPlanCard = React.memo(({ userPlan, onRefresh, loading }) => {
             <>
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-amber-600">
-                  🌟 Locket Dio Membership
+                  🌟 Locket QQ Membership
                 </span>
                 <span className="text-sm font-medium text-gray-700">
                   {timeLeft}

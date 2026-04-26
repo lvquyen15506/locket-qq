@@ -3,7 +3,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    container_name: locketdio-api
+    container_name: LocketQQ-api
     env_file:
       - ./api/.env.production
     environment:
@@ -16,7 +16,7 @@ services:
     build:
       context: ./storage
       dockerfile: dockerfile
-    container_name: locketdio-storage
+    container_name: LocketQQ-storage
     env_file:
       - ./storage/.env.production
     environment:
@@ -30,7 +30,7 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
-    container_name: locketdio-web
+    container_name: LocketQQ-web
     env_file:
       - ./web/.env.production
     environment:

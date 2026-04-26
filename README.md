@@ -1,16 +1,16 @@
-# 📸 Locket Dio
+# 📸 Locket QQ
 
 <div align="center">
 
 <p align="center">
-  <img src="./assets/locket-dio-logo.png" alt="Locket Dio Logo" width="200" />
+  <img src="./assets/locket-qq-logo.png" alt="Locket QQ Logo" width="200" />
 </p>
 
 **Ứng dụng web hiện đại dành cho cộng đồng Locket Widget - Chia sẻ ảnh và video ngay lập tức từ trình duyệt**
 
-[![Phiên bản](https://img.shields.io/badge/phiên_bản-1.0.0-blue.svg?cacheSeconds=2592000)](https://github.com/doi2523/Client-Locket-Dio/releases)
+[![Phiên bản](https://img.shields.io/badge/phiên_bản-1.0.0-blue.svg?cacheSeconds=2592000)](https://github.com/doi2523/Client-locket-qq/releases)
 [![Giấy phép: MIT](https://img.shields.io/badge/Giấy_phép-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Demo trực tiếp](https://img.shields.io/badge/demo-trực_tiếp-green.svg)](https://locket-dio.com)
+[![Demo trực tiếp](https://img.shields.io/badge/demo-trực_tiếp-green.svg)](https://locket-qq.com)
 [![PRs được chào đón](https://img.shields.io/badge/PRs-được_chào_đón-brightgreen.svg)](http://makeapullrequest.com)
 
 [![React](https://img.shields.io/badge/React-18.2+-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
@@ -18,7 +18,7 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0+-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-[**🌐 Demo Trực Tiếp**](https://locket-dio.com) | [**📱 Repo Frontend**](https://github.com/doi2523/Client-Locket-Dio) | [**💬 Telegram**](https://t.me/ddevdio)
+[**🌐 Demo Trực Tiếp**](https://locket-qq.com) | [**📱 Repo Frontend**](https://github.com/doi2523/Client-locket-qq) | [**💬 Telegram**](https://t.me/ddevdio)
 
 </div>
 
@@ -83,7 +83,7 @@
 
 <div align="center">
 
-[![Demo Trực Tiếp](https://img.shields.io/badge/🎯_Demo_Trực_Tiếp-Truy_Cập_Ngay-FF6B6B?style=for-the-badge)](https://locket-dio.com)
+[![Demo Trực Tiếp](https://img.shields.io/badge/🎯_Demo_Trực_Tiếp-Truy_Cập_Ngay-FF6B6B?style=for-the-badge)](https://locket-qq.com)
 
 </div>
 
@@ -113,7 +113,7 @@ Hãy tham khảo trong [Hướng dẫn](./apps/README.md)
 ## 📁 Cấu Trúc Dự Án Tham Khảo
 
 ```
-Locket-Dio/
+locket-qq/
 │
 ├── apps/                          # Chứa các ứng dụng con
 │   ├── main/                      # Ứng dụng web chính
@@ -157,14 +157,14 @@ Chúng tôi yêu thích những đóng góp! Vui lòng đọc [Hướng Dẫn Đ
 
 <div align="center">
 
-![GitHub stars](https://img.shields.io/github/stars/doi2523/Client-Locket-Dio?style=social)
-![GitHub forks](https://img.shields.io/github/forks/doi2523/Client-Locket-Dio?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/doi2523/Client-Locket-Dio?style=social)
+![GitHub stars](https://img.shields.io/github/stars/doi2523/Client-locket-qq?style=social)
+![GitHub forks](https://img.shields.io/github/forks/doi2523/Client-locket-qq?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/doi2523/Client-locket-qq?style=social)
 
-![GitHub last commit](https://img.shields.io/github/last-commit/doi2523/Client-Locket-Dio)
-![GitHub issues](https://img.shields.io/github/issues/doi2523/Client-Locket-Dio)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/doi2523/Client-Locket-Dio)
-![GitHub code size](https://img.shields.io/github/languages/code-size/doi2523/Client-Locket-Dio)
+![GitHub last commit](https://img.shields.io/github/last-commit/doi2523/Client-locket-qq)
+![GitHub issues](https://img.shields.io/github/issues/doi2523/Client-locket-qq)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/doi2523/Client-locket-qq)
+![GitHub code size](https://img.shields.io/github/languages/code-size/doi2523/Client-locket-qq)
 
 </div>
 
@@ -206,8 +206,8 @@ _Full Stack Developer_
 
 ### 💬 Nhận Trợ Giúp
 
-[![GitHub Issues](https://img.shields.io/badge/🐛_Báo_Cáo_Lỗi-GitHub_Issues-red?style=for-the-badge)](https://github.com/doi2523/Client-Locket-Dio/issues)
-[![GitHub Discussions](https://img.shields.io/badge/💡_Đề_Xuất_Tính_Năng-Discussions-purple?style=for-the-badge)](https://github.com/doi2523/Client-Locket-Dio/discussions)
+[![GitHub Issues](https://img.shields.io/badge/🐛_Báo_Cáo_Lỗi-GitHub_Issues-red?style=for-the-badge)](https://github.com/doi2523/Client-locket-qq/issues)
+[![GitHub Discussions](https://img.shields.io/badge/💡_Đề_Xuất_Tính_Năng-Discussions-purple?style=for-the-badge)](https://github.com/doi2523/Client-locket-qq/discussions)
 [![Telegram](https://img.shields.io/badge/💬_Cộng_Đồng-Telegram-26A5E4?style=for-the-badge&logo=telegram)](https://t.me/ddevdio)
 
 ### ☕ Ủng Hộ Dự Án
@@ -223,7 +223,7 @@ _Full Stack Developer_
 ### 📧 Thông Tin Liên Hệ
 
 - **Email**: doibncm2003@gmail.com
-- **Website**: [https://locket-dio.com](https://locket-dio.com)
+- **Website**: [https://locket-qq.com](https://locket-qq.com)
 - **Telegram**: [@ddevdio](https://t.me/ddevdio)
 - **GitHub**: [@doi2523](https://github.com/doi2523)
 
@@ -243,8 +243,8 @@ _Full Stack Developer_
 
 ### ⭐ Hãy Star repository này nếu bạn thấy hữu ích!
 
-**Được tạo với ❤️ bởi [Dio](https://github.com/doi2523) | © 2025 [Locket Dio](https://locket-dio.com) | Tất cả quyền được bảo lưu**
+**Được tạo với ❤️ bởi [Dio](https://github.com/doi2523) | © 2025 [Locket QQ](https://locket-qq.com) | Tất cả quyền được bảo lưu**
 
-[![Về đầu trang](https://img.shields.io/badge/⬆️_Về_Đầu_Trang-Nhấn_Vào_Đây-blue?style=for-the-badge)](#-locket-dio)
+[![Về đầu trang](https://img.shields.io/badge/⬆️_Về_Đầu_Trang-Nhấn_Vào_Đây-blue?style=for-the-badge)](#-locket-qq)
 
 </div>

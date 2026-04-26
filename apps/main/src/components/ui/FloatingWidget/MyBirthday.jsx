@@ -91,7 +91,7 @@ const MyBirthday = () => {
             {/* Content */}
             <div className="p-6 text-center">
               <img
-                src="https://cdn.locket-dio.com/v1/images/qr/vcb_qr.jpg"
+                src="https://cdn.locket-qq.com/v1/images/qr/vcb_qr.jpg"
                 alt="Birthday QR"
                 className="w-48 h-48 mx-auto rounded-lg shadow mb-4 border border-pink-300"
               />

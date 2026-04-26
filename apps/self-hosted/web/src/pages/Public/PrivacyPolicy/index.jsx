@@ -58,7 +58,7 @@ const PrivacyPolicy = () => {
           <p>
             <strong>Company</strong> (referred to as either &quot;the
             Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in
-            this Agreement) refers to Locket Dio.
+            this Agreement) refers to Locket QQ.
           </p>
         </li>
         <li className="mb-4">
@@ -110,13 +110,13 @@ const PrivacyPolicy = () => {
         </li>
         <li className="mb-4">
           <p>
-            <strong>Website</strong> refers to Locket Dio, accessible from{" "}
+            <strong>Website</strong> refers to Locket QQ, accessible from{" "}
             <a
-              href="https://locket-dio.com"
+              href="https://locket-qq.com"
               rel="external nofollow noopener"
               target="_blank"
             >
-              https://locket-dio.com
+              https://locket-qq.com
             </a>
           </p>
         </li>
@@ -536,11 +536,11 @@ const PrivacyPolicy = () => {
           <p>
             By visiting this page on our website:{" "}
             <a
-              href="https://locket-dio.com/contact"
+              href="https://locket-qq.com/contact"
               rel="external nofollow noopener"
               target="_blank"
             >
-              https://locket-dio.com/contact
+              https://locket-qq.com/contact
             </a>
           </p>
         </li>

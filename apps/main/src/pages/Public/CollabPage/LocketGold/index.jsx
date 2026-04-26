@@ -61,7 +61,7 @@ export default function LocketGold() {
             Hợp tác
           </div>
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            <span className="text-base-content">Locket Dio × </span>
+            <span className="text-base-content">Locket QQ × </span>
             <span className="bg-gradient-to-r from-amber-500 via-yellow-500 to-orange-500 bg-clip-text text-transparent">
               LocketGold.click
             </span>

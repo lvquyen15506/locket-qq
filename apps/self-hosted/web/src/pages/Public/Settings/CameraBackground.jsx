@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow } from "swiper/modules";
 import { useUIStore } from "@/stores/useUIStore";
 import { getAllBackgroundCamera } from "@/services";
-const BgLocketDio = lazy(() => import("@/components/Effects/BgLocketDio"));
+const BgLocketQQ = lazy(() => import("@/components/Effects/BgLocketQQ"));
 
 const CameraBackground = () => {
   const [backgrounds, setBackgroundState] = useState([]);
@@ -115,7 +115,7 @@ const CameraBackground = () => {
                 >
                   {/* <div className=" rounded-3xl overflow-hidden"> */}
                   <Suspense fallback={null}>
-                    <BgLocketDio bgSrc={bg.url} />
+                    <BgLocketQQ bgSrc={bg.url} />
                   </Suspense>
                   {/* </div> */}
                   {/* ===== TOP BAR ===== */}

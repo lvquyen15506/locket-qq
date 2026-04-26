@@ -16,12 +16,12 @@ const LoadingPageMain = ({ isLoading }) => {
       <div>
         <img
           src="/apple-touch-icon.png"
-          alt="Locket Dio"
+          alt="Locket QQ"
           loading="lazy"
           className="w-20 h-20 shadow-md rounded-2xl loading-bounce-y"
         />
       </div>
-      <h1 className="text-xl font-semibold">The Locket Dio is loading.</h1>
+      <h1 className="text-xl font-semibold">The Locket QQ is loading.</h1>
       <p className="text-sm opacity-70 animate-pulse">
         Preparing your memories…
       </p>

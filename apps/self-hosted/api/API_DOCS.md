@@ -1,6 +1,6 @@
-# 📡 Self-Hosted API Locket Dio — API Reference
+# 📡 Self-Hosted API Locket QQ — API Reference
 
-<p>Tài liệu mô tả toàn bộ các endpoint của Locket Dio Self-Hosted API.</p>
+<p>Tài liệu mô tả toàn bộ các endpoint của Locket QQ Self-Hosted API.</p>
 
 [![Về README](https://img.shields.io/badge/←_Về_README-blue?style=flat-square)](./README.md)
 
@@ -268,6 +268,6 @@ Content-Type: application/json
 
 <div align="center">
 
-**[← Về README](./README.md) | © 2025 [Locket Dio](https://locket-dio.com)**
+**[← Về README](./README.md) | © 2025 [Locket QQ](https://locket-qq.com)**
 
 </div>

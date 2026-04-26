@@ -67,10 +67,10 @@ const Sidebar = () => {
   // Menu chia theo nhóm
   const userMenuSections = [
     {
-      title: "Locket Dio",
+      title: "Locket QQ",
       items: [
         { to: "/home", icon: Home, text: "Trang chủ" },
-        { to: "/about", icon: Info, text: "Locket Dio" },
+        { to: "/about", icon: Info, text: "Locket QQ" },
         { to: "/sponsors", icon: Heart, text: "Ủng hộ dự án" },
       ],
     },
@@ -100,10 +100,10 @@ const Sidebar = () => {
 
   const guestMenuSections = [
     {
-      title: "Locket Dio",
+      title: "Locket QQ",
       items: [
         { to: "/", icon: Home, text: "Trang chủ" },
-        { to: "/about", icon: Info, text: "Locket Dio" },
+        { to: "/about", icon: Info, text: "Locket QQ" },
         { to: "/about-dio", icon: UserCircle, text: "Về Dio" },
       ],
     },

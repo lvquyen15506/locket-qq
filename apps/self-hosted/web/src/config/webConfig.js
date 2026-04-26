@@ -22,10 +22,10 @@ export const CONFIG = {
   },
 
   app: {
-    name: "Locket Dio", // Tên app hiển thị
+    name: "Locket QQ", // Tên app hiển thị
     author: "dio",
-    shortname: "locketdio",
-    fullName: "Locket Dio - Đăng ảnh & Video lên Locket", // Tên đầy đủ
+    shortname: "LocketQQ",
+    fullName: "Locket QQ - Đăng ảnh & Video lên Locket", // Tên đầy đủ
     clientVersion: "Beta2.5.5.2.4", // Version client
     apiVersion: "v2.2.1", // Version API
     startYear: 2025,
@@ -72,7 +72,7 @@ export const CONFIG = {
       messenger: "https://m.me/cm/AbYPtgRiGe2fInEf",
     },
     sponsors: {
-      urlImg: "https://cdn.locket-dio.com/v1/images/qr/vcb_qr.jpg",
+      urlImg: "https://cdn.locket-qq.com/v1/images/qr/vcb_qr.jpg",
       bankName: "Ngân hàng Vietcombank (VCB)",
       accountNumber: "1051852055",
       accountName: "DAO VAN DOI",
@@ -80,7 +80,7 @@ export const CONFIG = {
     bankInfo: {
       bankCode: "ICB",
       short_name: "VietinBank",
-      urlImg: "https://cdn.locket-dio.com/v1/images/qr/dio-mbbank-qr.jpg",
+      urlImg: "https://cdn.locket-qq.com/v1/images/qr/dio-mbbank-qr.jpg",
       bankName: "Ngân hàng TMCP Công thương Việt Nam",
       accountNumber: "999964715555",
       accountName: "DAO VAN DOI",
@@ -97,13 +97,13 @@ export const CONFIG = {
         "https://docs.google.com/document/d/1c2ttnmPyR3YIYooMj69MlT1XAhCO_xMytHztzi6EaEY/edit?usp=sharing",
     },
     videoTutorials: {
-      youtubeChannel: "https://www.youtube.com/@LocketDio",
+      youtubeChannel: "https://www.youtube.com/@LocketQQ",
       iosAddscreen: {
-        title: "Hướng dẫn thêm Locket Dio vào màn hình chính trên iPhone!",
+        title: "Hướng dẫn thêm Locket QQ vào màn hình chính trên iPhone!",
         url: "https://www.youtube.com/embed/iElPAnQ7lNY",
       }, // Hướng dẫn thêm trang web vào màn hình chính trên iPhone (Safari)
       androidAddscreen: {
-        title: "Hướng dẫn thêm Locket Dio vào màn hình chính trên Android!",
+        title: "Hướng dẫn thêm Locket QQ vào màn hình chính trên Android!",
         url: "https://www.youtube.com/embed/JtgfTNbKTZY",
       }, // Hướng dẫn thêm trang web vào màn hình chính trên Android (Chrome)
     },

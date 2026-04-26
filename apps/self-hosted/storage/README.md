@@ -1,4 +1,4 @@
-# 📦 R2 Storage — LocketDio
+# 📦 R2 Storage — LocketQQ
 
 > Backend Node.js/Express tạo **Presigned URL** để upload file lên Cloudflare R2.
 
@@ -79,7 +79,7 @@ Authorization: Bearer <id_token>
 
 ```json
 {
-  "filename": "locketdio_1710500000000_abc123_cli1.0.0.jpg",
+  "filename": "LocketQQ_1710500000000_abc123_cli1.0.0.jpg",
   "contentType": "image/jpeg",
   "type": "image",
   "size": 123456,
@@ -89,7 +89,7 @@ Authorization: Bearer <id_token>
 
 | Field         | Bắt buộc | Mô tả                                                              |
 |---------------|----------|--------------------------------------------------------------------|
-| `filename`    | ✅        | Tên file lưu trên R2 (format: `locketdio_<ts>_<id>_cli<ver>.<ext>`) |
+| `filename`    | ✅        | Tên file lưu trên R2 (format: `LocketQQ_<ts>_<id>_cli<ver>.<ext>`) |
 | `contentType` | ✅        | MIME type thực của file                                            |
 | `type`        | ✅        | `image` hoặc `video` (BE tự suy lại từ `contentType`)             |
 | `size`        | ❌        | Kích thước file (chưa dùng trong logic)                            |
@@ -120,7 +120,7 @@ LocketCloud/{todayFolder}/{safeType}/{uid}/{safeFilename}
 **Ví dụ key thực tế:**
 
 ```
-LocketCloud/2024/03/15/image/user_uid_abc123/locketdio_1710500000000_abc123_cli1.0.0.jpg
+LocketCloud/2024/03/15/image/user_uid_abc123/LocketQQ_1710500000000_abc123_cli1.0.0.jpg
 ```
 
 ---
@@ -135,8 +135,8 @@ LocketCloud/2024/03/15/image/user_uid_abc123/locketdio_1710500000000_abc123_cli1
   "data": {
     "url": "https://r2-presigned-url...",
     "expiresIn": 300,
-    "key": "LocketCloud/2024/03/15/image/<uid>/locketdio_....jpg",
-    "publicURL": "https://your-media-domain.com/LocketCloud/2024/03/15/image/<uid>/locketdio_....jpg"
+    "key": "LocketCloud/2024/03/15/image/<uid>/LocketQQ_....jpg",
+    "publicURL": "https://your-media-domain.com/LocketCloud/2024/03/15/image/<uid>/LocketQQ_....jpg"
   },
   "message": "Presigned URL generated successfully",
   "meta": {
@@ -215,7 +215,7 @@ Content-Type: application/json
 
 ```json
 {
-  "key": "LocketCloud/2024/03/15/image/<uid>/locketdio_....jpg"
+  "key": "LocketCloud/2024/03/15/image/<uid>/LocketQQ_....jpg"
 }
 ```
 
@@ -276,7 +276,7 @@ curl -X POST https://your-api.com/api/presignedV3 \
   -H "Authorization: Bearer <id_token>" \
   -H "Content-Type: application/json" \
   -d '{
-    "filename": "locketdio_1710500000000_abc123_cli1.0.0.jpg",
+    "filename": "LocketQQ_1710500000000_abc123_cli1.0.0.jpg",
     "contentType": "image/jpeg",
     "type": "image",
     "size": 123456,

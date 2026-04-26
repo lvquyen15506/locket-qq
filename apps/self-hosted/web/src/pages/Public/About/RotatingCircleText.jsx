@@ -18,7 +18,7 @@ export default function RotatingCircleText() {
               textLength="500"
               spacing="auto"
             >
-              Locket Dio • Share Moments • Locket Dio • Share Moments •
+              Locket QQ • Share Moments • Locket QQ • Share Moments •
             </textPath>
           </text>
         </svg>
@@ -38,7 +38,7 @@ export default function RotatingCircleText() {
               textLength="500"
               spacing="auto"
             >
-              Locket Dio • Modern • Convenient • Cross-Platform • Security •
+              Locket QQ • Modern • Convenient • Cross-Platform • Security •
             </textPath>
           </text>
         </svg>

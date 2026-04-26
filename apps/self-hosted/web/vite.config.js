@@ -23,9 +23,9 @@ const manifestForPlugIn = {
   includeAssets: ["favicon.ico", "apple-touch-icon.png", "maskable-icon-512x512.png"],
 
   manifest: {
-    name: "Locket Dio",
-    short_name: "Locket Dio",
-    description: "Locket Dio - Đăng ảnh & Video lên Locket",
+    name: "Locket QQ",
+    short_name: "Locket QQ",
+    description: "Locket QQ - Đăng ảnh & Video lên Locket",
     display: "standalone",
     scope: "/",
     start_url: "/",

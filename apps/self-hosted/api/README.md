@@ -1,10 +1,10 @@
-# 📸 Self-Hosted API Locket Dio
+# 📸 Self-Hosted API Locket QQ
 
 ---
 
 ## 📖 Giới Thiệu
 
-**Self-Hosted API Locket Dio** là một backend API được xây dựng bằng Node.js, phục vụ cho ứng dụng chia sẻ ảnh theo phong cách Locket Widget. Dự án cung cấp các endpoint để xử lý ảnh, quản lý người dùng và phân phối nội dung theo thời gian thực.
+**Self-Hosted API Locket QQ** là một backend API được xây dựng bằng Node.js, phục vụ cho ứng dụng chia sẻ ảnh theo phong cách Locket Widget. Dự án cung cấp các endpoint để xử lý ảnh, quản lý người dùng và phân phối nội dung theo thời gian thực.
 
 > 📚 Tài liệu API chi tiết: [API_DOCS.md](./API_DOCS.md)
 
@@ -24,7 +24,7 @@
 ### 1. Clone repository
 
 ```bash
-git clone -b self-hosted/locket-dio {{link_repo}}
+git clone -b self-hosted/locket-qq {{link_repo}}
 cd apps/self-hosted/api
 ```
 
@@ -111,8 +111,8 @@ Vui lòng tuân theo [Conventional Commits](https://www.conventionalcommits.org/
 
 ### ⭐ Hãy Star repository này nếu bạn thấy hữu ích!
 
-**Được tạo với ❤️ bởi [Dio](https://github.com/doi2523) | © 2025 [Locket Dio](https://locket-dio.com) | Tất cả quyền được bảo lưu**
+**Được tạo với ❤️ bởi [Dio](https://github.com/doi2523) | © 2025 [Locket QQ](https://locket-qq.com) | Tất cả quyền được bảo lưu**
 
-[![Về đầu trang](https://img.shields.io/badge/⬆️_Về_Đầu_Trang-Nhấn_Vào_Đây-blue?style=for-the-badge)](#-locket-dio)
+[![Về đầu trang](https://img.shields.io/badge/⬆️_Về_Đầu_Trang-Nhấn_Vào_Đây-blue?style=for-the-badge)](#-locket-qq)
 
 </div>

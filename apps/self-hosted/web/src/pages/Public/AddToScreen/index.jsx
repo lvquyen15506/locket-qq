@@ -56,7 +56,7 @@ const AddToHomeScreenGuide = () => {
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="w-20 h-20 bounce-y shadow-lg flex items-center rounded-2xl justify-center">
-              <img src="/apple-touch-icon.png" alt="Locket Dio Icon" />
+              <img src="/apple-touch-icon.png" alt="Locket QQ Icon" />
             </div>
           </div>
           <h1 className="text-3xl font-bold text-base-content mb-2">
@@ -350,7 +350,7 @@ const AddToHomeScreenGuide = () => {
               </h3>
               <p className="text-yellow-700 text-sm">
                 Kiểm tra các trang màn hình chính khác hoặc tìm kiếm trên thiết bị
-                "Locket Dio"
+                "Locket QQ"
               </p>
             </div>
           </div>

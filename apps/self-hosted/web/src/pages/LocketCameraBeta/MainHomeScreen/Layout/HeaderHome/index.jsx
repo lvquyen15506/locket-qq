@@ -50,7 +50,7 @@ const HeaderHome = ({
 
     const extension = selectedFile.type.split("/")[1] || "png";
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-    const defaultName = `locketdio-${timestamp}.${extension}`;
+    const defaultName = `LocketQQ-${timestamp}.${extension}`;
 
     const link = document.createElement("a");
     link.href = url;

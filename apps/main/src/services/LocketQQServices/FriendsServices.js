@@ -167,7 +167,7 @@ export const FindFriendByUserName = async (eqfriend) => {
     const body = {
       username: eqfriend,
     };
-    const response = await instanceMain.post("https://api-beta.locket-dio.com/locket/getUserByData", body);
+    const response = await instanceMain.post("https://api-beta.locket-qq.com/locket/getUserByData", body);
 
     return response.data;
   } catch (error) {

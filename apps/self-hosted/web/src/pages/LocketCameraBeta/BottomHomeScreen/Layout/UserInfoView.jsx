@@ -43,7 +43,7 @@ const UserInfo = ({ user: userId, date }) => {
       {/* BADGE */}
       {displayUser?.badge === "locket_gold" && (
         <img
-          src="https://cdn.locket-dio.com/v1/caption/caption-icon/locket_gold_badge.png"
+          src="https://cdn.locket-qq.com/v1/caption/caption-icon/locket_gold_badge.png"
           alt="Gold Badge"
           className="w-5 h-5"
         />
@@ -51,7 +51,7 @@ const UserInfo = ({ user: userId, date }) => {
 
       {displayUser?.isCelebrity && (
         <img
-          src="https://cdn.locket-dio.com/v1/caption/caption-icon/celebrity_badge.png"
+          src="https://cdn.locket-qq.com/v1/caption/caption-icon/celebrity_badge.png"
           alt="Celebrity"
           className="w-5 h-5"
         />

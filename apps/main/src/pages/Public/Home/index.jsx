@@ -42,7 +42,7 @@ const Home = () => {
             </p>
 
             <p className="text-base-content/80 text-sm italic">
-              “Locket Dio” là dự án cá nhân, hoạt động độc lập. Không liên kết
+              “Locket QQ” là dự án cá nhân, hoạt động độc lập. Không liên kết
               với bên thứ ba nào trừ khi có thông báo chính thức từ Dio.
             </p>
 
@@ -100,8 +100,8 @@ const Home = () => {
           <div className="flex items-center justify-center h-full w-full md:pl-6 no-select -mb-10">
             <div className="relative transform hover:scale-105 transition-transform duration-500">
               <img
-                src="https://cdn.locket-dio.com/v1/images/double-phone-view-locketdio.webp"
-                alt="Locket Dio WebApp Preview"
+                src="https://cdn.locket-qq.com/v1/images/double-phone-view-LocketQQ.webp"
+                alt="Locket QQ WebApp Preview"
                 loading="lazy"
                 onLoad={() => setLoaded(true)}
                 className={`
@@ -147,7 +147,7 @@ const Home = () => {
             Bắt đầu hành trình sáng tạo
           </h2>
           <p className="text-lg md:text-xl text-base-content/80 mb-8 max-w-2xl mx-auto">
-            Cài đặt hoặc thêm Locket Dio vào màn hình chính ngay hôm nay và khám
+            Cài đặt hoặc thêm Locket QQ vào màn hình chính ngay hôm nay và khám
             phá thế giới photography & videography đầy màu sắc!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

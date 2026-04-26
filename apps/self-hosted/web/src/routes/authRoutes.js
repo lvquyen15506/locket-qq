@@ -1,7 +1,7 @@
 import { CONFIG } from "@/config";
 import React from "react";
 // import CameraCapture from "../pages/UILocket";
-const AboutLocketDio = React.lazy(() => import("../pages/Public/About"));
+const AboutLocketQQ = React.lazy(() => import("../pages/Public/About"));
 const RestoreStreak = React.lazy(() => import("@/pages/Auth/RestoreStreak"));
 const AuthHome = React.lazy(() => import("../pages/Auth/Home"));
 const Profile = React.lazy(() => import("../pages/Auth/Profile"));
@@ -13,7 +13,7 @@ const Settings = React.lazy(() => import("../pages/Public/Settings"));
 const DevPage = React.lazy(() => import("../pages/Public/DevPage"));
 const AddToHomeScreenGuide = React.lazy(() => import("../pages/Public/AddToScreen"));
 const Timeline = React.lazy(() => import("../pages/Public/Timeline"));
-const ToolsLocket = React.lazy(() => import("../pages/Auth/LocketDioTools"));
+const ToolsLocket = React.lazy(() => import("../pages/Auth/LocketQQTools"));
 const ManageCaption = React.lazy(() => import("@/pages/Public/CollabPage/CaptionKanade"));
 const ErrorReferencePage = React.lazy(() => import("../pages/Public/ErrorReferencePage"));
 const Contact = React.lazy(() => import("../pages/Public/Contact"));
@@ -25,7 +25,7 @@ const APP_NAME = CONFIG.app.fullName;
 
 export const authRoutes = [
   { path: "/home", component: AuthHome, title: `Trang chủ | ${APP_NAME}` },
-  { path: "/about", component: AboutLocketDio, title: `Về Website Locket Dio | ${APP_NAME}` },
+  { path: "/about", component: AboutLocketQQ, title: `Về Website Locket QQ | ${APP_NAME}` },
   { path: "/about-dio", component: AboutMe, title: `Về Dio | ${APP_NAME}` },
   { path: "/timeline", component: Timeline, title: `Dòng Thời Gian | ${APP_NAME}` },
   { path: "/sponsors", component: DonatePage, title: `Ủng hộ dự án | ${APP_NAME}` },

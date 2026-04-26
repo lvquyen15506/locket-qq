@@ -10,7 +10,7 @@ export default function ManageCaption() {
   const [captionId, setCaptionId] = useState("");
 
   const KANADE_DOMAIN = "https://captionkanade.site";
-  const VIDEO_DESKTOP_URL = "https://cdn.chisadin.site/locketdio.mp4";
+  const VIDEO_DESKTOP_URL = "https://cdn.chisadin.site/LocketQQ.mp4";
   const VIDEO_MOBILE_URL = "https://cdn.chisadin.site/Screenrecorder-2026-01-22-22-12-58-939.mp4";
 
   const userCaptions = useOverlayStore((s) => s.userCaptions);
@@ -51,7 +51,7 @@ export default function ManageCaption() {
     <div className="p-6 mx-auto min-h-screen">
       {/* Tiêu đề */}
       <h1 className="text-3xl md:text-4xl font-bold mb-2">
-        Locket Dio x Caption Kanade
+        Locket QQ x Caption Kanade
       </h1>
       <p className="text-sm text-gray-600">
         Bạn có ID của caption do bạn bè gửi hoặc lấy được? Hãy dán nó vào đây để

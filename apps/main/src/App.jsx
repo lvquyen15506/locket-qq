@@ -82,9 +82,9 @@ function AppContent() {
 
   useEffect(() => {
     const r = allRoutes.find((route) => route.path === location.pathname);
-    document.title = r?.title || "Locket Dio - Đăng ảnh & Video lên Locket";
+    document.title = r?.title || "Locket QQ - Đăng ảnh & Video lên Locket";
 
-    const url = "https://locket-dio.com" + location.pathname;
+    const url = "https://locket-qq.com" + location.pathname;
     (
       document.querySelector("link[rel='canonical']") ||
       document.head.appendChild(

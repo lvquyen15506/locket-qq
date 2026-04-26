@@ -50,7 +50,7 @@ export default function SettingView() {
           }`}
         >
           <ImageWithLoader
-            src="./images/locket_dio_webview.png"
+            src="./images/locket_qq_webview.png"
             alt="Web View"
           />
           <div className="flex items-center justify-between mt-2">
@@ -72,7 +72,7 @@ export default function SettingView() {
           }`}
         >
           <ImageWithLoader
-            src="./images/locket_dio_appview.png"
+            src="./images/locket_qq_appview.png"
             alt="App View"
           />
           <div className="flex items-center justify-between mt-2">

@@ -1,4 +1,4 @@
-export default function BgLocketDio({ bgSrc }) {
+export default function BgLocketQQ({ bgSrc }) {
   if (!bgSrc) return null;
 
   const isVideo = bgSrc.endsWith(".mp4") || bgSrc.endsWith(".webm");
