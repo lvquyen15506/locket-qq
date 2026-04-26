@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { useApp } from "@/context/AppContext";
 
-// import HeaderHome from "./Layout/HeaderHome";
+import HeaderHome from "./Layout/HeaderHome";
 import BottomMenu from "../BottomHomeScreen/Layout/BottomMenu";
 import HistoryArrow from "./Layout/HistoryButton";
 import ActionControls from "./ActionControls";
@@ -33,10 +33,10 @@ export default function MainHomeScreen() {
     <>
       <div
         className={`relative transition-all duration-500 flex flex-col justify-center items-center w-full h-[100vh] text-base-content ${isProfileOpen
-            ? "translate-x-full"
-            : isHomeOpen
-              ? "-translate-x-full"
-              : "translate-x-0"
+          ? "translate-x-full"
+          : isHomeOpen
+            ? "-translate-x-full"
+            : "translate-x-0"
           }`}
       >
         <HeaderHome
