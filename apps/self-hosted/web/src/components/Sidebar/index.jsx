@@ -199,8 +199,9 @@ const Sidebar = () => {
                 <ul>
                   {section.items.map((item) => (
                     <MenuItem
-                      key={item.to}
+                      key={item.to || item.href}
                       to={item.to}
+                      href={item.href}
                       icon={item.icon}
                       badge={item.badge}
                       onClick={() => setIsSidebarOpen(false)}
