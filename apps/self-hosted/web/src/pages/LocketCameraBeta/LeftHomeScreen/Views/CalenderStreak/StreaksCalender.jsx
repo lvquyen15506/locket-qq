@@ -1,6 +1,40 @@
 import { MdSlowMotionVideo } from "react-icons/md";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useStreakStore } from "@/stores";
+import { replaceFirebaseWithCDN } from "@/utils/replace/replaceFirebaseWithCDN";
+import { getImageSrc } from "@/utils/replace/replaceUrl";
+
+function getCalendarImageCandidates(url) {
+  if (!url) return [];
+
+  const raw = getImageSrc(url);
+  const cdn = getImageSrc(replaceFirebaseWithCDN(url));
+
+  return [...new Set([raw, cdn].filter(Boolean))];
+}
+
+function CalendarThumb({ sources = [], alt }) {
+  const [sourceIndex, setSourceIndex] = useState(0);
+  const currentSrc = sources[sourceIndex] || "";
+
+  useEffect(() => {
+    setSourceIndex(0);
+  }, [sources]);
+
+  return (
+    <img
+      src={currentSrc}
+      alt={alt}
+      className="object-cover w-full h-full"
+      loading="lazy"
+      onError={() => {
+        if (sourceIndex < sources.length - 1) {
+          setSourceIndex((prev) => prev + 1);
+        }
+      }}
+    />
+  );
+}
 
 // Parse date dạng "04:44:00, 30/7/2025"
 // Parse date an toàn, hỗ trợ nhiều định dạng
@@ -209,11 +243,10 @@ const MonthCalendar = ({ monthKey, postsInMonth }) => {
             <div
               key={dayKey}
               className={`aspect-square rounded-xl border p-1 flex flex-col overflow-hidden cursor-pointer group relative
-        ${
-          isInStreak
-            ? "border-yellow-400 border-3 bg-base-200"
-            : "border-gray-300 bg-base-100"
-        }
+        ${isInStreak
+                  ? "border-yellow-400 border-3 bg-base-200"
+                  : "border-gray-300 bg-base-100"
+                }
       `}
               title={
                 posts.length > 0
@@ -244,31 +277,27 @@ const MonthCalendar = ({ monthKey, postsInMonth }) => {
                     >
                       {item.video_url ? (
                         <>
-                          <img
-                            src={item.thumbnail_url}
+                          <CalendarThumb
+                            sources={getCalendarImageCandidates(item.thumbnail_url)}
                             alt="video thumbnail"
-                            className="object-cover w-full h-full"
-                            loading="lazy"
                           />
                           <div className="absolute top-1 right-1 bg-primary/80 rounded-full p-0.5">
                             <MdSlowMotionVideo className="text-white text-xs" />
                           </div>
                         </>
                       ) : (
-                        <img
-                          src={item.thumbnail_url || item.image_url}
+                        <CalendarThumb
+                          sources={getCalendarImageCandidates(item.thumbnail_url || item.image_url)}
                           alt={item.captions?.[0]?.text || "Image"}
-                          className="object-cover w-full h-full"
-                          loading="lazy"
                         />
                       )}
                     </div>
                   ))}
                   {isInStreak &&
                     day.getTime() ===
-                      yyyymmddToDate(
-                        streak.last_updated_yyyymmdd
-                      ).getTime() && (
+                    yyyymmddToDate(
+                      streak.last_updated_yyyymmdd
+                    ).getTime() && (
                       <div className="absolute bg-yellow-400 text-black text-[10px] px-1 font-bold bottom-0 right-0 rounded-tl-sm">
                         {streak?.count}
                       </div>

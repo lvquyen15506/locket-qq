@@ -40,7 +40,7 @@ function RollcallsPost({ active, posts, setPosts, isProfileOpen }) {
       );
 
       await saveRollcalls(data);
-      setPosts(data || []);
+      setPosts(postsWithUser || []);
     } catch (err) {
       console.error("Failed to load rollcall posts:", err);
     } finally {

@@ -1,11 +1,20 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper/modules";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { Loader2, SmilePlus } from "lucide-react";
 import { getImageSrc } from "@/utils/replace/replaceUrl";
 import { replaceFirebaseWithCDN } from "@/utils/replace/replaceFirebaseWithCDN";
+
+const getRollcallImageCandidates = (url) => {
+  if (!url) return [];
+
+  const raw = getImageSrc(url);
+  const cdn = getImageSrc(replaceFirebaseWithCDN(url));
+
+  return [...new Set([raw, cdn].filter(Boolean))];
+};
 
 function RollcallImages({ items, onActiveChange }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -38,7 +47,7 @@ function RollcallImages({ items, onActiveChange }) {
             <SwiperSlide key={item.uid}>
               <div className="relative w-full h-full overflow-hidden rounded-lg">
                 {/* IMAGE */}
-                <LazyImage src={replaceFirebaseWithCDN(item.main_url)} alt="" />
+                <LazyImage sources={getRollcallImageCandidates(item.main_url)} alt="" />
 
                 {/* COUNTER – chỉ slide active */}
                 {isActive && (
@@ -104,8 +113,23 @@ function ReactionList({ reactions = [] }) {
   );
 }
 
-function LazyImage({ src, alt = "", className = "" }) {
+function LazyImage({ sources = [], alt = "", className = "" }) {
   const [loaded, setLoaded] = useState(false);
+  const [sourceIndex, setSourceIndex] = useState(0);
+  const currentSrc = sources[sourceIndex] || "";
+
+  useEffect(() => {
+    setSourceIndex(0);
+    setLoaded(false);
+  }, [sources]);
+
+  const handleError = () => {
+    if (sourceIndex < sources.length - 1) {
+      setSourceIndex((prev) => prev + 1);
+      return;
+    }
+    setLoaded(true);
+  };
 
   return (
     <div className="relative w-full h-full">
@@ -118,10 +142,11 @@ function LazyImage({ src, alt = "", className = "" }) {
       )}
 
       <img
-        src={src}
+        src={currentSrc}
         alt={alt}
         loading="lazy"
         onLoad={() => setLoaded(true)}
+        onError={handleError}
         className={`
           w-full h-full object-cover
           transition-opacity duration-300
