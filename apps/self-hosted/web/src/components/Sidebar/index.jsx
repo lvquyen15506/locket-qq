@@ -38,7 +38,7 @@ import { useAuthStore } from "@/stores";
 const Sidebar = () => {
   const user = useAuthStore((state) => state.user);
   const clearAndlogout = useAuthStore((state) => state.clearAndlogout);
-  
+
   const navigate = useNavigate();
   const { navigation } = useApp();
   const { isSidebarOpen, setIsSidebarOpen } = navigation;
@@ -71,7 +71,7 @@ const Sidebar = () => {
       items: [
         { to: "/home", icon: Home, text: "Trang chủ" },
         { to: "/about", icon: Info, text: "Locket QQ" },
-        { href: "https://locket-qqit.vercel.app/download", icon: SquareArrowDown, text: "Cài đặt WebApp" },
+        { to: "/download", icon: SquareArrowDown, text: "Cài đặt WebApp" },
       ],
     },
     {
@@ -98,8 +98,8 @@ const Sidebar = () => {
     {
       title: "Đối tác & Tích hợp",
       items: [
-        { href: "https://locket-qqit.vercel.app/collab/caption-kanade", icon: Palette, text: "Caption Kanade" },
-        { href: "https://locket-qqit.vercel.app/collab/locket-upload", icon: SquareArrowOutUpRight, text: "Locket Upload" },
+        { to: "/collab/caption-kanade", icon: Palette, text: "Caption Kanade" },
+        { to: "/collab/locket-upload", icon: SquareArrowOutUpRight, text: "Locket Upload" },
       ],
     },
     {
@@ -120,7 +120,7 @@ const Sidebar = () => {
         { to: "/", icon: Home, text: "Trang chủ" },
         { to: "/about", icon: Info, text: "Locket QQ" },
         { to: "/about-qq", icon: UserCircle, text: "Về QQ" },
-        { href: "https://locket-qqit.vercel.app/download", icon: SquareArrowDown, text: "Cài đặt WebApp" },
+        { to: "/download", icon: SquareArrowDown, text: "Cài đặt WebApp" },
       ],
     },
     {
@@ -134,8 +134,8 @@ const Sidebar = () => {
     {
       title: "Đối tác & Tích hợp",
       items: [
-        { href: "https://locket-qqit.vercel.app/collab/caption-kanade", icon: Palette, text: "Caption Kanade" },
-        { href: "https://locket-qqit.vercel.app/collab/locket-upload", icon: SquareArrowOutUpRight, text: "Locket Upload" },
+        { to: "/collab/caption-kanade", icon: Palette, text: "Caption Kanade" },
+        { to: "/collab/locket-upload", icon: SquareArrowOutUpRight, text: "Locket Upload" },
       ],
     },
     {
@@ -155,21 +155,19 @@ const Sidebar = () => {
     <>
       {/* Overlay */}
       <div
-        className={`fixed h-screen z-60 inset-0 bg-base-100/10 backdrop-blur-[2px] transition-opacity duration-500 ${
-          isSidebarOpen
+        className={`fixed h-screen z-60 inset-0 bg-base-100/10 backdrop-blur-[2px] transition-opacity duration-500 ${isSidebarOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
         onClick={() => setIsSidebarOpen(false)}
       />
 
       {/* Sidebar */}
       <div
-        className={`fixed z-60 top-0 right-0 h-full w-64 shadow-xl transition-all duration-500 bg-base-100 flex flex-col ${
-          isSidebarOpen
+        className={`fixed z-60 top-0 right-0 h-full w-64 shadow-xl transition-all duration-500 bg-base-100 flex flex-col ${isSidebarOpen
             ? "opacity-100 translate-x-0"
             : "opacity-0 translate-x-full"
-        }`}
+          }`}
       >
         {/* Header */}
         <div className="flex justify-between items-center py-3 px-2 border-b border-base-300 flex-shrink-0">
