@@ -60,7 +60,8 @@ exports.generatePresignedUrlV3 = async (req, res) => {
     const command = new PutObjectCommand({
       Bucket: constants.BUCKET_NAME,
       Key: filePath,
-      ContentType: safeType,
+      // Must match client upload header exactly (e.g. image/jpeg, video/mp4)
+      ContentType: contentType,
       ACL: "public-read",
     });
 
