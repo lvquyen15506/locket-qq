@@ -16,17 +16,20 @@ const DefaultLayout = ({ children }) => {
     location.pathname.startsWith(path)
   );
 
+  // Ẩn Header và Footer ở trang dashboard (đã có HeaderHome riêng)
+  const isDashboard = location.pathname === "/dashboard";
+
   return (
-    <div className="grid grid-rows-[auto_1fr_auto]">
+    <div className={isDashboard ? "" : "grid grid-rows-[auto_1fr_auto]"}>
       {/* Fixed Header */}
-      <Header />
+      {!isDashboard && <Header />}
 
       {/* Main Content with Scroll */}
-      <main className="overflow-hidden bg-base-200 text-base-content relative">
+      <main className={isDashboard ? "" : "overflow-hidden bg-base-200 text-base-content relative"}>
         <div className="relative z-10">{children}</div>
       </main>
 
-      {!shouldHideFloating && <Footer />}
+      {!shouldHideFloating && !isDashboard && <Footer />}
 
       <Suspense fallback={null}>
         <CropImageStudio />
