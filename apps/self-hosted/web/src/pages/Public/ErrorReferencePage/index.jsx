@@ -40,7 +40,7 @@ const ErrorReferencePage = () => {
     const fetchDatas = async () => {
       try {
         const data = await getListIncidents();
-        setErrors(data);
+        setErrors(data || []);
       } catch (err) {
         console.error("❌ Không thể lấy danh sách:", err);
       }
@@ -51,7 +51,7 @@ const ErrorReferencePage = () => {
 
   const filtered = useMemo(() => {
     const s = search.toLowerCase();
-    return errors.filter(
+    return (errors || []).filter(
       (e) =>
         e.title.toLowerCase().includes(s) ||
         e.description.toLowerCase().includes(s) ||

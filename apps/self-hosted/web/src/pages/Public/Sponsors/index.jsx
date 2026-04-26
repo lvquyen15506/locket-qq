@@ -16,7 +16,7 @@ const DonatePage = () => {
       try {
         setIsLoading(true);
         const result = await getListDonates();
-        setDonations(result);
+        setDonations(result || []);
         setIsLoading(false);
       } catch (err) {
         console.error("Lỗi khi fetch donations:", err);
@@ -26,7 +26,7 @@ const DonatePage = () => {
     fetchDonations();
   }, []);
 
-  const totalDonations = donations.reduce(
+  const totalDonations = (donations || []).reduce(
     (sum, donation) => sum + donation.amount,
     0
   );
