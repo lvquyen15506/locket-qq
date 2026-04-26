@@ -31,7 +31,7 @@ const serverConfig = {
   },
 
   services: {
-    storageUrl: process.env.STORAGE_API_URL || "https://storage.locket-qq.com",
+    storageUrl: process.env.STORAGE_API_URL || "https://storage.locketqq.online",
     redisUrl: process.env.REDIS_URL,
   },
 

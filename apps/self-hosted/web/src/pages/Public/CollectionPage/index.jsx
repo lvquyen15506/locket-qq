@@ -26,7 +26,7 @@ export default function CollectionPage() {
       ? collections
       : collections.filter((item) => item.category === selectedCategory);
 
-  // const currentOrigin = "https://locket-qq.com";
+  // const currentOrigin = "https://locketqq.online";
   const currentOrigin = window.location.origin;
 
   const currentVersion = collections.find(

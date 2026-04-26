@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://locket-qq.com/sitemap.xml
+Sitemap: https://locketqq.online/sitemap.xml

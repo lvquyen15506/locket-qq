@@ -20,7 +20,7 @@ export default function NewsDetailPage() {
   useEffect(() => {
     if (news?.title) {
       document.title = `${news.title} | Locket QQ - Đăng ảnh & Video lên Locket`;
-      const url = "https://locket-qq.com" + location.pathname;
+      const url = "https://locketqq.online" + location.pathname;
       const link =
         document.querySelector("link[rel='canonical']") ||
         document.head.appendChild(

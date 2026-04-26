@@ -100,7 +100,7 @@ const Home = () => {
           <div className="flex items-center justify-center h-full w-full md:pl-6 no-select -mb-10">
             <div className="relative transform hover:scale-105 transition-transform duration-500">
               <img
-                src="https://cdn.locket-qq.com/v1/images/double-phone-view-LocketQQ.webp"
+                src="https://cdn.locketqq.online/v1/images/double-phone-view-LocketQQ.webp"
                 alt="Locket QQ WebApp Preview"
                 loading="lazy"
                 onLoad={() => setLoaded(true)}

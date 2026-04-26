@@ -71,7 +71,7 @@ const Sidebar = () => {
       items: [
         { to: "/home", icon: Home, text: "Trang chủ" },
         { to: "/about", icon: Info, text: "Locket QQ" },
-        { to: "/sponsors", icon: Heart, text: "Ủng hộ dự án" },
+        { href: "https://locket-qqit.vercel.app/download", icon: SquareArrowDown, text: "Cài đặt WebApp" },
       ],
     },
     {
@@ -85,6 +85,21 @@ const Sidebar = () => {
           badge: "Beta",
         },
         { to: "/profile", icon: UserRound, text: "Hồ sơ của bạn" },
+      ],
+    },
+    {
+      title: "Tài nguyên",
+      items: [
+        { to: "/sponsors", icon: Heart, text: "Ủng hộ dự án" },
+        { to: "/timeline", icon: CalendarClock, text: "Lịch sử Website" },
+        { to: "/docs", icon: BookText, text: "Tài liệu" },
+      ],
+    },
+    {
+      title: "Đối tác & Tích hợp",
+      items: [
+        { href: "https://locket-qqit.vercel.app/collab/caption-kanade", icon: Palette, text: "Caption Kanade" },
+        { href: "https://locket-qqit.vercel.app/collab/locket-upload", icon: SquareArrowOutUpRight, text: "Locket Upload" },
       ],
     },
     {
@@ -105,13 +120,22 @@ const Sidebar = () => {
         { to: "/", icon: Home, text: "Trang chủ" },
         { to: "/about", icon: Info, text: "Locket QQ" },
         { to: "/about-qq", icon: UserCircle, text: "Về QQ" },
+        { href: "https://locket-qqit.vercel.app/download", icon: SquareArrowDown, text: "Cài đặt WebApp" },
       ],
     },
     {
       title: "Tài nguyên",
       items: [
         { to: "/sponsors", icon: Heart, text: "Ủng hộ dự án" },
+        { to: "/timeline", icon: CalendarClock, text: "Lịch sử Website" },
         { to: "/docs", icon: BookText, text: "Tài liệu" },
+      ],
+    },
+    {
+      title: "Đối tác & Tích hợp",
+      items: [
+        { href: "https://locket-qqit.vercel.app/collab/caption-kanade", icon: Palette, text: "Caption Kanade" },
+        { href: "https://locket-qqit.vercel.app/collab/locket-upload", icon: SquareArrowOutUpRight, text: "Locket Upload" },
       ],
     },
     {

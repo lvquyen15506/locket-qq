@@ -26,7 +26,7 @@ export default function CelebItemFriend({ friend, handleAddFriend }) {
               }}
             />
             <img
-              src="https://cdn.locket-qq.com/v1/caption/caption-icon/celebrity_badge.png"
+              src="https://cdn.locketqq.online/v1/caption/caption-icon/celebrity_badge.png"
               alt="Celebrity"
               className="absolute bottom-0 right-0 w-6 h-6 p-0.5 bg-base-100 rounded-full"
             />

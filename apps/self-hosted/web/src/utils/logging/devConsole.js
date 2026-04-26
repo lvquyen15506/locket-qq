@@ -24,7 +24,7 @@ export function showDevWarning(title = "Dừng lại!", message = "") {
     "color: #ff6f00; font-weight: bold; font-size: 13px;"
   );
   console.log(
-    "%c👉 Nếu bạn cần hỗ trợ chính thức, hãy truy cập: https://locket-qq.com/contact",
+    "%c👉 Nếu bạn cần hỗ trợ chính thức, hãy truy cập: https://locketqq.online/contact",
     "color: #00bcd4; font-weight: bold; font-size: 13px;"
   );
   console.log(

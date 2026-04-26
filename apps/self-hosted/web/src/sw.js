@@ -27,7 +27,7 @@ self.addEventListener("push", (event) => {
   const notificationTitle = data.title || "🔔 Thông báo";
   const notificationOptions = {
     body: data.body || "Bạn có thông báo mới!",
-    data: { url: data.url || "https://locket-qq.com" }, // truyền URL để redirect khi click
+    data: { url: data.url || "https://locketqq.online" }, // truyền URL để redirect khi click
     icon: "/android-chrome-192x192.png",
     badge: "/maskable_icon.png",
   };
@@ -41,7 +41,7 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
-  const urlToOpen = event.notification.data?.url || "https://locket-qq.com";
+  const urlToOpen = event.notification.data?.url || "https://locketqq.online";
 
   event.waitUntil(
     clients

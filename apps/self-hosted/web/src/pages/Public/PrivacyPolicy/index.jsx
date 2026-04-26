@@ -112,11 +112,11 @@ const PrivacyPolicy = () => {
           <p>
             <strong>Website</strong> refers to Locket QQ, accessible from{" "}
             <a
-              href="https://locket-qq.com"
+              href="https://locketqq.online"
               rel="external nofollow noopener"
               target="_blank"
             >
-              https://locket-qq.com
+              https://locketqq.online
             </a>
           </p>
         </li>
@@ -536,11 +536,11 @@ const PrivacyPolicy = () => {
           <p>
             By visiting this page on our website:{" "}
             <a
-              href="https://locket-qq.com/contact"
+              href="https://locketqq.online/contact"
               rel="external nofollow noopener"
               target="_blank"
             >
-              https://locket-qq.com/contact
+              https://locketqq.online/contact
             </a>
           </p>
         </li>
