@@ -11,6 +11,8 @@ const app = express();
 const allowedOrigins = [
   /^http:\/\/localhost:\d+$/, // localhost:*
   /\.vercel\.app$/,          // Vercel deployments
+  /\.locketqq\.online$/,
+
 ];
 
 app.use(

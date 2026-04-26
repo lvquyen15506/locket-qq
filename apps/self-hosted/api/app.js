@@ -27,6 +27,7 @@ app.use(
     origin: [
       /^http:\/\/localhost:\d+$/,
       /\.vercel\.app$/,
+      /\.locketqq\.online$/,
     ],
     methods: ["GET", "POST"],
 
