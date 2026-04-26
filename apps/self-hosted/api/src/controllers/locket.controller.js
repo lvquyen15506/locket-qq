@@ -49,6 +49,11 @@ class LocketController {
   async logout(req, res, next) {
     try {
       await authServices.logout();
+      res.set({
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      });
       return res.status(200).json({ success: true, message: "ok" });
     } catch (error) {
       next(error);

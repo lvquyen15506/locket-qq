@@ -113,13 +113,21 @@ export const useAuthStore = create((set) => ({
   },
 
   clearAndlogout: async () => {
-    await logout();
+    // Xoá local data TRƯỚC để đảm bảo logout dù API lỗi
     removeToken();
     await clearAllDB();
-    localStorage.removeItem(CACHE_KEY); // xóa cache khi logout
+    localStorage.removeItem(CACHE_KEY);
+    localStorage.removeItem("idToken");
+    localStorage.removeItem("localId");
     set({
       user: null,
       isAuth: false,
     });
+    // Gọi API logout sau (có thể fail, không ảnh hưởng)
+    try {
+      await logout();
+    } catch (e) {
+      // API logout lỗi thì bỏ qua, đã xoá local rồi
+    }
   },
 }));

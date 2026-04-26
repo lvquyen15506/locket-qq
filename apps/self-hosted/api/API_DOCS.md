@@ -40,7 +40,7 @@ Token được trả về sau khi đăng nhập thành công qua `POST /locket/l
 **Request Body:**
 ```json
 {
-  "email": "dio@example.com",
+  "email": "qq@example.com",
   "password": "matkhau123"
 }
 ```
