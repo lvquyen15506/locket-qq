@@ -14,11 +14,15 @@ export const GetAllMessage = async ({ timestamp = null, limit = 50 }) => {
 
 export const getMessagesWithUser = async ({
   messageId, // 👈 uid của người cần lấy message
+  conversationId = null,
+  withUser = null,
   timestamp = null,
 }) => {
   try {
     const res = await api.post("/locket/getMessageWithUserV2", {
       messageId: messageId,
+      conversationId: conversationId || messageId,
+      with_user: withUser || null,
       timestamp,
     });
     return res.data?.data;

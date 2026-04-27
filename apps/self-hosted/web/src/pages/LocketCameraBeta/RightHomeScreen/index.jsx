@@ -8,6 +8,7 @@ import { markReadMessage } from "@/services";
 import { ConversationSkeleton } from "./View/Conversation/ConversationSkeleton";
 import { CONFIG } from "@/config";
 import { useSocket } from "@/context/SocketContext";
+import { SocketEvent } from "@/constants/socketEvents";
 import { useAuthStore, useMessagesStore } from "@/stores";
 
 const INITIAL_DISPLAY_COUNT = CONFIG.ui.chat.initialVisible;
@@ -58,9 +59,11 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
 
     const handler = handleListMessage(upsertConversation);
 
+    socket.on(SocketEvent.LIST_MESSAGE, handler);
     socket.on("new_on_list_message", handler);
 
     return () => {
+      socket.off(SocketEvent.LIST_MESSAGE, handler);
       socket.off("new_on_list_message", handler); // gỡ đúng handler
     };
   }, [socket]); // << chỉ theo socket, không theo idToken
@@ -69,7 +72,10 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
   useEffect(() => {
     if (isHomeOpen || !idToken || !socket) return;
 
-    socket.emit("get_list_message", { timestamp: null, token: idToken });
+    socket.emit(SocketEvent.GET_LIST_MESSAGES, {
+      timestamp: null,
+      token: idToken,
+    });
   }, [idToken, socket]);
   // ================= Socket listener cho selectedChat =================
   useEffect(() => {
@@ -107,7 +113,7 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
 
     if (!chat?.uid) return;
 
-    await getMessagesByUser(chat.uid);
+    await getMessagesByUser(chat.uid, chat.with_user || null);
 
     if (chat.isRead === false) {
       await markReadMessage(chat.uid);
@@ -140,13 +146,12 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
       {/* ================= Conversation list ================= */}
       <div
         className={`fixed inset-0 flex flex-col transition-transform duration-500 bg-base-100 overflow-hidden
-        ${
-          isHomeOpen
+        ${isHomeOpen
             ? selectedChat
               ? "-translate-x-full"
               : "translate-x-0"
             : "translate-x-full"
-        }`}
+          }`}
       >
         <div className="relative flex items-center shadow-lg justify-between px-4 py-2 text-base-content">
           <button

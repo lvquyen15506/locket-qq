@@ -85,7 +85,7 @@ export const useMessagesStore = create((set, get) => ({
   },
 
   // ==== 3️⃣ Lấy tin nhắn theo userId (conversationId) ====
-  getMessagesByUser: async (conversationId) => {
+  getMessagesByUser: async (conversationId, fallbackConversationId = null) => {
     const { messages } = get();
 
     // 1. Nếu đã cache → trả ngay
@@ -101,9 +101,23 @@ export const useMessagesStore = create((set, get) => ({
 
     // 3. Sync API
     // Note: Phải để null mới get các mess từ mới nhất về cũ
-    const apiData = await getMessagesWithUser({
+    let apiData = await getMessagesWithUser({
       messageId: conversationId,
+      conversationId,
+      withUser: fallbackConversationId,
     });
+
+    if (
+      (!apiData || apiData.length === 0) &&
+      fallbackConversationId &&
+      fallbackConversationId !== conversationId
+    ) {
+      apiData = await getMessagesWithUser({
+        messageId: fallbackConversationId,
+        conversationId: fallbackConversationId,
+        withUser: fallbackConversationId,
+      });
+    }
 
     if (apiData?.length) {
       await saveMessages(apiData);

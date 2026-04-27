@@ -13,7 +13,7 @@ export const API_NAMESPACE = {
 // Endpoints
 export const API_ENDPOINTS = {
   // Socket URL
-  socketUrl: BASE_SERVER_HOST,
+  socketUrl: `${BASE_SERVER_HOST?.replace(/\/$/, "")}${API_NAMESPACE.chat}`,
 };
 
 
