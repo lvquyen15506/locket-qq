@@ -42,15 +42,84 @@ const getMessagesWithUser = async ({
   idToken,
   userId,
   conversationId,
+  messageId,
+  withUser,
   pageToken,
   limit = 50,
 }) => {
-  const params = {
-    pageSize: limit,
-    orderBy: "created_at desc",
+  const uniqueIds = [...new Set([conversationId, messageId].filter(Boolean))];
+
+  const tryFetch = async (targetConversationId) => {
+    const primary = await fetchConversationMessages({
+      idToken,
+      userId,
+      conversationId: targetConversationId,
+      pageToken,
+      limit,
+      withOrderBy: true,
+    });
+
+    if (primary.messages.length > 0) return primary;
+
+    const fallback = await fetchConversationMessages({
+      idToken,
+      userId,
+      conversationId: targetConversationId,
+      pageToken,
+      limit,
+      withOrderBy: false,
+    });
+
+    return {
+      messages: fallback.messages.length ? fallback.messages : primary.messages,
+      nextPageToken: fallback.nextPageToken || primary.nextPageToken || null,
+      conversationId: targetConversationId,
+    };
   };
 
-  if (pageToken) params.pageToken = pageToken;
+  for (const candidateId of uniqueIds) {
+    const data = await tryFetch(candidateId);
+    if (data.messages.length > 0) return data;
+  }
+
+  if (withUser) {
+    const resolvedConversationId = await resolveConversationIdByWithUser({
+      idToken,
+      userId,
+      withUser,
+    });
+
+    if (resolvedConversationId && !uniqueIds.includes(resolvedConversationId)) {
+      const data = await tryFetch(resolvedConversationId);
+      if (data.messages.length > 0) return data;
+    }
+  }
+
+  return {
+    messages: [],
+    nextPageToken: null,
+  };
+};
+
+const fetchConversationMessages = async ({
+  idToken,
+  userId,
+  conversationId,
+  pageToken,
+  limit,
+  withOrderBy,
+}) => {
+  const params = {
+    pageSize: limit,
+  };
+
+  if (withOrderBy) {
+    params.orderBy = "created_at desc";
+  }
+
+  if (pageToken) {
+    params.pageToken = pageToken;
+  }
 
   try {
     const response = await instanceFirestore.get(
@@ -81,6 +150,47 @@ const getMessagesWithUser = async ({
       messages: [],
       nextPageToken: null,
     };
+  }
+};
+
+const resolveConversationIdByWithUser = async ({ idToken, userId, withUser }) => {
+  try {
+    const response = await instanceFirestore.get(
+      `/(default)/documents/users/${userId}/conversations`,
+      {
+        params: {
+          pageSize: 200,
+          orderBy: "last_updated desc",
+        },
+        meta: {
+          idToken,
+        },
+      },
+    );
+
+    const docs = response.data.documents || [];
+
+    for (const doc of docs) {
+      const fields = doc?.fields || {};
+      const members = fields.members?.arrayValue?.values || [];
+      const memberList = members
+        .map((v) => v?.stringValue)
+        .filter(Boolean);
+      const docId = doc?.name?.split("/").pop();
+      const uid = fields.uid?.stringValue || docId;
+
+      if (uid === withUser || docId === withUser || memberList.includes(withUser)) {
+        return uid || docId;
+      }
+    }
+
+    return null;
+  } catch (error) {
+    console.error(
+      "❌ Lỗi khi resolve conversation by with_user:",
+      error.response?.data || error.message,
+    );
+    return null;
   }
 };
 

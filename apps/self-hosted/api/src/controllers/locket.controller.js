@@ -124,9 +124,9 @@ class LocketController {
   async getMessagesWithUser(req, res, next) {
     try {
       const { idToken, localId } = req.user;
-      const { messageId, conversationId, timestamp, limit } = req.body;
+      const { messageId, conversationId, with_user, withUser, timestamp, limit } = req.body;
 
-      const targetConversationId = messageId || conversationId;
+      const targetConversationId = conversationId || messageId;
       if (!targetConversationId) {
         return res.status(400).json({
           success: false,
@@ -138,6 +138,8 @@ class LocketController {
         idToken,
         userId: localId,
         conversationId: targetConversationId,
+        messageId,
+        withUser: with_user || withUser || null,
         pageToken: timestamp || null,
         limit,
       });

@@ -10,10 +10,23 @@ export const API_NAMESPACE = {
   chat: "/chat",
 };
 
+const resolveSocketOrigin = () => {
+  const fallbackOrigin =
+    typeof window !== "undefined" ? window.location.origin : "";
+
+  if (!BASE_SERVER_HOST) return fallbackOrigin;
+
+  try {
+    return new URL(BASE_SERVER_HOST, fallbackOrigin).origin;
+  } catch {
+    return BASE_SERVER_HOST?.replace(/\/+$/, "") || fallbackOrigin;
+  }
+};
+
 // Endpoints
 export const API_ENDPOINTS = {
   // Socket URL
-  socketUrl: `${BASE_SERVER_HOST?.replace(/\/$/, "")}${API_NAMESPACE.chat}`,
+  socketUrl: `${resolveSocketOrigin()}${API_NAMESPACE.chat}`,
 };
 
 
