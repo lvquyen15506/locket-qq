@@ -15,7 +15,7 @@ Cảm ơn bạn đã quan tâm đến dự án! Dưới đây là một số hư
 
 Nếu bạn phát hiện lỗi, hãy tạo một Issue và chúng tôi sẽ xem xét.
 
-- Vui lòng tìm kiếm trong [Issues hiện có](https://github.com/doi2523/Client-locket-qq/issues) trước khi tạo mới.
+- Vui lòng tìm kiếm trong [Issues hiện có](https://github.com/lvquyen15506/locket-qq/issues) trước khi tạo mới.
 - Mô tả rõ vấn đề kèm theo các bước tái hiện lỗi. Screenshot và log càng chi tiết càng tốt.
 
 ## Pull Requests
@@ -24,8 +24,8 @@ Chúng tôi luôn chào đón Pull Request từ cộng đồng! Một vài lưu 
 
 - Nếu bạn đang fix một Issue, hãy kiểm tra xem đã có PR nào đang xử lý vấn đề đó chưa. Nhớ link PR của bạn với Issue liên quan.
 - Chúng tôi sẽ ưu tiên chấp nhận PR đầu tiên giải quyết được vấn đề.
-- Nếu bạn mới, hãy xem các issue được gắn nhãn [good first issue](https://github.com/doi2523/Client-locket-qq/labels/good%20first%20issue).
-- Nếu bạn muốn thêm tính năng mới, hãy mở một [Discussion](https://github.com/doi2523/Client-locket-qq/discussions) để thảo luận trước khi tạo PR. PR về tính năng chưa được phê duyệt sẽ bị đóng.
+- Nếu bạn mới, hãy xem các issue được gắn nhãn [good first issue](https://github.com/lvquyen15506/locket-qq/labels/good%20first%20issue).
+- Nếu bạn muốn thêm tính năng mới, hãy mở một [Discussion](https://github.com/lvquyen15506/locket-qq/discussions) để thảo luận trước khi tạo PR. PR về tính năng chưa được phê duyệt sẽ bị đóng.
 - Vui lòng điền đầy đủ template PR và mô tả rõ context. PR thiếu thông tin sẽ bị đóng.
 
 Trước khi gửi PR, hãy kiểm tra:
@@ -36,14 +36,14 @@ Trước khi gửi PR, hãy kiểm tra:
 ---
 
 ## Contributors
-<a href="https://github.com/doi2523/Client-locket-qq/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=doi2523/Client-locket-qq" />
+<a href="https://github.com/lvquyen15506/locket-qq/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=lvquyen15506/locket-qq" />
 </a>
 
 Made with [contrib.rocks](https://contrib.rocks).
 
 <div align="center">
 
-**[← Về README](./README.md) | © 2025 [Locket QQ](https://locket-qq.com)**
+**[← Về README](./README.md) | © 2026 [Locket QQ](https://locket-qq.com)**
 
 </div>

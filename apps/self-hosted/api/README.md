@@ -24,7 +24,7 @@
 ### 1. Clone repository
 
 ```bash
-git clone -b self-hosted/locket-qq {{link_repo}}
+git clone -b self-hosted/locket-qq https://github.com/lvquyen15506/locket-qq.git
 cd apps/self-hosted/api
 ```
 
@@ -111,7 +111,7 @@ Vui lòng tuân theo [Conventional Commits](https://www.conventionalcommits.org/
 
 ### ⭐ Hãy Star repository này nếu bạn thấy hữu ích!
 
-**Được tạo với ❤️ bởi [Quyen](https://github.com/lvquyen15506) | © 2026 [Locket QQ](https://locketqq.online) | Tất cả quyền được bảo lưu**
+**Được tạo với ❤️ bởi [Quyen](https://github.com/lvquyen15506) | © 2026 [Locket QQ](https://locket-qq.com) | Tất cả quyền được bảo lưu**
 
 [![Về đầu trang](https://img.shields.io/badge/⬆️_Về_Đầu_Trang-Nhấn_Vào_Đây-blue?style=for-the-badge)](#-locket-qq)
 

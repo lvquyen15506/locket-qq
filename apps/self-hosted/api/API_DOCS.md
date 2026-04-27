@@ -268,6 +268,6 @@ Content-Type: application/json
 
 <div align="center">
 
-**[← Về README](./README.md) | © 2025 [Locket QQ](https://locketqq.online)**
+**[← Về README](./README.md) | © 2026 [Locket QQ](https://locket-qq.com)**
 
 </div>
