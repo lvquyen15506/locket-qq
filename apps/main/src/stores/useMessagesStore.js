@@ -1,6 +1,7 @@
 // src/store/messagesStore.js
 import { create } from "zustand";
 import { GetAllMessage, getMessagesWithUser } from "@/services";
+import { getMessagesWithUserDirect } from "@/services/LocketServices/chat.services";
 import {
   getAllConversations,
   getMessagesByConversationId,
@@ -117,6 +118,24 @@ export const useMessagesStore = create((set, get) => ({
         conversationId: fallbackConversationId,
         withUser: fallbackConversationId,
       });
+    }
+
+    // Fallback: gọi trực tiếp Locket API để lấy thêm lịch sử nếu backend chỉ trả quá ít.
+    if (!apiData || apiData.length <= 1) {
+      const directData = await getMessagesWithUserDirect({
+        conversationId,
+        withUser: fallbackConversationId,
+        limit: 100,
+      });
+
+      if (directData?.length) {
+        const map = new Map();
+        [...(apiData || []), ...directData].forEach((m) => {
+          if (!m?.id) return;
+          map.set(m.id, m);
+        });
+        apiData = [...map.values()];
+      }
     }
 
     if (apiData?.length) {
