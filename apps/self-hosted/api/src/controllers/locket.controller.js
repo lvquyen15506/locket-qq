@@ -121,6 +121,38 @@ class LocketController {
     }
   }
 
+  async getMessagesWithUser(req, res, next) {
+    try {
+      const { idToken, localId } = req.user;
+      const { messageId, conversationId, timestamp, limit } = req.body;
+
+      const targetConversationId = messageId || conversationId;
+      if (!targetConversationId) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing conversation id",
+        });
+      }
+
+      const data = await chatServices.getMessagesWithUser({
+        idToken,
+        userId: localId,
+        conversationId: targetConversationId,
+        pageToken: timestamp || null,
+        limit,
+      });
+
+      return res.status(200).json({
+        data: data?.messages || [],
+        nextPageToken: data?.nextPageToken || null,
+        success: true,
+        message: "ok",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async uploadMedia(req, res, next) {
     try {
       const { userId, idToken, caption } = req.body;
@@ -315,7 +347,7 @@ class LocketController {
         });
       }
 
-      await processServices.deleteFileFromStorageR2(mediaPath).catch(() => {});
+      await processServices.deleteFileFromStorageR2(mediaPath).catch(() => { });
 
       logInfo("uploadMediaV2", "End - Success");
 
@@ -331,7 +363,7 @@ class LocketController {
       if (mediaPath) {
         try {
           deleteTempFile(mediaPath);
-        } catch {}
+        } catch { }
       }
     }
   }
