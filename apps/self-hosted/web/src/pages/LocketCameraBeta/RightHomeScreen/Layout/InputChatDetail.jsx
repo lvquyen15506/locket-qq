@@ -2,11 +2,14 @@ import React, { useState, useRef } from "react";
 import { ArrowUp } from "lucide-react";
 import { sendMessage } from "@/services";
 import { SonnerSuccess } from "@/components/ui/SonnerToast";
+import { useMessagesStore } from "@/stores";
 
 const ChatDetailFooter = ({ selectedChat }) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const textareaRef = useRef(null);
+  const addMessageWithUserV2 = useMessagesStore((s) => s.addMessageWithUserV2);
+  const upsertConversation = useMessagesStore((s) => s.upsertConversation);
 
   const MAX_ROWS = 6; // số dòng tối đa
 
@@ -15,15 +18,49 @@ const ChatDetailFooter = ({ selectedChat }) => {
 
     setLoading(true);
     try {
+      const receiverUid = selectedChat?.friend?.uid || selectedChat?.with_user;
+      if (!receiverUid) {
+        setLoading(false);
+        return;
+      }
+
       const messageData = {
         sender: localStorage.getItem("localId"),
-        receiver_uid: selectedChat?.friend.uid,
+        receiver_uid: receiverUid,
         message: message.trim(),
       };
 
       const res = await sendMessage(messageData);
 
       if (res?.result?.status === 200) {
+        const now = Math.floor(Date.now() / 1000);
+        const optimisticMessage = {
+          id: `local-${Date.now()}`,
+          uid: selectedChat?.uid,
+          sender: localStorage.getItem("localId"),
+          text: messageData.message,
+          body: messageData.message,
+          create_time: now,
+          update_time: now,
+          reply_moment: null,
+          thumbnail_url: null,
+          reactions: [],
+        };
+
+        await addMessageWithUserV2(selectedChat?.uid, optimisticMessage);
+        upsertConversation({
+          uid: selectedChat?.uid,
+          with_user: receiverUid,
+          latestMessage: {
+            body: messageData.message,
+            sender: optimisticMessage.sender,
+            createdAt: now,
+            replyMoment: null,
+            thumbnailUrl: null,
+          },
+          update_time: now,
+        });
+
         // SonnerSuccess(
         //   "Gửi tin nhắn thành công!",
         //   `Người nhận: ${selectedChat?.friend.firstName || "Unknown"} ${

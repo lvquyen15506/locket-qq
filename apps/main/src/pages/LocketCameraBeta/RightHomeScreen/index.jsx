@@ -19,7 +19,7 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
   const { navigation } = useApp();
   const { isHomeOpen } = navigation;
 
-  const { socket, isConnected } = useSocket();
+  const { socket, isConnected, socketState } = useSocket();
   const [selectedChat, setSelectedChat] = useState(null); // conversation đang mở
   const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY_COUNT);
 
@@ -163,7 +163,7 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
           >
             <ChevronLeft size={30} />
           </button>
-          <SocketStatus isConnected={isConnected} />
+          <SocketStatus isConnected={isConnected} socketState={socketState} />
         </div>
 
         <div className="flex-1 px-4 py-6 overflow-y-auto space-y-4">

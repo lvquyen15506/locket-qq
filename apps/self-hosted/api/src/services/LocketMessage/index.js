@@ -1,4 +1,4 @@
-const { instanceFirestore } = require("../../libs");
+const { instanceFirestore, instanceLocketV2 } = require("../../libs");
 
 const getAllMessages = async (idToken, userId, pageToken, limit = 20) => {
   const params = {
@@ -95,10 +95,94 @@ const getMessagesWithUser = async ({
     }
   }
 
+  const locketApiMessages = await fetchMessagesViaLocketApi({
+    idToken,
+    conversationId,
+    withUser,
+    messageId,
+    pageToken,
+    limit,
+  });
+
+  if (locketApiMessages.length > 0) {
+    return {
+      messages: locketApiMessages,
+      nextPageToken: null,
+    };
+  }
+
   return {
     messages: [],
     nextPageToken: null,
   };
+};
+
+const fetchMessagesViaLocketApi = async ({
+  idToken,
+  conversationId,
+  withUser,
+  messageId,
+  pageToken,
+  limit,
+}) => {
+  const candidates = [
+    {
+      data: {
+        conversation_uid: conversationId || null,
+        with_user: withUser || null,
+        message_id: messageId || conversationId || withUser || null,
+        timestamp: pageToken || null,
+        limit: limit || 50,
+      },
+    },
+    {
+      data: {
+        with_user: withUser || messageId || null,
+        timestamp: pageToken || null,
+      },
+    },
+  ];
+
+  for (const payload of candidates) {
+    try {
+      const response = await instanceLocketV2.post("getMessageWithUserV2", payload, {
+        meta: {
+          idToken,
+        },
+      });
+
+      const raw =
+        response?.data?.data ||
+        response?.data?.result?.data ||
+        response?.data?.result?.messages ||
+        response?.data?.messages ||
+        [];
+
+      const list = Array.isArray(raw)
+        ? raw
+        : Array.isArray(raw?.messages)
+          ? raw.messages
+          : [];
+
+      const normalized = list
+        .map((item, index) =>
+          normalizeLocketApiMessage(
+            item,
+            conversationId || item?.conversation_uid || item?.conversation_id || withUser,
+            index,
+          ),
+        )
+        .filter(Boolean);
+
+      if (normalized.length > 0) {
+        return normalized;
+      }
+    } catch {
+      // Ignore and try next payload shape.
+    }
+  }
+
+  return [];
 };
 
 const fetchConversationMessages = async ({
@@ -393,6 +477,64 @@ function normalizeInlineMessage(fields, conversationId, fallbackId) {
     reply_moment: fields.reply_moment?.stringValue || null,
     thumbnail_url: replaceFirebaseWithCDN(fields.thumbnail_url?.stringValue),
     reactions: parseReactions(fields.reactions),
+  };
+}
+
+function normalizeLocketApiMessage(item, conversationId, index) {
+  if (!item) return null;
+
+  const toSeconds = (v) => {
+    if (!v) return 0;
+    if (typeof v === "number") return v;
+    if (typeof v === "string") {
+      const n = Number(v);
+      if (!Number.isNaN(n)) return n > 1e12 ? Math.floor(n / 1000) : n;
+      const ts = new Date(v).getTime();
+      if (!Number.isNaN(ts)) return Math.floor(ts / 1000);
+    }
+    return 0;
+  };
+
+  const rawReactions = Array.isArray(item.reactions)
+    ? item.reactions
+    : Array.isArray(item.emoji_reactions)
+      ? item.emoji_reactions
+      : [];
+
+  const reactions = rawReactions
+    .map((r) => ({
+      emoji: r?.emoji || r?.reaction || "",
+      sender: r?.sender || r?.uid || "",
+    }))
+    .filter((r) => r.emoji);
+
+  const body = item.body || item.msg || item.text || "";
+  const createdAt =
+    toSeconds(item.create_time) ||
+    toSeconds(item.created_at) ||
+    toSeconds(item.createdAt) ||
+    Math.floor(Date.now() / 1000);
+
+  const id =
+    item.id ||
+    item.uid ||
+    item.message_uid ||
+    item.message_id ||
+    `${conversationId || "conversation"}-lk-${index}-${createdAt}`;
+
+  return {
+    id,
+    uid: conversationId || item.conversation_uid || item.conversation_id || "",
+    sender: item.sender || item.from || item.user || "",
+    text: body,
+    body,
+    create_time: createdAt,
+    update_time: createdAt,
+    reply_moment: item.reply_moment || item.replyMoment || null,
+    thumbnail_url: replaceFirebaseWithCDN(
+      item.thumbnail_url || item.thumbnailUrl || null,
+    ),
+    reactions,
   };
 }
 

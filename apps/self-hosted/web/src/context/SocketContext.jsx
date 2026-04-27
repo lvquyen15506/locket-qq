@@ -8,6 +8,7 @@ export function SocketProvider({ children }) {
   const { user } = useAuthStore();
   const socketRef = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [socketState, setSocketState] = useState("idle");
 
   useEffect(() => {
     const idToken = localStorage.getItem("idToken");
@@ -15,16 +16,32 @@ export function SocketProvider({ children }) {
 
     // ❗ Chỉ tạo socket nếu chưa có
     if (!socketRef.current) {
+      setSocketState("connecting");
       socketRef.current = createSocket(idToken, {
-        onConnect: () => setIsConnected(true),
-        onDisconnect: () => setIsConnected(false),
-        onError: () => setIsConnected(false),
+        onConnect: () => {
+          setIsConnected(true);
+          setSocketState("connected");
+        },
+        onDisconnect: () => {
+          setIsConnected(false);
+        },
+        onError: () => {
+          setIsConnected(false);
+          setSocketState("unavailable");
+        },
+        onStateChange: (state) => {
+          setSocketState(state);
+          if (state === "connected") setIsConnected(true);
+          if (state === "unavailable") setIsConnected(false);
+        },
       });
     }
 
     return () => {
       socketRef.current?.disconnect();
       socketRef.current = null;
+      setIsConnected(false);
+      setSocketState("idle");
     };
   }, [user?.uid]);
 
@@ -33,6 +50,7 @@ export function SocketProvider({ children }) {
       value={{
         socket: socketRef.current,
         isConnected,
+        socketState,
       }}
     >
       {children}
