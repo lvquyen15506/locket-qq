@@ -137,6 +137,21 @@ const fetchConversationMessages = async ({
       .map((doc) => normalizeConversationMessage(doc, conversationId))
       .filter(Boolean);
 
+    if (messages.length === 0) {
+      const inline = await fetchInlineConversationMessages({
+        idToken,
+        userId,
+        conversationId,
+      });
+
+      if (inline.length > 0) {
+        return {
+          messages: inline,
+          nextPageToken: null,
+        };
+      }
+    }
+
     return {
       messages,
       nextPageToken: response.data.nextPageToken || null,
@@ -150,6 +165,51 @@ const fetchConversationMessages = async ({
       messages: [],
       nextPageToken: null,
     };
+  }
+};
+
+const fetchInlineConversationMessages = async ({
+  idToken,
+  userId,
+  conversationId,
+}) => {
+  try {
+    const response = await instanceFirestore.get(
+      `/(default)/documents/users/${userId}/conversations/${conversationId}`,
+      {
+        meta: {
+          idToken,
+        },
+      },
+    );
+
+    const doc = response.data;
+    const fields = doc?.fields || {};
+
+    const inlineMessagesRaw = fields.messages?.arrayValue?.values || [];
+    const inlineMessages = inlineMessagesRaw
+      .map((item, index) =>
+        normalizeInlineMessage(
+          item?.mapValue?.fields,
+          conversationId,
+          `${conversationId}-inline-${index}`,
+        ),
+      )
+      .filter(Boolean);
+
+    if (inlineMessages.length > 0) {
+      return inlineMessages;
+    }
+
+    const latest = normalizeInlineMessage(
+      fields.latest_message?.mapValue?.fields,
+      conversationId,
+      `${conversationId}-latest`,
+    );
+
+    return latest ? [latest] : [];
+  } catch {
+    return [];
   }
 };
 
@@ -292,6 +352,47 @@ function normalizeConversationMessage(doc, conversationId) {
     reply_moment: f.reply_moment?.stringValue || null,
     thumbnail_url: replaceFirebaseWithCDN(f.thumbnail_url?.stringValue),
     reactions: parseReactions(f.reactions),
+  };
+}
+
+function normalizeInlineMessage(fields, conversationId, fallbackId) {
+  if (!fields) return null;
+
+  const toSeconds = (ts) =>
+    ts ? Math.floor(new Date(ts).getTime() / 1000) : 0;
+
+  const parseReactions = (rawReactions) => {
+    const values = rawReactions?.arrayValue?.values || [];
+    return values
+      .map((item) => {
+        const reactionFields = item?.mapValue?.fields;
+        if (!reactionFields) return null;
+
+        return {
+          emoji: reactionFields.emoji?.stringValue || "",
+          sender: reactionFields.sender?.stringValue || "",
+        };
+      })
+      .filter(Boolean);
+  };
+
+  const body = fields.body?.stringValue || "";
+  const createdAt = toSeconds(fields.created_at?.timestampValue);
+
+  return {
+    id:
+      fields.id?.stringValue ||
+      fields.uid?.stringValue ||
+      fallbackId,
+    uid: conversationId,
+    sender: fields.sender?.stringValue || "",
+    text: body,
+    body,
+    create_time: createdAt,
+    update_time: createdAt,
+    reply_moment: fields.reply_moment?.stringValue || null,
+    thumbnail_url: replaceFirebaseWithCDN(fields.thumbnail_url?.stringValue),
+    reactions: parseReactions(fields.reactions),
   };
 }
 
