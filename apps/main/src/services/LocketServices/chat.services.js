@@ -177,67 +177,116 @@ const normalizeDirectMessage = (item, conversationId, idx) => {
   };
 };
 
+const fetchMessagesWithUserDirectPage = async ({
+  idToken,
+  conversationId,
+  withUser,
+  timestamp,
+  limit,
+}) => {
+  const payloads = [
+    {
+      data: {
+        conversation_uid: conversationId || null,
+        with_user: withUser || null,
+        message_id: conversationId || withUser || null,
+        timestamp,
+        limit,
+      },
+    },
+    {
+      data: {
+        with_user: withUser || conversationId || null,
+        timestamp,
+        limit,
+      },
+    },
+  ];
+
+  for (const body of payloads) {
+    try {
+      const response = await instanceLocket.post("getMessageWithUserV2", body, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+          ...loginHeader,
+        },
+      });
+
+      const raw =
+        response?.data?.data ||
+        response?.data?.result?.data ||
+        response?.data?.result?.messages ||
+        response?.data?.messages ||
+        [];
+
+      const list = Array.isArray(raw)
+        ? raw
+        : Array.isArray(raw?.messages)
+          ? raw.messages
+          : [];
+
+      const normalized = list
+        .map((item, idx) => normalizeDirectMessage(item, conversationId, idx))
+        .filter(Boolean);
+
+      if (normalized.length > 0) return normalized;
+    } catch {
+      // thử payload khác
+    }
+  }
+
+  return [];
+};
+
 export const getMessagesWithUserDirect = async ({
   conversationId,
   withUser,
   timestamp = null,
-  limit = 100,
+  limit = 50,
+  maxPages = 6,
 }) => {
   try {
     const { idToken } = getToken();
+    const merged = new Map();
 
-    const payloads = [
-      {
-        data: {
-          conversation_uid: conversationId || null,
-          with_user: withUser || null,
-          message_id: conversationId || withUser || null,
-          timestamp,
-          limit,
-        },
-      },
-      {
-        data: {
-          with_user: withUser || conversationId || null,
-          timestamp,
-          limit,
-        },
-      },
-    ];
+    let cursor = timestamp;
+    let lastSize = 0;
 
-    for (const body of payloads) {
-      try {
-        const response = await instanceLocket.post("getMessageWithUserV2", body, {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-            ...loginHeader,
-          },
-        });
+    for (let page = 0; page < maxPages; page += 1) {
+      const pageItems = await fetchMessagesWithUserDirectPage({
+        idToken,
+        conversationId,
+        withUser,
+        timestamp: cursor,
+        limit,
+      });
 
-        const raw =
-          response?.data?.data ||
-          response?.data?.result?.data ||
-          response?.data?.result?.messages ||
-          response?.data?.messages ||
-          [];
+      if (!pageItems.length) break;
 
-        const list = Array.isArray(raw)
-          ? raw
-          : Array.isArray(raw?.messages)
-            ? raw.messages
-            : [];
+      pageItems.forEach((m) => {
+        if (m?.id) merged.set(m.id, m);
+      });
 
-        const normalized = list
-          .map((item, idx) => normalizeDirectMessage(item, conversationId, idx))
-          .filter(Boolean);
+      if (merged.size === lastSize) break;
+      lastSize = merged.size;
 
-        if (normalized.length > 0) return normalized;
-      } catch {
-        // thử payload khác
-      }
+      const oldest = pageItems.reduce((minTs, m) => {
+        const ts = Number(m?.create_time || 0);
+        if (!ts) return minTs;
+        if (!minTs) return ts;
+        return Math.min(minTs, ts);
+      }, 0);
+
+      if (!oldest) break;
+
+      const nextCursor = oldest - 1;
+      if (cursor && nextCursor >= cursor) break;
+      cursor = nextCursor;
     }
 
-    return [];
+    return [...merged.values()].sort(
+      (a, b) => Number(b.update_time || 0) - Number(a.update_time || 0)
+    );
   } catch (err) {
     console.error("getMessagesWithUserDirect error:", err);
     return [];

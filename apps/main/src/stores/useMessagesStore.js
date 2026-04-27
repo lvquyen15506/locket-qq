@@ -86,11 +86,15 @@ export const useMessagesStore = create((set, get) => ({
   },
 
   // ==== 3️⃣ Lấy tin nhắn theo userId (conversationId) ====
-  getMessagesByUser: async (conversationId, fallbackConversationId = null) => {
+  getMessagesByUser: async (
+    conversationId,
+    fallbackConversationId = null,
+    forceRefresh = false
+  ) => {
     const { messages } = get();
 
     // 1. Nếu đã cache → trả ngay
-    if (messages[conversationId]?.length) {
+    if (!forceRefresh && messages[conversationId]?.length) {
       return messages[conversationId];
     }
 

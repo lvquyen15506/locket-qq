@@ -107,6 +107,17 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
     fetchConversations();
   }, [idToken]);
 
+  // Poll conversations khi realtime chưa connected.
+  useEffect(() => {
+    if (!idToken || socketState === "connected") return;
+
+    const intervalId = setInterval(() => {
+      fetchConversations();
+    }, 8000);
+
+    return () => clearInterval(intervalId);
+  }, [idToken, socketState, fetchConversations]);
+
   // ================= Chọn chat =================
   const handleSelectChat = async (chat) => {
     setSelectedChat(chat);
@@ -119,6 +130,17 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
       await markReadMessage(chat.uid);
     }
   };
+
+  // Poll messages của chat đang mở khi realtime chưa connected.
+  useEffect(() => {
+    if (!selectedChat?.uid || socketState === "connected") return;
+
+    const intervalId = setInterval(() => {
+      getMessagesByUser(selectedChat.uid, selectedChat.with_user || null, true);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [selectedChat?.uid, selectedChat?.with_user, socketState, getMessagesByUser]);
 
   // ================= Load more conversations =================
   const handleLoadMore = () => {
