@@ -19,6 +19,7 @@ const defaultBucket = () => ({
   hasMore: true,
   isLoadingMore: false,
   visibleCount: initialVisible,
+  nextPageToken: null,
 });
 
 /* --------------------------------------------------
@@ -91,13 +92,13 @@ export const useMomentsStoreV2 = create((set, get) => ({
       }
 
       /* ---------- API sync ---------- */
-      const apiData = await GetAllMoments({
-        timestamp: Math.floor(Date.now() / 1000),
+      const response = await GetAllMoments({
+        timestamp: null, // Dùng pageToken thay thế
         friendId: selectedFriendUid,
         limit: initialVisible,
       });
 
-      if (apiData?.length) {
+      if (response?.data?.length) {
         set((state) => {
           const bucket = state.momentsByUser[key] ?? defaultBucket();
           return {
@@ -105,14 +106,15 @@ export const useMomentsStoreV2 = create((set, get) => ({
               ...state.momentsByUser,
               [key]: {
                 ...bucket,
-                items: [...apiData].sort((a, b) => b.createTime - a.createTime),
+                items: [...response.data].sort((a, b) => b.createTime - a.createTime),
+                nextPageToken: response.nextPageToken,
               },
             },
           };
         });
 
         // cache lại local
-        await bulkAddMoments(apiData);
+        await bulkAddMoments(response.data);
       }
     } catch (err) {
       console.error("❌ fetchMoments error:", err);
@@ -177,13 +179,13 @@ export const useMomentsStoreV2 = create((set, get) => ({
       }
 
       /* ---------- API sync ---------- */
-      const apiData = await GetAllMoments({
-        timestamp: Math.floor(Date.now() / 1000),
+      const response = await GetAllMoments({
+        timestamp: null,
         friendId: selectedFriendUid,
         limit: initialVisible,
       });
 
-      if (apiData?.length) {
+      if (response?.data?.length) {
         set((state) => {
           const bucket = state.momentsByUser[key] ?? defaultBucket();
           return {
@@ -191,14 +193,15 @@ export const useMomentsStoreV2 = create((set, get) => ({
               ...state.momentsByUser,
               [key]: {
                 ...bucket,
-                items: [...apiData].sort((a, b) => b.createTime - a.createTime),
+                items: [...response.data].sort((a, b) => b.createTime - a.createTime),
+                nextPageToken: response.nextPageToken,
               },
             },
           };
         });
 
         // cache lại local
-        await bulkAddMoments(apiData);
+        await bulkAddMoments(response.data);
       }
     } catch (err) {
       console.error("❌ fetchMoments error:", err);
@@ -247,15 +250,13 @@ export const useMomentsStoreV2 = create((set, get) => ({
     });
 
     try {
-      const lastCreateTime = bucket.items[bucket.items.length - 1].createTime;
-
-      const older = await GetAllMoments({
-        timestamp: lastCreateTime,
+      const response = await GetAllMoments({
+        timestamp: bucket.nextPageToken, // Gửi nextPageToken thay vì createTime
         friendId: selectedFriendUid,
         limit: loadMoreLimit,
       });
 
-      if (!older?.length) {
+      if (!response?.data?.length) {
         set((state) => {
           const b = state.momentsByUser[key];
           if (!b) return state;
@@ -265,6 +266,7 @@ export const useMomentsStoreV2 = create((set, get) => ({
               [key]: {
                 ...b,
                 hasMore: false,
+                nextPageToken: null,
               },
             },
           };
@@ -277,7 +279,7 @@ export const useMomentsStoreV2 = create((set, get) => ({
         if (!b) return state;
 
         const existingIds = new Set(b.items.map((i) => i.id));
-        const filtered = older.filter((m) => !existingIds.has(m.id));
+        const filtered = response.data.filter((m) => !existingIds.has(m.id));
 
         return {
           momentsByUser: {
@@ -285,13 +287,15 @@ export const useMomentsStoreV2 = create((set, get) => ({
             [key]: {
               ...b,
               items: [...b.items, ...filtered],
-              hasMore: older.length === loadMoreLimit,
+              hasMore: !!response.nextPageToken,
+              nextPageToken: response.nextPageToken,
+              visibleCount: b.visibleCount + response.data.length, // Tăng số lượng hiển thị ngay
             },
           },
         };
       });
 
-      await bulkAddMoments(older);
+      await bulkAddMoments(response.data);
     } catch (err) {
       console.error("❌ loadMoreOlder error:", err);
     } finally {

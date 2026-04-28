@@ -7,7 +7,10 @@ export const GetAllMoments = async ({ timestamp = null, friendId = null, limit =
       friendId: friendId,
       limit: limit,
     });
-    return res.data?.data;
+    return {
+      data: res.data?.data,
+      nextPageToken: res.data?.nextPageToken,
+    };
   } catch (err) {
     console.warn("Failed", err);
   }

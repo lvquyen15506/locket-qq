@@ -74,8 +74,15 @@ class LocketController {
   async getMoments(req, res, next) {
     try {
       const { idToken, localId } = req.user;
+      const { timestamp, friendId, limit } = req.body;
 
-      const data = await postServices.getLocketMoments(idToken, localId);
+      const data = await postServices.getLocketMoments(
+        idToken,
+        localId,
+        timestamp,
+        friendId,
+        limit,
+      );
       return res.status(200).json({
         data: data.moments,
         nextPageToken: data.nextPageToken,
