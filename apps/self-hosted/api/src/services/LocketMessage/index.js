@@ -145,6 +145,23 @@ const fetchMessagesViaLocketApi = async ({
   limit,
 }) => {
   const candidates = [
+    // 1. Chỉ dùng with_user (ổn định nhất để lấy history)
+    {
+      data: {
+        with_user: withUser || conversationId || null,
+        timestamp: pageToken || null,
+        limit: limit || 50,
+      },
+    },
+    // 2. Chỉ dùng conversation_uid
+    {
+      data: {
+        conversation_uid: conversationId || null,
+        timestamp: pageToken || null,
+        limit: limit || 50,
+      },
+    },
+    // 3. Cả hai (v2 standard)
     {
       data: {
         conversation_uid: conversationId || null,
@@ -153,13 +170,11 @@ const fetchMessagesViaLocketApi = async ({
         limit: limit || 50,
       },
     },
+    // 4. legacy format
     {
-      data: {
-        with_user: withUser || conversationId || null,
-        timestamp: pageToken || null,
-        limit: limit || 50,
-      },
-    },
+      with_user: withUser || conversationId || null,
+      limit: limit || 50,
+    }
   ];
 
   for (const payload of candidates) {

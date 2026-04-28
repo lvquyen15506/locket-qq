@@ -93,8 +93,8 @@ export const useMessagesStore = create((set, get) => ({
   ) => {
     const { messages } = get();
 
-    // 1. Nếu đã cache → trả ngay
-    if (!forceRefresh && messages[conversationId]?.length) {
+    // 1. Nếu đã cache và đủ nhiều tin nhắn (>= 5) → trả ngay
+    if (!forceRefresh && messages[conversationId]?.length >= 5) {
       return messages[conversationId];
     }
 
