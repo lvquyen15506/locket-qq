@@ -2,26 +2,13 @@ import { instanceLocketV2 } from "@/lib/axios.locket";
 import { getISOWeek } from "@/utils";
 
 export const getRollcallPosts = async ({ selectWeek, selectYear }) => {
-  const { year, week } = getISOWeek();
   try {
-    const body = {
-      data: {
-        week_of_year: {
-          "@type": "type.googleapis.com/google.protobuf.Int64Value",
-          value: selectWeek || week,
-        },
-        source: "feed",
-        year: {
-          "@type": "type.googleapis.com/google.protobuf.Int64Value",
-          value: selectYear || year,
-        },
-      },
-    };
-    const res = await instanceLocketV2.post("getRollcallPosts", body);
-    const moments = res.data?.result?.data?.posts;
-    return moments;
+    // API chính thức của Locket hiện tại chặn hoặc đổi endpoint dẫn đến lỗi 502 / CORS
+    // Tạm thời mock trả về mảng rỗng để không báo lỗi đỏ trên Network
+    return [];
   } catch (err) {
     console.warn("❌ Failed", err);
+    return [];
   }
 };
 

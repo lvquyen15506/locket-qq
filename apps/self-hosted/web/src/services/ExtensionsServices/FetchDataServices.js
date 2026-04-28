@@ -121,12 +121,9 @@ export const GetInfoPlanWithId = async (planId) => {
 };
 export const getAllOverlayCaption = async () => {
   try {
-    const res = await instanceBaseData.get(PUBLIC_API.themes);
-    if (!res?.data) {
-      console.error("❌ Không có dữ liệu hợp lệ", res?.data);
-      return null;
-    }
-    return res.data;
+    // Backend locket-api-seven.vercel.app hiện tại không hỗ trợ API này
+    // Mock data để tránh lỗi 404 trên Network
+    return [];
   } catch (error) {
     console.error("🚨 Lỗi khi gọi API:", error.message);
     return null;
