@@ -12,40 +12,29 @@ class ConvertController {
 
       const lowerUrl = url.toLowerCase();
 
-      // 1. Tối ưu: Nếu là HEIC/HEIF thì server Vercel (ram 1024mb) rất dễ bị quá tải khi xử lý nhiều ảnh.
-      // Giải pháp: Backend ngầm gọi sang API có sẵn để xử lý hộ (giấu hoàn toàn URL với Frontend).
+      // 1. Tự chủ 100%: Dùng thư viện heic-convert để xử lý HEIC ngay trên Vercel
       if (lowerUrl.includes(".heic") || lowerUrl.includes(".heif")) {
         try {
-          // Ngầm mượn VPS locket-dio để xử lý nặng
-          const dioResponse = await axios.get(
-            `https://api.locket-dio.com/api/convert?url=${encodeURIComponent(url)}`,
-            { responseType: "arraybuffer", timeout: 15000 }
-          );
-          
-          res.set("Content-Type", "image/webp");
-          res.set("Cache-Control", "public, max-age=31536000");
-          return res.send(dioResponse.data);
-        } catch (proxyError) {
-          console.warn("Locket-dio convert failed, falling back to local processing:", proxyError.message);
-          
-          // Fallback: Tự convert nếu API ngoài sập (có nguy cơ timeout trên Vercel)
           const response = await axios.get(url, { responseType: "arraybuffer" });
           const imageBuffer = response.data;
           
           const outputBuffer = await heicConvert({
             buffer: imageBuffer,
             format: "JPEG",
-            quality: 0.8,
+            quality: 0.6, // Giảm chất lượng xuống một chút để xử lý siêu tốc, tránh timeout Vercel
           });
           
-          const webpBuffer = await sharp(outputBuffer).webp({ quality: 80 }).toBuffer();
+          const webpBuffer = await sharp(outputBuffer).webp({ quality: 75 }).toBuffer();
           res.set("Content-Type", "image/webp");
           res.set("Cache-Control", "public, max-age=31536000");
           return res.send(webpBuffer);
+        } catch (localError) {
+          console.error("Lỗi xử lý HEIC cục bộ:", localError.message);
+          return res.status(500).json({ message: "Lỗi xử lý ảnh nội bộ" });
         }
       }
 
-      // 2. Nếu là ảnh bình thường (jpg, png) -> Vercel tự xử lý nhẹ nhàng
+      // 2. Nếu là ảnh bình thường (jpg, png) -> Vercel tự xử lý bằng Sharp
       const response = await axios.get(url, { responseType: "arraybuffer" });
       const imageBuffer = response.data;
       
@@ -53,7 +42,7 @@ class ConvertController {
 
       // 3. Trả về cho frontend
       res.set("Content-Type", "image/webp");
-      res.set("Cache-Control", "public, max-age=31536000"); // Cache 1 năm trên CDN
+      res.set("Cache-Control", "public, max-age=31536000"); // Cache 1 năm
       return res.send(webpBuffer);
     } catch (error) {
       console.error("Lỗi khi convert ảnh:", error.message);
