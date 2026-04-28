@@ -99,7 +99,7 @@ const MomentsGrid = ({
   const handleLoadMore = () => {
     if (visibleCount < moments.length) {
       increaseVisibleCount();
-    } else if (hasMore && selectedFriendUid) {
+    } else if (hasMore) {
       loadMoreOlder(selectedFriendUid);
     }
   };
