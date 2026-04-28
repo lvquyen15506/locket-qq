@@ -8,7 +8,7 @@ exports.videoPostPayloadDefault = ({ videoUrl, thumbnailUrl, optionsData }) => {
     data.caption = caption;
   }
 
-  return { data };
+  return { data, caption };
 };
 
 exports.videoPostPayloadDecorative = ({
@@ -29,7 +29,10 @@ exports.videoPostPayloadDecorative = ({
       text: caption,
       text_color: text_color,
       type: "static_content",
-      max_lines: 1,
+      max_lines: {
+        "@type": "type.googleapis.com/google.protobuf.Int64Value",
+        value: "4",
+      },
       icon: {
         type: "emoji",
         data: icon,
@@ -44,7 +47,7 @@ exports.videoPostPayloadDecorative = ({
     overlay_type: "caption",
   });
 
-  return { data };
+  return { data, caption };
 };
 
 exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
@@ -60,7 +63,10 @@ exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
       text: caption,
       text_color: text_color,
       type: "static_content",
-      max_lines: 1,
+      max_lines: {
+        "@type": "type.googleapis.com/google.protobuf.Int64Value",
+        value: "4",
+      },
       icon: {
         type: "emoji",
         data: icon,
@@ -75,7 +81,7 @@ exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
     overlay_type: "caption",
   });
 
-  return { data };
+  return { data, caption };
 };
 
 exports.videoPostPayloadIcon = ({ videoUrl, thumbnailUrl, optionsData }) => {
@@ -91,7 +97,10 @@ exports.videoPostPayloadIcon = ({ videoUrl, thumbnailUrl, optionsData }) => {
       text: caption,
       text_color: text_color,
       type: "static_content",
-      max_lines: 1,
+      max_lines: {
+        "@type": "type.googleapis.com/google.protobuf.Int64Value",
+        value: "4",
+      },
       icon: {
         type: "image",
         data: icon,
@@ -106,5 +115,5 @@ exports.videoPostPayloadIcon = ({ videoUrl, thumbnailUrl, optionsData }) => {
     overlay_type: "caption",
   });
 
-  return { data };
+  return { data, caption };
 };

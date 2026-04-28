@@ -8,7 +8,7 @@ exports.imagePostPayloadDefault = ({ imageUrl, optionsData }) => {
   if (caption?.trim()) {
     data.caption = caption;
   }
-  return { data };
+  return { data, caption };
 };
 
 exports.imagePostPayloadDecorative = ({ imageUrl, optionsData }) => {
@@ -40,7 +40,7 @@ exports.imagePostPayloadDecorative = ({ imageUrl, optionsData }) => {
     overlay_type: "caption",
   });
 
-  return { data };
+  return { data, caption };
 };
 
 exports.imagePostPayloadCustome = ({ imageUrl, optionsData }) => {
@@ -71,7 +71,7 @@ exports.imagePostPayloadCustome = ({ imageUrl, optionsData }) => {
     overlay_type: "caption",
   });
 
-  return { data };
+  return { data, caption };
 };
 
 exports.imagePostPayloadIcon = ({ imageUrl, optionsData }) => {
@@ -102,5 +102,5 @@ exports.imagePostPayloadIcon = ({ imageUrl, optionsData }) => {
     overlay_type: "caption",
   });
 
-  return { data };
+  return { data, caption };
 };
