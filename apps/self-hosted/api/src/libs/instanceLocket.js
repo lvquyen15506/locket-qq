@@ -23,8 +23,6 @@ const instanceLocketV2 = axios.create({
     ...loginHeader,
     "Content-Type": "application/json",
     Accept: "application/json",
-    "X-Locket-App-Version": "3.170.0",
-    "X-Locket-Build-Number": "16550",
     "x-app-api": "v2.2.1",
     "x-app-client": "Beta1.0.0.3",
     "x-app-env": "production",

@@ -43,7 +43,7 @@ exports.videoPostPayloadDecorative = ({
       },
     },
     alt_text: caption,
-    overlay_id: `caption:${overlay_id}`,
+    overlay_id: overlay_id === "standard" ? "caption" : `caption:${overlay_id}`,
     overlay_type: "caption",
   });
 
