@@ -254,16 +254,14 @@ export const useMessagesStore = create((set, get) => ({
 
   // ==== 5️⃣ Remove message ====
   removeMessage: (msgId) => {
-    const { messages, conversations } = get();
-    const updatedMessages = messages.filter((m) => m.id !== msgId);
-    const updatedConversations = Object.fromEntries(
-      Object.entries(conversations).map(([uid, msgs]) => [
-        uid,
-        msgs.filter((m) => m.id !== msgId),
-      ])
-    );
-    set({ messages: updatedMessages, conversations: updatedConversations });
-    // deleteMessageById(msgId) nếu muốn xoá local DB
+    const { messages } = get();
+    const updatedMessages = {};
+    
+    Object.entries(messages).forEach(([userId, userMsgs]) => {
+      updatedMessages[userId] = userMsgs.filter((m) => m.id !== msgId);
+    });
+    
+    set({ messages: updatedMessages });
   },
 
   // ==== 6️⃣ Reset / scroll ====
