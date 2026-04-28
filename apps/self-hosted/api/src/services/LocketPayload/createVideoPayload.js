@@ -8,7 +8,7 @@ exports.videoPostPayloadDefault = ({ videoUrl, thumbnailUrl, optionsData }) => {
     data.caption = caption;
   }
 
-  return { data, caption };
+  return { data };
 };
 
 exports.videoPostPayloadDecorative = ({
@@ -47,7 +47,7 @@ exports.videoPostPayloadDecorative = ({
     overlay_type: "caption",
   });
 
-  return { data, caption };
+  return { data };
 };
 
 exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
@@ -81,7 +81,7 @@ exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
     overlay_type: "caption",
   });
 
-  return { data, caption };
+  return { data };
 };
 
 exports.videoPostPayloadIcon = ({ videoUrl, thumbnailUrl, optionsData }) => {
@@ -115,5 +115,5 @@ exports.videoPostPayloadIcon = ({ videoUrl, thumbnailUrl, optionsData }) => {
     overlay_type: "caption",
   });
 
-  return { data, caption };
+  return { data };
 };
