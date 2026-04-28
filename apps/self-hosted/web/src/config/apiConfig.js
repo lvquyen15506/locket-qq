@@ -38,7 +38,7 @@ export const PUBLIC_API = {
   backgroundList: "v1/public/getAllbackgrounds",
   celebrates: "v1/public/getAllCelebrate",
   notifications: "v1/public/notification",
-  plans: "v1/public/dio-plans",
+  plans: "v1/public/qq-plans",
   themes: "v1/public/themes",
   incidents: "v1/public/getAllIncident",
   collection: "v1/public/getAllCollections"
