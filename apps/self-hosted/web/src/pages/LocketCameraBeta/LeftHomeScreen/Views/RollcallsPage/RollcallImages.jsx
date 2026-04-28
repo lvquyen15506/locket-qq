@@ -118,10 +118,13 @@ function LazyImage({ sources = [], alt = "", className = "" }) {
   const [sourceIndex, setSourceIndex] = useState(0);
   const currentSrc = sources[sourceIndex] || "";
 
+  // Dùng chuỗi join để tránh re-render mỗi khi parent render (do mảng mới được tạo)
+  const sourcesKey = sources.join(",");
+
   useEffect(() => {
     setSourceIndex(0);
     setLoaded(false);
-  }, [sources]);
+  }, [sourcesKey]);
 
   const handleError = () => {
     if (sourceIndex < sources.length - 1) {
