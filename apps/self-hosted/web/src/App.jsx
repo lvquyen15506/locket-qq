@@ -14,7 +14,7 @@ import { AppProvider } from "./context/AppContext";
 import getLayout from "./layouts";
 import NotFoundPage from "./components/pages/NotFoundPage";
 import { Toaster } from "sonner";
-import { SocketProvider } from "./context/SocketContext";
+// SocketProvider đã chuyển xuống LocketCameraBeta (chỉ dùng cho tin nhắn + moments)
 import {
   useAuthStore,
   useFriendStoreV2,
@@ -28,14 +28,12 @@ import LoadingPageMain from "./components/pages/LoadPageMain";
 function App() {
   return (
     <ThemeProvider>
-      <SocketProvider>
-        <AppProvider>
-          <Router>
-            <AppContent />
-          </Router>
-          <Toaster />
-        </AppProvider>
-      </SocketProvider>
+      <AppProvider>
+        <Router>
+          <AppContent />
+        </Router>
+        <Toaster />
+      </AppProvider>
     </ThemeProvider>
   );
 }

@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import MainHomeScreen from "./MainHomeScreen";
 import { MusicPlayer } from "./Widgets/MusicPlayer";
 import { useUIStore } from "@/stores/useUIStore";
+import { SocketProvider } from "@/context/SocketContext";
 // import CropVideoStudio from "./ModalViews/CropVideoStudio";
 // const Snowfall = lazy(() => import("@/components/Effects/SnowBanner"));
 const BgLocketQQ = lazy(() => import("@/components/Effects/BgLocketQQ"));
@@ -42,7 +43,7 @@ export default function LocketCameraBeta() {
   }, []);
 
   return (
-    <>
+    <SocketProvider>
       <Suspense fallback={null}>
         <BgLocketQQ bgSrc={background?.url}/>
       </Suspense>
@@ -74,6 +75,6 @@ export default function LocketCameraBeta() {
       <span className="fixed pointer-events-none z-60 bottom-3 right-4 text-xs text-gray-400 select-none">
         © Locket QQ
       </span>
-    </>
+    </SocketProvider>
   );
 }
