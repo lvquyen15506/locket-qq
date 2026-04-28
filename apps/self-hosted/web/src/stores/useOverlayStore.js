@@ -1,8 +1,13 @@
 // stores/useOverlayStore.js
 import { create } from "zustand";
 import { getAllOverlayCaption, getCollabCaption } from "@/services";
+import {
+  DEFAULT_CAPTION_IDS,
+  DEFAULT_CAPTIONS_DATA,
+} from "@/config/defaultCaptions";
 
 const USER_CAPTION_KEY = "Yourcaptions";
+const DEFAULT_CACHE_KEY = "DefaultCaptionsCache";
 
 const sortByOrderIndex = (themes) => {
   return [...themes].sort(
@@ -18,6 +23,33 @@ const groupThemesByType = (themes) => ({
   image_gif: sortByOrderIndex(themes.filter((t) => t.type === "image_gif")),
   special: sortByOrderIndex(themes.filter((t) => t.type === "special")),
 });
+
+/**
+ * Lấy caption mặc định đã cache (fetch từ ID)
+ */
+const getCachedDefaults = () => {
+  try {
+    return JSON.parse(localStorage.getItem(DEFAULT_CACHE_KEY) || "[]");
+  } catch {
+    return [];
+  }
+};
+
+/**
+ * Gộp tất cả caption: user saved + fetched defaults + static defaults
+ * Ưu tiên: user > fetched > static (loại trùng id)
+ */
+const mergeAllCaptions = (userSaved) => {
+  const cachedDefaults = getCachedDefaults();
+  const all = [...userSaved, ...cachedDefaults, ...DEFAULT_CAPTIONS_DATA];
+  // Loại trùng ID, giữ bản đầu tiên (ưu tiên user > cached > static)
+  const seen = new Set();
+  return all.filter((c) => {
+    if (seen.has(c.id)) return false;
+    seen.add(c.id);
+    return true;
+  });
+};
 
 export const useOverlayStore = create((set, get) => ({
   captionOverlays: {
@@ -83,12 +115,49 @@ export const useOverlayStore = create((set, get) => ({
 
    /* ===============================
    *  USER CAPTIONS KANADE (LOCAL)
+   *  Merge: user saved + fetched defaults + static defaults
    * =============================== */
-  userCaptions: JSON.parse(localStorage.getItem(USER_CAPTION_KEY) || "[]"),
+  userCaptions: mergeAllCaptions(
+    JSON.parse(localStorage.getItem(USER_CAPTION_KEY) || "[]")
+  ),
+
+  /**
+   * Fetch caption mặc định từ DEFAULT_CAPTION_IDS (chạy 1 lần)
+   * Kết quả cache vào localStorage để không fetch lại
+   */
+  fetchDefaultCaptions: async () => {
+    if (DEFAULT_CAPTION_IDS.length === 0) return;
+
+    const cached = getCachedDefaults();
+    const cachedIds = new Set(cached.map((c) => c.id));
+
+    // Chỉ fetch những ID chưa cache
+    const idsToFetch = DEFAULT_CAPTION_IDS.filter((id) => !cachedIds.has(id));
+    if (idsToFetch.length === 0) return;
+
+    const results = await Promise.allSettled(
+      idsToFetch.map((id) => getCollabCaption(id))
+    );
+
+    const newCaptions = results
+      .filter((r) => r.status === "fulfilled" && r.value)
+      .map((r) => r.value);
+
+    if (newCaptions.length > 0) {
+      const updatedCache = [...cached, ...newCaptions];
+      localStorage.setItem(DEFAULT_CACHE_KEY, JSON.stringify(updatedCache));
+
+      // Cập nhật UI
+      const userSaved = JSON.parse(
+        localStorage.getItem(USER_CAPTION_KEY) || "[]"
+      );
+      set({ userCaptions: mergeAllCaptions(userSaved) });
+    }
+  },
 
   loadUserCaptions: () => {
     const saved = JSON.parse(localStorage.getItem(USER_CAPTION_KEY) || "[]");
-    set({ userCaptions: saved });
+    set({ userCaptions: mergeAllCaptions(saved) });
   },
 
   addUserCaptionById: async (captionId) => {
@@ -97,15 +166,17 @@ export const useOverlayStore = create((set, get) => ({
 
       if (!result) throw new Error("Caption not found");
 
-      const current = get().userCaptions;
+      const savedCaptions = JSON.parse(
+        localStorage.getItem(USER_CAPTION_KEY) || "[]"
+      );
 
-      const updated = [
+      const updatedSaved = [
         result,
-        ...current.filter((c) => c.id !== result.id),
+        ...savedCaptions.filter((c) => c.id !== result.id),
       ];
 
-      localStorage.setItem(USER_CAPTION_KEY, JSON.stringify(updated));
-      set({ userCaptions: updated });
+      localStorage.setItem(USER_CAPTION_KEY, JSON.stringify(updatedSaved));
+      set({ userCaptions: mergeAllCaptions(updatedSaved) });
 
       return { success: true };
     } catch (error) {
@@ -115,13 +186,24 @@ export const useOverlayStore = create((set, get) => ({
   },
 
   removeUserCaption: (id) => {
-    const updated = get().userCaptions.filter((c) => c.id !== id);
-    localStorage.setItem(USER_CAPTION_KEY, JSON.stringify(updated));
-    set({ userCaptions: updated });
+    // Chỉ xóa khỏi localStorage (caption mặc định không xóa được)
+    const savedCaptions = JSON.parse(
+      localStorage.getItem(USER_CAPTION_KEY) || "[]"
+    );
+    const updatedSaved = savedCaptions.filter((c) => c.id !== id);
+    localStorage.setItem(USER_CAPTION_KEY, JSON.stringify(updatedSaved));
+
+    // Nếu là caption mặc định (static hoặc cached) thì không xóa khỏi UI
+    const isStaticDefault = DEFAULT_CAPTIONS_DATA.some((c) => c.id === id);
+    const isCachedDefault = getCachedDefaults().some((c) => c.id === id);
+    if (isStaticDefault || isCachedDefault) return;
+
+    set({ userCaptions: mergeAllCaptions(updatedSaved) });
   },
 
   clearUserCaptions: () => {
     localStorage.removeItem(USER_CAPTION_KEY);
-    set({ userCaptions: [] });
+    // Reset về chỉ còn caption mặc định
+    set({ userCaptions: mergeAllCaptions([]) });
   },
 }));
