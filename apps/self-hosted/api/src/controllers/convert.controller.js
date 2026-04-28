@@ -1,4 +1,4 @@
-saoconst axios = require("axios");
+const axios = require("axios");
 const sharp = require("sharp");
 const heicConvert = require("heic-convert");
 
