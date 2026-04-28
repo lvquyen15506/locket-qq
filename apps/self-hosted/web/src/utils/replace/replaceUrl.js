@@ -7,7 +7,7 @@ export function getImageSrc(url) {
 
   // chỉ convert khi là heic / heif
   if (lower.includes(".heic") || lower.includes(".heif")) {
-    const convertApi = CONFIG.api.convertApi || "https://api.locket-dio.com";
+    const convertApi = CONFIG.api.convertApi || CONFIG.api.baseUrl;
     return `${convertApi}/api/convert?url=${encodeURIComponent(url)}`;
   }
 
