@@ -1,4 +1,4 @@
-import { instanceMain } from "../lib/axios.main";
+import { instanceMain } from "@/lib/axios.main";
 
 export const getCollabCaption = async (captionId) => {
   try {
