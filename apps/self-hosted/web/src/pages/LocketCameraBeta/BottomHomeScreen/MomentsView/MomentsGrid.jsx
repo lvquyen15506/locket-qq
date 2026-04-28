@@ -54,6 +54,13 @@ const MomentsGrid = ({
     }
   }, [hasFetched, moments.length]);
 
+  // Tự động tải dữ liệu khi component mount
+  useEffect(() => {
+    if (!hasFetched && onStartFetch && !loading) {
+      onStartFetch();
+    }
+  }, [hasFetched, onStartFetch, loading]);
+
   // Intersection Observer
   useEffect(() => {
     if (!lastElementRef.current) return;
@@ -97,26 +104,6 @@ const MomentsGrid = ({
     }
   };
 
-  // Chưa bấm tải → hiện nút "Bắt đầu xem"
-  if (!hasFetched) {
-    return (
-      <div className="grid grid-cols-3 md:grid-cols-6 md:gap-2 w-full h-full">
-        <div
-          onClick={onStartFetch}
-          className="aspect-square bg-base-200 rounded-2xl border-2 border-dashed border-base-content/30 flex flex-col justify-center items-center cursor-pointer hover:bg-base-300 transition-colors"
-        >
-          <div className="text-2xl mb-1">+</div>
-          <div className="text-xs font-medium text-base-content/70">
-            Bắt đầu xem
-          </div>
-          <div className="text-[10px] text-base-content/50 mt-1">
-            Nhấn để tải dữ liệu
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (moments.length === 0 && !loading) {
     return (
       <div className="grid grid-cols-3 md:grid-cols-6 md:gap-2 w-full h-full">
@@ -135,23 +122,17 @@ const MomentsGrid = ({
       {/* Nút hành động */}
       <div className="flex flex-wrap gap-2 w-full justify-center items-center mb-2">
         <button
-          className="btn btn-sm btn-primary rounded-full"
-          disabled={loadingMoments}
+          className="btn btn-sm btn-primary rounded-full px-6"
+          disabled={loadingMoments || loading}
           onClick={refreshMoments}
         >
-          {loadingMoments ? (
+          {(loadingMoments || loading) ? (
             <>
               Đang tải <span className="loading loading-dots loading-xs"></span>
             </>
           ) : (
-            "📥 Lấy bài mới nhất"
+            "🔄 Làm mới"
           )}
-        </button>
-        <button
-          className="btn btn-sm btn-outline btn-error rounded-full"
-          onClick={onClearCache}
-        >
-          🗑️ Xoá cache
         </button>
       </div>
 
