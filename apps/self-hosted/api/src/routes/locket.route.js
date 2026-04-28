@@ -24,6 +24,7 @@ router.post("/postMomentV1", verifyIdToken, saveUploadFile, locketController.upl
 router.post("/postMomentV2", verifyIdToken, locketController.uploadMediaV2);
 
 router.post("/getInfoMomentV2", verifyIdToken, locketController.getInfoMoments);
+router.post("/getMomentViews", verifyIdToken, locketController.getMomentViews);
 router.post("/getMomentV2", verifyIdToken, locketController.getMoments);
 router.post("/getRollcallPosts", verifyIdToken, locketController.getRollcallPosts);
 router.post("/getAllMessageV2", verifyIdToken, locketController.getMessages);

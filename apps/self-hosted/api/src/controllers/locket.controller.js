@@ -95,8 +95,25 @@ class LocketController {
       const data = await postServices.getInfoLocketMoments(idToken, idMoment);
 
       return res.status(200).json({
-        data: data.moments,
-        nextPageToken: data.nextPageToken,
+        data: data,
+        nextPageToken: null,
+        success: true,
+        message: "ok",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMomentViews(req, res, next) {
+    try {
+      const { idToken } = req.user;
+      const { idMoment } = req.body;
+      
+      const data = await postServices.getMomentViews(idToken, idMoment);
+
+      return res.status(200).json({
+        data: data,
         success: true,
         message: "ok",
       });

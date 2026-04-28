@@ -1,4 +1,4 @@
-const { instanceFirestore } = require("../../libs");
+const { instanceFirestore, instanceLocketV2 } = require("../../libs");
 
 const getInfoLocketMoments = async (idToken, idMoment) => {
   // Helper: fetch tất cả page nếu có nextPageToken
@@ -67,6 +67,29 @@ function normalizeReactions(documents) {
   });
 }
 
+const getMomentViews = async (idToken, idMoment) => {
+  try {
+    const body = {
+      data: {
+        moment_uid: idMoment,
+      },
+    };
+    
+    // Gọi trực tiếp đến Locket API bằng quyền của idToken
+    const res = await instanceLocketV2.post("getMomentViews", body, {
+      meta: {
+        idToken,
+      },
+    });
+    
+    return res.data?.result?.data || [];
+  } catch (error) {
+    console.error("❌ Lỗi khi lấy moment views:", error.response?.data || error.message);
+    return [];
+  }
+};
+
 module.exports = {
   getInfoLocketMoments,
+  getMomentViews,
 };

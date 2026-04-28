@@ -156,8 +156,8 @@ const InputForMoment = () => {
         try {
           setIsLoadingActivity(true);
           const info = await GetInfoMoment(selectedMomentId);
-          const views = await GetViewsMoment(selectedMomentId)
-          const { reactions = [] } = info;
+          const views = await GetViewsMoment(selectedMomentId);
+          const { reactions = [] } = info || {};
           // Lấy đúng mảng views từ API trả về (tránh bị lỗi undefined .map)
           const viewArray = Array.isArray(views?.moment_views) 
             ? views.moment_views 

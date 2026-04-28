@@ -1,4 +1,4 @@
-const { getInfoLocketMoments } = require("./getInfoMoment");
+const { getInfoLocketMoments, getMomentViews } = require("./getInfoMoment");
 const { getLocketMoments } = require("./getMoment");
 const { getRollcallPosts } = require("./getRollcallPosts");
 const { postImageToLocket, postImageToLocketV2 } = require("./postImageMoment");
@@ -12,6 +12,7 @@ module.exports = {
   postVideoToLocketV2,
 
   getInfoLocketMoments,
+  getMomentViews,
 
   getLocketMoments,
 

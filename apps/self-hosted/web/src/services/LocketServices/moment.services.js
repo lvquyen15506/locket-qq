@@ -26,16 +26,13 @@ export const SendReactMoment = async (emoji, selectedMomentId, power) => {
 
 export const GetViewsMoment = async (idMoment) => {
   try {
-    const body = {
-      data: {
-        moment_uid: idMoment
-      }
-    }
-    const res = await instanceLocketV2.post("getMomentViews", body);
-    const moments = res.data.result?.data;
+    const res = await api.post("/locket/getMomentViews", {
+      idMoment: idMoment
+    });
+    const moments = res.data?.data;
     return moments;
   } catch (err) {
-    console.warn("❌ React Failed", err);
+    console.warn("❌ getMomentViews Failed", err);
   }
 };
 
