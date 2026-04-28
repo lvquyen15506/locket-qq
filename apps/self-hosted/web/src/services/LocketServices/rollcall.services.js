@@ -1,4 +1,4 @@
-import { instanceLocketV2 } from "@/lib/axios.locket";
+import { instanceMain } from "@/lib/axios";
 import { getISOWeek } from "@/utils";
 
 export const getRollcallPosts = async ({ selectWeek, selectYear }) => {
@@ -17,8 +17,9 @@ export const getRollcallPosts = async ({ selectWeek, selectYear }) => {
         },
       },
     };
-    const res = await instanceLocketV2.post("getRollcallPosts", body);
-    const moments = res.data?.result?.data?.posts;
+    // Thay đổi: Gọi qua backend của locket-api-seven thay vì gọi trực tiếp Locket
+    const res = await instanceMain.post("/locket/getRollcallPosts", body);
+    const moments = res.data?.data;
     return moments;
   } catch (err) {
     console.warn("❌ Failed", err);

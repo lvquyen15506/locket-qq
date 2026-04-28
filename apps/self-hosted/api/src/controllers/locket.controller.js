@@ -105,6 +105,22 @@ class LocketController {
     }
   }
 
+  async getRollcallPosts(req, res, next) {
+    try {
+      const { idToken } = req.user;
+      
+      const data = await postServices.getRollcallPosts(idToken, req.body);
+      
+      return res.status(200).json({
+        data: data?.result?.data?.posts || [],
+        success: true,
+        message: "ok",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getMessages(req, res, next) {
     try {
       const { idToken, localId } = req.user;
