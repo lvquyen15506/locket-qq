@@ -1,4 +1,4 @@
-const axios = require("axios");
+saoconst axios = require("axios");
 const sharp = require("sharp");
 const heicConvert = require("heic-convert");
 
@@ -17,13 +17,13 @@ class ConvertController {
         try {
           const response = await axios.get(url, { responseType: "arraybuffer" });
           const imageBuffer = response.data;
-          
+
           const outputBuffer = await heicConvert({
             buffer: imageBuffer,
             format: "JPEG",
             quality: 0.6, // Giảm chất lượng xuống một chút để xử lý siêu tốc, tránh timeout Vercel
           });
-          
+
           const webpBuffer = await sharp(outputBuffer).webp({ quality: 75 }).toBuffer();
           res.set("Content-Type", "image/webp");
           res.set("Cache-Control", "public, max-age=31536000");
@@ -37,7 +37,7 @@ class ConvertController {
       // 2. Nếu là ảnh bình thường (jpg, png) -> Vercel tự xử lý bằng Sharp
       const response = await axios.get(url, { responseType: "arraybuffer" });
       const imageBuffer = response.data;
-      
+
       const webpBuffer = await sharp(imageBuffer).webp({ quality: 80 }).toBuffer();
 
       // 3. Trả về cho frontend

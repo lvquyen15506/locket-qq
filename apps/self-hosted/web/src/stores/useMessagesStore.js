@@ -20,6 +20,7 @@ export const useMessagesStore = create((set, get) => ({
   hasMore: true,
   visibleCount: initialVisible,
   isLoadingMore: false,
+  isLoadingOlder: false,
 
   // ==== 2️⃣ Fetch tất cả conversations từ local → API ====
   fetchConversations: async () => {
@@ -141,6 +142,61 @@ export const useMessagesStore = create((set, get) => ({
     }
 
     return local;
+  },
+
+  // ==== 3.5️⃣ Tải thêm tin nhắn cũ ====
+  loadOlderMessages: async (conversationId, fallbackConversationId = null, timestamp) => {
+    if (!timestamp || get().isLoadingOlder) return;
+
+    set({ isLoadingOlder: true });
+    try {
+      let apiData = await getMessagesWithUser({
+        messageId: conversationId,
+        conversationId,
+        withUser: fallbackConversationId,
+        timestamp,
+      });
+
+      if (
+        (!apiData || apiData.length === 0) &&
+        fallbackConversationId &&
+        fallbackConversationId !== conversationId
+      ) {
+        apiData = await getMessagesWithUser({
+          messageId: fallbackConversationId,
+          conversationId: fallbackConversationId,
+          withUser: fallbackConversationId,
+          timestamp,
+        });
+      }
+
+      if (apiData?.length) {
+        const { messages } = get();
+        const current = messages[conversationId] || [];
+        
+        // Gộp tin nhắn cũ với hiện tại, loại bỏ trùng lặp
+        const mergedMap = new Map([...current, ...apiData].map(m => [m.id, m]));
+        const merged = [...mergedMap.values()].sort(
+          (a, b) => b.update_time - a.update_time
+        );
+
+        set({
+          messages: {
+            ...messages,
+            [conversationId]: merged,
+          },
+        });
+        
+        await saveMessages(apiData);
+        return apiData.length;
+      }
+      return 0;
+    } catch (err) {
+      console.error("Load older messages error:", err);
+      return 0;
+    } finally {
+      set({ isLoadingOlder: false });
+    }
   },
 
   // ==== 4️⃣ Add message mới ====

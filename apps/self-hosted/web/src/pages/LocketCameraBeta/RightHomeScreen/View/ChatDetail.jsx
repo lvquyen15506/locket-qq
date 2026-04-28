@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo, useLayoutEffect } from "react";
 import ChatDetailHeader from "../Layout/HeaderChatDetail";
 import ChatDetailFooter from "../Layout/InputChatDetail";
+import { useMessagesStore } from "@/stores";
 
 // ================= Component: ChatMessageItem =================
 const ChatMessageItem = ({ msg, selectedChat }) => {
@@ -55,6 +56,9 @@ const ChatMessageItem = ({ msg, selectedChat }) => {
 const ChatDetail = ({ selectedChat, messages, setSelectedChat, isLoading }) => {
   const [message, setMessage] = useState("");
   const messagesContainerRef = useRef(null);
+  const { loadOlderMessages } = useMessagesStore();
+  const [isFetchingOlder, setIsFetchingOlder] = useState(false);
+  const isUserScrollingRef = useRef(false);
 
   // Sort tin nhắn theo thời gian tăng dần
   const sortedMessages = useMemo(() => {
@@ -63,13 +67,49 @@ const ChatDetail = ({ selectedChat, messages, setSelectedChat, isLoading }) => {
     );
   }, [messages]);
 
-  // Auto scroll xuống cuối khi mở hoặc khi có tin nhắn mới
+  // Handle scroll to load older messages
+  const handleScroll = async (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    
+    // Kiểm tra xem user có đang ở bottom không
+    const isAtBottom = scrollHeight - scrollTop - clientHeight < 10;
+    isUserScrollingRef.current = !isAtBottom;
+
+    if (scrollTop === 0 && sortedMessages.length > 0 && !isFetchingOlder) {
+      const oldestMessage = sortedMessages[0];
+      if (oldestMessage && oldestMessage.create_time) {
+        setIsFetchingOlder(true);
+        const previousScrollHeight = messagesContainerRef.current.scrollHeight;
+
+        await loadOlderMessages(
+          selectedChat.uid,
+          selectedChat.with_user || null,
+          oldestMessage.create_time
+        );
+
+        requestAnimationFrame(() => {
+          if (messagesContainerRef.current) {
+            const newScrollHeight = messagesContainerRef.current.scrollHeight;
+            messagesContainerRef.current.scrollTop = newScrollHeight - previousScrollHeight;
+          }
+        });
+        
+        setIsFetchingOlder(false);
+      }
+    }
+  };
+
+  // Auto scroll xuống cuối khi mở hoặc khi có tin nhắn mới (chỉ cuộn nếu không phải đang tải tin nhắn cũ)
   useLayoutEffect(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
+    if (messagesContainerRef.current && !isFetchingOlder && !isUserScrollingRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   }, [sortedMessages, selectedChat]);
+
+  // Reset scroll state khi chuyển chat
+  useLayoutEffect(() => {
+    isUserScrollingRef.current = false;
+  }, [selectedChat]);
 
   return (
     <div
@@ -87,8 +127,15 @@ const ChatDetail = ({ selectedChat, messages, setSelectedChat, isLoading }) => {
       {/* Danh sách tin nhắn */}
       <div
         ref={messagesContainerRef}
+        onScroll={handleScroll}
         className="flex-1 overflow-y-auto p-4 space-y-4 h-full"
       >
+        {isFetchingOlder && (
+          <div className="flex justify-center py-2">
+            <span className="loading loading-spinner text-primary loading-sm"></span>
+          </div>
+        )}
+
         {isLoading ? (
           // Loading skeleton
           <div className="flex flex-col space-y-4">

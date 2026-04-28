@@ -113,7 +113,7 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
 
     const intervalId = setInterval(() => {
       fetchConversations();
-    }, 8000);
+    }, 20000); // Tăng lên 20s để giảm tải
 
     return () => clearInterval(intervalId);
   }, [idToken, socketState, fetchConversations]);
@@ -135,9 +135,10 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
   useEffect(() => {
     if (!selectedChat?.uid || socketState === "connected") return;
 
+    // Giảm tần suất gọi API xuống 15 giây để tránh sập Vercel
     const intervalId = setInterval(() => {
       getMessagesByUser(selectedChat.uid, selectedChat.with_user || null, true);
-    }, 5000);
+    }, 15000);
 
     return () => clearInterval(intervalId);
   }, [selectedChat?.uid, selectedChat?.with_user, socketState, getMessagesByUser]);
