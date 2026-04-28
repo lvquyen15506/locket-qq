@@ -12,7 +12,10 @@ exports.imagePostPayloadDefault = ({ imageUrl, optionsData }) => {
         text: caption,
         text_color: "#FFFFFFE6",
         type: "standard",
-        max_lines: 4,
+        max_lines: {
+          "@type": "type.googleapis.com/google.protobuf.Int64Value",
+          value: "4",
+        },
         background: {
           colors: [],
           material_blur: "ultra_thin",
