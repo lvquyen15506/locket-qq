@@ -40,8 +40,9 @@ const getCachedDefaults = () => {
  * Ưu tiên: user > fetched > static (loại trùng id)
  */
 const mergeAllCaptions = (userSaved) => {
-  const cachedDefaults = getCachedDefaults();
-  const all = [...userSaved, ...cachedDefaults, ...DEFAULT_CAPTIONS_DATA];
+  const cachedDefaults = getCachedDefaults().map(c => ({ ...c, isDefault: true }));
+  const staticDefaults = DEFAULT_CAPTIONS_DATA.map(c => ({ ...c, isDefault: true }));
+  const all = [...userSaved, ...cachedDefaults, ...staticDefaults];
   // Loại trùng ID, giữ bản đầu tiên (ưu tiên user > cached > static)
   const seen = new Set();
   return all.filter((c) => {

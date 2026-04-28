@@ -168,13 +168,15 @@ export default function ManageCaption() {
               key={preset.id}
               className="relative flex flex-col items-center"
             >
-              {/* Nút xoá */}
-              <button
-                onClick={() => handleDelete(preset.id)}
-                className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center shadow-md hover:bg-red-600 transition"
-              >
-                ✕
-              </button>
+              {/* Nút xoá (chỉ hiện với caption do user tự thêm) */}
+              {!preset.isDefault && (
+                <button
+                  onClick={() => handleDelete(preset.id)}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center shadow-md hover:bg-red-600 transition"
+                >
+                  ✕
+                </button>
+              )}
 
               {/* Nút chọn caption */}
               <button
