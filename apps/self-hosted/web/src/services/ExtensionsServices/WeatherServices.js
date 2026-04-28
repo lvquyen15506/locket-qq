@@ -7,8 +7,13 @@ export const getInfoWeather = async ({lat, lon}) => {
   }
 
   try {
-    // Backend locket-api-seven.vercel.app hiện tại không hỗ trợ API /api/weatherV2
-    // Mock data để tránh lỗi 404 trên Network
+    const res = await instanceMain.post("/api/weatherV2", { lat, lon });
+
+    if (res?.data?.status === "success") {
+      return res.data.data;
+    }
+
+    console.error("❌ getInfoWeather: Không có dữ liệu hợp lệ", res?.data);
     return null;
   } catch (error) {
     console.error("🚨 Lỗi khi gọi getInfoWeather:", error.message);
