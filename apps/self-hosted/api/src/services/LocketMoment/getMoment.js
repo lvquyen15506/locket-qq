@@ -1,4 +1,4 @@
-const { instanceFirestore } = require("../../libs");
+const { instanceFirestore, instanceLocketV2 } = require("../../libs");
 
 const getLocketMoments = async (
   idToken,
@@ -7,10 +7,39 @@ const getLocketMoments = async (
   userUid,
   limit = 20,
 ) => {
+  // 🚀 Ưu tiên lấy từ Locket API nếu là trang đầu (để có ảnh mới nhất)
+  if (!pageToken) {
+    try {
+      const payload = {
+        data: {
+          limit: limit || 50,
+          friend_uid: userUid || null,
+        }
+      };
+
+      const res = await instanceLocketV2.post("getMomentV2", payload, {
+        meta: { idToken }
+      });
+
+      const rawMoments = res.data?.result?.data || [];
+      if (rawMoments.length > 0) {
+        const moments = rawMoments.map(normalizeApiMoment).filter(Boolean);
+        return {
+          moments,
+          nextPageToken: moments.length > 0 ? moments[moments.length - 1].createTime.toString() : null,
+        };
+      }
+    } catch (err) {
+      console.warn("⚠️ Không thể lấy ảnh từ Locket API, đang thử Firestore...", err.message);
+    }
+  }
+
+  // 🏛️ Fallback/Pagination dùng Firestore history
+  try {
     let allMoments = [];
     let currentNextPageToken = pageToken;
     let attempts = 0;
-    const maxAttempts = userUid ? 5 : 1; // Nếu lọc theo bạn bè, thử tối đa 5 trang
+    const maxAttempts = userUid ? 5 : 1; 
 
     do {
       attempts++;
@@ -18,7 +47,15 @@ const getLocketMoments = async (
         orderBy: "date desc",
         pageSize: (currentNextPageToken || userUid) ? 100 : limit,
       };
-      if (currentNextPageToken) currentParams.pageToken = currentNextPageToken;
+      if (currentNextPageToken) {
+        // Kiểm tra nếu là timestamp (từ API) hay là pageToken (từ Firestore)
+        if (!isNaN(currentNextPageToken)) {
+           // Nếu là timestamp, Firestore listDocuments không hỗ trợ tốt.
+           // Tạm thời bỏ qua pageToken và lấy trang đầu tiên của Firestore
+        } else {
+           currentParams.pageToken = currentNextPageToken;
+        }
+      }
 
       const response = await instanceFirestore.get(
         `/locket/documents/history/${userId}/entries`,
@@ -40,10 +77,6 @@ const getLocketMoments = async (
       allMoments = allMoments.concat(pageMoments);
       currentNextPageToken = response.data.nextPageToken || null;
 
-      // Dừng nếu:
-      // 1. Tìm thấy ít nhất 1 bài (nếu có userUid) hoặc đã lấy xong trang đầu (nếu không có userUid)
-      // 2. Hết dữ liệu (currentNextPageToken null)
-      // 3. Quá số lần thử
       if (allMoments.length > 0 || !currentNextPageToken || attempts >= maxAttempts) {
         break;
       }
@@ -113,8 +146,8 @@ function normalizeMoment(doc) {
       icon: parseFirestoreValue(overlayData.icon),
       payload: parseFirestoreValue(overlayData.payload),
     },
-    createTime: doc.createTime || null,
-    updateTime: doc.updateTime || null,
+    createTime: doc.createTime ? new Date(doc.createTime).getTime() : null,
+    updateTime: doc.updateTime ? new Date(doc.updateTime).getTime() : null,
   };
 }
 
@@ -145,6 +178,33 @@ function parseFirestoreValue(v) {
     return (v.arrayValue.values || []).map(parseFirestoreValue);
   }
   return null;
+}
+
+function normalizeApiMoment(item) {
+  if (!item) return null;
+
+  return {
+    id: item.id || item.canonical_uid || item.canonicalUid || "",
+    caption: item.caption || "",
+    user: item.user || item.user_uid || item.userUid || null,
+    thumbnailUrl: replaceFirebaseWithCDN(
+      item.thumbnail_url || item.thumbnailUrl
+    ),
+    videoUrl: replaceFirebaseWithCDN(item.video_url || item.videoUrl),
+    md5: item.md5 || null,
+    date: item.date || item.create_time || item.createTime || null,
+    isPublic: item.sent_to_all || item.sentToAll || false,
+    overlays: item.overlays || null,
+    createTime: toNumericTimestamp(item.create_time || item.createTime),
+    updateTime: toNumericTimestamp(item.update_time || item.updateTime),
+  };
+}
+
+function toNumericTimestamp(v) {
+  if (!v) return null;
+  if (typeof v === "number") return v > 1e12 ? v : v * 1000;
+  const ts = new Date(v).getTime();
+  return isNaN(ts) ? null : ts;
 }
 
 module.exports = {
