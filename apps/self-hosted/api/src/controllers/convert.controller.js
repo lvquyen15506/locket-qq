@@ -10,28 +10,48 @@ class ConvertController {
         return res.status(400).json({ message: "Missing url parameter" });
       }
 
-      // 1. Tải ảnh từ Firebase/Locket CDN
-      const response = await axios.get(url, { responseType: "arraybuffer" });
-      const imageBuffer = response.data;
-
       const lowerUrl = url.toLowerCase();
-      let outputBuffer = imageBuffer;
 
-      // 2. Nếu là HEIC/HEIF thì convert sang JPEG trước
+      // 1. Tối ưu: Nếu là HEIC/HEIF thì server Vercel (ram 1024mb) rất dễ bị quá tải khi xử lý nhiều ảnh.
+      // Giải pháp: Backend ngầm gọi sang API có sẵn để xử lý hộ (giấu hoàn toàn URL với Frontend).
       if (lowerUrl.includes(".heic") || lowerUrl.includes(".heif")) {
-        outputBuffer = await heicConvert({
-          buffer: imageBuffer,
-          format: "JPEG",
-          quality: 0.8,
-        });
+        try {
+          // Ngầm mượn VPS locket-dio để xử lý nặng
+          const dioResponse = await axios.get(
+            `https://api.locket-dio.com/api/convert?url=${encodeURIComponent(url)}`,
+            { responseType: "arraybuffer", timeout: 15000 }
+          );
+          
+          res.set("Content-Type", "image/webp");
+          res.set("Cache-Control", "public, max-age=31536000");
+          return res.send(dioResponse.data);
+        } catch (proxyError) {
+          console.warn("Locket-dio convert failed, falling back to local processing:", proxyError.message);
+          
+          // Fallback: Tự convert nếu API ngoài sập (có nguy cơ timeout trên Vercel)
+          const response = await axios.get(url, { responseType: "arraybuffer" });
+          const imageBuffer = response.data;
+          
+          const outputBuffer = await heicConvert({
+            buffer: imageBuffer,
+            format: "JPEG",
+            quality: 0.8,
+          });
+          
+          const webpBuffer = await sharp(outputBuffer).webp({ quality: 80 }).toBuffer();
+          res.set("Content-Type", "image/webp");
+          res.set("Cache-Control", "public, max-age=31536000");
+          return res.send(webpBuffer);
+        }
       }
 
-      // 3. Nén sang WEBP để tối ưu tốc độ load trên web
-      const webpBuffer = await sharp(outputBuffer)
-        .webp({ quality: 80 })
-        .toBuffer();
+      // 2. Nếu là ảnh bình thường (jpg, png) -> Vercel tự xử lý nhẹ nhàng
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const imageBuffer = response.data;
+      
+      const webpBuffer = await sharp(imageBuffer).webp({ quality: 80 }).toBuffer();
 
-      // 4. Trả về cho frontend
+      // 3. Trả về cho frontend
       res.set("Content-Type", "image/webp");
       res.set("Cache-Control", "public, max-age=31536000"); // Cache 1 năm trên CDN
       return res.send(webpBuffer);
