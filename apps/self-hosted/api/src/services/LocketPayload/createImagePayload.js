@@ -31,6 +31,10 @@ exports.imagePostPayloadDecorative = ({ imageUrl, optionsData }) => {
     optionsData;
   const data = createBaseImagePayload({ imageUrl, optionsData });
 
+  if (caption?.trim()) {
+    data.caption = caption;
+  }
+
   data.overlays.push({
     data: {
       text: caption,
@@ -58,6 +62,10 @@ exports.imagePostPayloadCustome = ({ imageUrl, optionsData }) => {
   const { caption, text_color, color_top, color_bottom, icon } = optionsData;
   const data = createBaseImagePayload({ imageUrl, optionsData });
 
+  if (caption?.trim()) {
+    data.caption = caption;
+  }
+
   data.overlays.push({
     data: {
       text: caption,
@@ -84,6 +92,10 @@ exports.imagePostPayloadCustome = ({ imageUrl, optionsData }) => {
 exports.imagePostPayloadIcon = ({ imageUrl, optionsData }) => {
   const { caption, text_color, color_top, color_bottom, icon } = optionsData;
   const data = createBaseImagePayload({ imageUrl, optionsData });
+
+  if (caption?.trim()) {
+    data.caption = caption;
+  }
 
   data.overlays.push({
     data: {

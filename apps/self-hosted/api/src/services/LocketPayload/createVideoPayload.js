@@ -35,6 +35,10 @@ exports.videoPostPayloadDecorative = ({
     optionsData;
   const data = createBaseVideoPayload({ videoUrl, thumbnailUrl, optionsData });
 
+  if (caption?.trim()) {
+    data.caption = caption;
+  }
+
   data.overlays.push({
     data: {
       text: caption,
@@ -62,6 +66,10 @@ exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
   const { caption, text_color, color_top, color_bottom, icon } = optionsData;
   const data = createBaseVideoPayload({ videoUrl, thumbnailUrl, optionsData });
 
+  if (caption?.trim()) {
+    data.caption = caption;
+  }
+
   data.overlays.push({
     data: {
       text: caption,
@@ -88,6 +96,10 @@ exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
 exports.videoPostPayloadIcon = ({ videoUrl, thumbnailUrl, optionsData }) => {
   const { caption, text_color, color_top, color_bottom, icon } = optionsData;
   const data = createBaseVideoPayload({ videoUrl, thumbnailUrl, optionsData });
+
+  if (caption?.trim()) {
+    data.caption = caption;
+  }
 
   data.overlays.push({
     data: {
