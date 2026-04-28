@@ -1,4 +1,4 @@
-import { instanceMain } from "@/lib/axios";
+import { instanceMain } from "@/lib/axios.main";
 import { getISOWeek } from "@/utils";
 
 export const getRollcallPosts = async ({ selectWeek, selectYear }) => {
