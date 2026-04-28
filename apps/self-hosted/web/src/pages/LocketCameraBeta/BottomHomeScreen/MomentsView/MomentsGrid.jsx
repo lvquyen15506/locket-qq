@@ -122,7 +122,7 @@ const MomentsGrid = ({
       {/* Nút hành động */}
       <div className="flex flex-wrap gap-2 w-full justify-center items-center mb-2">
         <button
-          className="btn btn-sm btn-primary rounded-full px-6"
+          className="btn btn-sm rounded-full px-6 bg-base-100 hover:bg-base-200 border-base-300 font-normal shadow-sm"
           disabled={loadingMoments || loading}
           onClick={refreshMoments}
         >
@@ -131,7 +131,7 @@ const MomentsGrid = ({
               Đang tải <span className="loading loading-dots loading-xs"></span>
             </>
           ) : (
-            "🔄 Làm mới"
+            "Làm mới"
           )}
         </button>
       </div>

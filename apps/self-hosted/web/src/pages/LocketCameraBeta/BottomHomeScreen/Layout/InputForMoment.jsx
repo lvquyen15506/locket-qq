@@ -158,9 +158,14 @@ const InputForMoment = () => {
           const info = await GetInfoMoment(selectedMomentId);
           const views = await GetViewsMoment(selectedMomentId)
           const { reactions = [] } = info;
+          // Lấy đúng mảng views từ API trả về (tránh bị lỗi undefined .map)
+          const viewArray = Array.isArray(views?.moment_views) 
+            ? views.moment_views 
+            : Array.isArray(views) ? views : [];
+
           // Map qua từng view, gắn thêm userInfo + reaction (nếu có)
           const merged = await Promise.all(
-            views?.moment_views.map(async (view) => {
+            viewArray.map(async (view) => {
               const userInfo = await getFriendDetail(view.user);
               const reaction = reactions.find((r) => r.user === view.user);
 
