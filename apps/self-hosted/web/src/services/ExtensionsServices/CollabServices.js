@@ -1,13 +1,13 @@
-import axios from "axios";
+import { instanceMain } from "../lib/axios.main";
 
 export const getCollabCaption = async (captionId) => {
   try {
-    const res = await axios.post("https://api.captionkanade.site/api/get_captions_id_V2", {
+    const res = await instanceMain.post("/api/collab/getCaption", {
       id: captionId,
     });
     return res.data?.caption || null;
   } catch (error) {
-    console.error("🚨 Lỗi khi gọi API:", error.message);
+    console.error("🚨 Lỗi khi gọi API proxy:", error.message);
     return null;
   }
 };
