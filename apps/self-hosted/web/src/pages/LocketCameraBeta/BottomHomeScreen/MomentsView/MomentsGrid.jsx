@@ -11,6 +11,7 @@ const MomentsGrid = ({
   loadMoreOlder,
   hasMore,
   loading,
+  isLoadingMore = false,
   hasFetched = false,
   onStartFetch,
   onClearCache,
@@ -77,7 +78,7 @@ const MomentsGrid = ({
           return;
         }
 
-        if (loadMoreOlder && hasMore) {
+        if (loadMoreOlder && hasMore && !isLoadingMore) {
           loadMoreOlder(selectedFriendUid);
         }
       },
@@ -113,7 +114,11 @@ const MomentsGrid = ({
         >
           <div className="text-2xl mb-1">+</div>
           <div className="text-xs font-medium text-base-content/70">
-            {hasMore ? "Tải thêm bài viết" : "Không có dữ liệu"}
+            {isLoadingMore ? (
+              <span className="loading loading-dots loading-sm"></span>
+            ) : (
+              hasMore ? "Tải thêm bài viết" : "Không có dữ liệu"
+            )}
           </div>
         </div>
       </div>
@@ -208,8 +213,14 @@ const MomentsGrid = ({
             className="aspect-square overflow-hidden cursor-pointer bg-base-300 rounded-2xl relative group flex items-center justify-center border-2 border-dashed border-base-content/30 hover:bg-base-200 transition-colors"
           >
             <div className="text-center">
-              <div className="text-2xl mb-1">+</div>
-              <div className="text-xs text-base-content/70">Xem thêm</div>
+              {isLoadingMore ? (
+                <span className="loading loading-spinner loading-md"></span>
+              ) : (
+                <>
+                  <div className="text-2xl mb-1">+</div>
+                  <div className="text-xs text-base-content/70">Xem thêm</div>
+                </>
+              )}
             </div>
           </div>
         )}

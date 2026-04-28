@@ -204,6 +204,7 @@ const BottomHomeScreen = () => {
           loadMoreOlder={loadMoreOlder}
           hasMore={hasMore}
           loading={loading}
+          isLoadingMore={bucket?.isLoadingMore}
           hasFetched={hasFetched}
           onStartFetch={handleStartFetch}
           onClearCache={handleClearCache}

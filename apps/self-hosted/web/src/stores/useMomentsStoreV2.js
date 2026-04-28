@@ -230,7 +230,13 @@ export const useMomentsStoreV2 = create((set, get) => ({
     const bucket = get().momentsByUser[key];
     if (!bucket) return;
 
-    if (bucket.isLoadingMore || !bucket.hasMore || !bucket.items.length) {
+    // Chỉ dừng nếu đang load, hoặc đã hết bài thật sự (không còn token và không có items)
+    if (bucket.isLoadingMore || !bucket.hasMore) {
+      return;
+    }
+    
+    // Nếu không có items và cũng không có nextPageToken thì không có mốc để tải tiếp
+    if (bucket.items.length === 0 && !bucket.nextPageToken) {
       return;
     }
 
