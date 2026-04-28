@@ -7,37 +7,51 @@ const getLocketMoments = async (
   userUid,
   limit = 20,
 ) => {
-  const params = {
-    orderBy: "date desc",
-    pageSize: pageToken ? 100 : limit,
-  };
+    let allMoments = [];
+    let currentNextPageToken = pageToken;
+    let attempts = 0;
+    const maxAttempts = userUid ? 5 : 1; // Nếu lọc theo bạn bè, thử tối đa 5 trang
 
-  if (pageToken) params.pageToken = pageToken;
+    do {
+      attempts++;
+      const currentParams = {
+        orderBy: "date desc",
+        pageSize: (currentNextPageToken || userUid) ? 100 : limit,
+      };
+      if (currentNextPageToken) currentParams.pageToken = currentNextPageToken;
 
-  try {
-    const response = await instanceFirestore.get(
-      `/locket/documents/history/${userId}/entries`,
-      {
-        params,
-        meta: {
-          idToken,
+      const response = await instanceFirestore.get(
+        `/locket/documents/history/${userId}/entries`,
+        {
+          params: currentParams,
+          meta: { idToken },
         },
-      },
-    );
-    const documents = response.data.documents || [];
+      );
 
-    // ✅ Chuẩn hoá ngay tại server
-    const moments = documents
-      .map((doc) => {
-        const moment = normalizeMoment(doc);
-        if (userUid && moment?.user !== userUid) return null;
-        return moment;
-      })
-      .filter(Boolean);
+      const documents = response.data.documents || [];
+      const pageMoments = documents
+        .map((doc) => {
+          const moment = normalizeMoment(doc);
+          if (userUid && moment?.user !== userUid) return null;
+          return moment;
+        })
+        .filter(Boolean);
+
+      allMoments = allMoments.concat(pageMoments);
+      currentNextPageToken = response.data.nextPageToken || null;
+
+      // Dừng nếu:
+      // 1. Tìm thấy ít nhất 1 bài (nếu có userUid) hoặc đã lấy xong trang đầu (nếu không có userUid)
+      // 2. Hết dữ liệu (currentNextPageToken null)
+      // 3. Quá số lần thử
+      if (allMoments.length > 0 || !currentNextPageToken || attempts >= maxAttempts) {
+        break;
+      }
+    } while (true);
 
     return {
-      moments,
-      nextPageToken: response.data.nextPageToken || null,
+      moments: allMoments,
+      nextPageToken: currentNextPageToken,
     };
   } catch (error) {
     console.error(

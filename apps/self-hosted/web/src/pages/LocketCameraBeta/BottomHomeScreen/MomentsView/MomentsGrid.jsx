@@ -107,10 +107,13 @@ const MomentsGrid = ({
   if (moments.length === 0 && !loading) {
     return (
       <div className="grid grid-cols-3 md:grid-cols-6 md:gap-2 w-full h-full">
-        <div className="aspect-square bg-base-300 rounded-2xl border-2 border-dashed border-base-content/30 flex flex-col justify-center items-center">
+        <div 
+          onClick={handleLoadMore}
+          className="aspect-square bg-base-300 rounded-2xl border-2 border-dashed border-base-content/30 flex flex-col justify-center items-center cursor-pointer hover:bg-base-200 transition-colors"
+        >
           <div className="text-2xl mb-1">+</div>
           <div className="text-xs font-medium text-base-content/70">
-            Không có dữ liệu
+            {hasMore ? "Tải thêm bài viết" : "Không có dữ liệu"}
           </div>
         </div>
       </div>

@@ -256,7 +256,7 @@ export const useMomentsStoreV2 = create((set, get) => ({
         limit: loadMoreLimit,
       });
 
-      if (!response?.data?.length) {
+      if (!response?.data?.length && !response?.nextPageToken) {
         set((state) => {
           const b = state.momentsByUser[key];
           if (!b) return state;
