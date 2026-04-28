@@ -40,16 +40,26 @@ const getCachedDefaults = () => {
  * Ưu tiên: user > fetched > static (loại trùng id)
  */
 const mergeAllCaptions = (userSaved) => {
-  const cachedDefaults = getCachedDefaults().map(c => ({ ...c, isDefault: true }));
-  const staticDefaults = DEFAULT_CAPTIONS_DATA.map(c => ({ ...c, isDefault: true }));
-  const all = [...userSaved, ...cachedDefaults, ...staticDefaults];
-  // Loại trùng ID, giữ bản đầu tiên (ưu tiên user > cached > static)
+  const cachedDefaults = getCachedDefaults();
+  const all = [...userSaved, ...cachedDefaults, ...DEFAULT_CAPTIONS_DATA];
+  // Loại trùng ID, giữ bản đầu tiên
   const seen = new Set();
-  return all.filter((c) => {
+  const merged = all.filter((c) => {
     if (seen.has(c.id)) return false;
     seen.add(c.id);
     return true;
   });
+
+  // Gán cờ isDefault cho tất cả caption thuộc dạng mặc định (dù nó nằm trong userSaved hay cache)
+  const defaultIds = new Set([
+    ...DEFAULT_CAPTIONS_DATA.map(c => c.id),
+    ...cachedDefaults.map(c => c.id)
+  ]);
+
+  return merged.map(c => ({
+    ...c,
+    isDefault: defaultIds.has(c.id)
+  }));
 };
 
 export const useOverlayStore = create((set, get) => ({
@@ -187,18 +197,14 @@ export const useOverlayStore = create((set, get) => ({
   },
 
   removeUserCaption: (id) => {
-    // Chỉ xóa khỏi localStorage (caption mặc định không xóa được)
+    // Xóa khỏi localStorage (caption mặc định nếu bị xóa khỏi localStorage vẫn sẽ được giữ lại nhờ mergeAllCaptions)
     const savedCaptions = JSON.parse(
       localStorage.getItem(USER_CAPTION_KEY) || "[]"
     );
     const updatedSaved = savedCaptions.filter((c) => c.id !== id);
     localStorage.setItem(USER_CAPTION_KEY, JSON.stringify(updatedSaved));
 
-    // Nếu là caption mặc định (static hoặc cached) thì không xóa khỏi UI
-    const isStaticDefault = DEFAULT_CAPTIONS_DATA.some((c) => c.id === id);
-    const isCachedDefault = getCachedDefaults().some((c) => c.id === id);
-    if (isStaticDefault || isCachedDefault) return;
-
+    // Cập nhật lại UI
     set({ userCaptions: mergeAllCaptions(updatedSaved) });
   },
 
