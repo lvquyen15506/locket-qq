@@ -77,19 +77,25 @@ const getMessagesWithUser = async ({
     };
   };
 
-  let combinedData = {
-    messages: [],
-    nextPageToken: null,
-  };
+  let allFirestoreMessages = [];
+  let finalNextPageToken = null;
 
   for (const candidateId of uniqueIds) {
     const data = await tryFetch(candidateId);
     if (data.messages.length > 0) {
-      combinedData = data;
-      // Nếu đã lấy được kha khá tin nhắn (>= 10), trả về luôn cho nhanh
-      if (data.messages.length >= 10) return data;
-      break;
+      const existingIds = new Set(allFirestoreMessages.map(m => m.id));
+      const newFromFirestore = data.messages.filter(m => !existingIds.has(m.id));
+      allFirestoreMessages = allFirestoreMessages.concat(newFromFirestore);
+      if (!finalNextPageToken) finalNextPageToken = data.nextPageToken;
     }
+  }
+
+  // Nếu đã đủ 10 tin từ Firestore thì trả về luôn
+  if (allFirestoreMessages.length >= 10) {
+    return {
+      messages: allFirestoreMessages.sort((a, b) => (b.create_time || 0) - (a.create_time || 0)),
+      nextPageToken: finalNextPageToken,
+    };
   }
 
   // Nếu vẫn ít tin nhắn, thử Locket API để lấy thêm tin mới nhất
@@ -104,21 +110,24 @@ const getMessagesWithUser = async ({
 
   if (locketApiMessages.length > 0) {
     // Gộp và lọc trùng
-    const existingIds = new Set(combinedData.messages.map(m => m.id));
-    const newMessages = locketApiMessages.filter(m => !existingIds.has(m.id));
+    const existingIds = new Set(allFirestoreMessages.map(m => m.id));
+    const newFromApi = locketApiMessages.filter(m => !existingIds.has(m.id));
     
-    const finalMessages = [...combinedData.messages, ...newMessages].sort(
+    const finalMessages = [...allFirestoreMessages, ...newFromApi].sort(
       (a, b) => (b.create_time || 0) - (a.create_time || 0)
     );
 
     return {
       messages: finalMessages,
-      nextPageToken: combinedData.nextPageToken,
+      nextPageToken: finalNextPageToken,
     };
   }
 
-  if (combinedData.messages.length > 0) {
-    return combinedData;
+  if (allFirestoreMessages.length > 0) {
+    return {
+      messages: allFirestoreMessages.sort((a, b) => (b.create_time || 0) - (a.create_time || 0)),
+      nextPageToken: finalNextPageToken,
+    };
   }
 
   return {
@@ -140,14 +149,13 @@ const fetchMessagesViaLocketApi = async ({
       data: {
         conversation_uid: conversationId || null,
         with_user: withUser || null,
-        message_id: messageId || conversationId || withUser || null,
         timestamp: pageToken || null,
         limit: limit || 50,
       },
     },
     {
       data: {
-        with_user: withUser || messageId || null,
+        with_user: withUser || conversationId || null,
         timestamp: pageToken || null,
         limit: limit || 50,
       },
