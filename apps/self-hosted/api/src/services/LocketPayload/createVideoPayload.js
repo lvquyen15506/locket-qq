@@ -15,10 +15,7 @@ const createCaptionOverlay = (caption, options = {}) => {
       text: caption,
       text_color: text_color,
       type: "static_content",
-      max_lines: {
-        "@type": "type.googleapis.com/google.protobuf.Int64Value",
-        value: "4",
-      },
+      max_lines: 1,
       background: {
         material_blur: "ultra_thin",
         colors: [color_top, color_bottom].filter(c => Boolean(c) && c !== "transparent"),
