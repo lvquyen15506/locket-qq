@@ -190,7 +190,7 @@ export const DEFAULT_CAPTIONS_DATA = [
 // ============================================
 
 export const KANADE_THEME_IDS = {
-  background: [], // Dành cho "Suggest Theme"
+  background: ["16a758fc-967d-4fbd-b15e-bb407dcc799a"], // Dành cho "Suggest Theme"
   special: [],    // Dành cho "Caption đặc biệt"
   decorative: [], // Dành cho "Decorative by Locket"
   custome: [],    // Dành cho "Decorative by QQ"
