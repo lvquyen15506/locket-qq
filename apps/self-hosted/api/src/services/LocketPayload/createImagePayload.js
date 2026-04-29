@@ -33,6 +33,7 @@ const createCaptionOverlay = (caption, options = {}) => {
     overlay.data.icon = {
       type: icon_type,
       data: icon,
+      source: icon_type === "emoji" ? "emoji" : "url",
     };
   }
 
