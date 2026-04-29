@@ -1,11 +1,49 @@
 const { createBaseVideoPayload } = require("./createBasePayload");
 
+const createCaptionOverlay = (caption, options = {}) => {
+  const {
+    text_color = "#FFFFFF",
+    color_top = "transparent",
+    color_bottom = "transparent",
+    icon = "",
+    icon_type = "emoji",
+    overlay_id = "caption",
+  } = options;
+
+  const overlay = {
+    data: {
+      text: caption,
+      text_color: text_color,
+      type: "static_content",
+      max_lines: 4,
+      background: {
+        material_blur: "ultra_thin",
+        colors: [color_top, color_bottom].filter(c => c !== "transparent"),
+      },
+    },
+    alt_text: caption,
+    overlay_id: overlay_id,
+    overlay_type: "caption",
+  };
+
+  if (icon) {
+    overlay.data.icon = {
+      type: icon_type,
+      data: icon,
+      source: icon_type === "emoji" ? "emoji" : "url"
+    };
+  }
+
+  return overlay;
+};
+
 exports.videoPostPayloadDefault = ({ videoUrl, thumbnailUrl, optionsData }) => {
   const { caption } = optionsData;
   const data = createBaseVideoPayload({ videoUrl, thumbnailUrl, optionsData });
 
   if (caption?.trim()) {
     data.caption = caption;
+    data.overlays.push(createCaptionOverlay(caption));
   }
 
   return { data };
@@ -22,30 +60,17 @@ exports.videoPostPayloadDecorative = ({
 
   if (caption?.trim()) {
     data.caption = caption;
+    data.overlays.push(
+      createCaptionOverlay(caption, {
+        text_color,
+        color_top,
+        color_bottom,
+        icon,
+        icon_type: "emoji",
+        overlay_id: overlay_id === "standard" ? "caption" : `caption:${overlay_id}`,
+      })
+    );
   }
-
-  data.overlays.push({
-    data: {
-      text: caption,
-      text_color: text_color,
-      type: "static_content",
-      max_lines: {
-        "@type": "type.googleapis.com/google.protobuf.Int64Value",
-        value: "4",
-      },
-      icon: {
-        type: "emoji",
-        data: icon,
-      },
-      background: {
-        material_blur: "ultra_thin",
-        colors: [color_top, color_bottom],
-      },
-    },
-    alt_text: caption,
-    overlay_id: overlay_id === "standard" ? "caption" : `caption:${overlay_id}`,
-    overlay_type: "caption",
-  });
 
   return { data };
 };
@@ -56,30 +81,17 @@ exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
 
   if (caption?.trim()) {
     data.caption = caption;
+    data.overlays.push(
+      createCaptionOverlay(caption, {
+        text_color,
+        color_top,
+        color_bottom,
+        icon,
+        icon_type: "emoji",
+        overlay_id: "caption:miss_you",
+      })
+    );
   }
-
-  data.overlays.push({
-    data: {
-      text: caption,
-      text_color: text_color,
-      type: "static_content",
-      max_lines: {
-        "@type": "type.googleapis.com/google.protobuf.Int64Value",
-        value: "4",
-      },
-      icon: {
-        type: "emoji",
-        data: icon,
-      },
-      background: {
-        material_blur: "ultra_thin",
-        colors: [color_top, color_bottom],
-      },
-    },
-    alt_text: caption,
-    overlay_id: "caption:miss_you",
-    overlay_type: "caption",
-  });
 
   return { data };
 };
@@ -90,30 +102,15 @@ exports.videoPostPayloadIcon = ({ videoUrl, thumbnailUrl, optionsData }) => {
 
   if (caption?.trim()) {
     data.caption = caption;
+    data.overlays.push(
+      createCaptionOverlay(caption, {
+        text_color,
+        icon,
+        icon_type: "image",
+        overlay_id: "caption:ootd",
+      })
+    );
   }
-
-  data.overlays.push({
-    data: {
-      text: caption,
-      text_color: text_color,
-      type: "static_content",
-      max_lines: {
-        "@type": "type.googleapis.com/google.protobuf.Int64Value",
-        value: "4",
-      },
-      icon: {
-        type: "image",
-        data: icon,
-      },
-      background: {
-        material_blur: "ultra_thin",
-        colors: [],
-      },
-    },
-    alt_text: caption,
-    overlay_id: "caption:miss_you",
-    overlay_type: "caption",
-  });
 
   return { data };
 };
