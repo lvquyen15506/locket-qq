@@ -193,6 +193,8 @@ export const useOverlayStore = create((set, get) => ({
     const allIds = Object.keys(idsToFetchMap);
     if (allIds.length === 0) return;
 
+    // console.log("🔍 Đang tải Kanade Themes cho các ID:", allIds);
+
     // Tải các ID này từ API Kanade
     const results = await Promise.allSettled(
       allIds.map((id) => getCollabCaption(id))
@@ -200,19 +202,34 @@ export const useOverlayStore = create((set, get) => ({
 
     const newCaptions = results
       .filter((r) => r.status === "fulfilled" && r.value)
-      .map((r) => r.value);
+      .map((r) => {
+        const c = r.value;
+        // Map lại các trường để khớp với giao diện Themes
+        return {
+          ...c,
+          preset_id: c.id,
+          preset_caption: c.text,
+          icon: c.icon_url,
+          color_top: c.colortop,
+          color_bottom: c.colorbottom,
+          text_color: c.color || "#FFFFFF",
+        };
+      });
 
     if (newCaptions.length > 0) {
+      // console.log("✅ Đã tải xong Kanade Themes:", newCaptions);
       // Phân bổ chúng vào captionOverlays hiện tại
       const currentOverlays = get().captionOverlays;
       const updatedOverlays = { ...currentOverlays };
       let hasChanges = false;
 
       newCaptions.forEach(caption => {
-        const category = idsToFetchMap[caption.id];
-        // Đảm bảo không trùng lặp nếu API gốc (getAllOverlayCaption) đã trả về
+        const category = idsToFetchMap[caption.preset_id];
         if (category && updatedOverlays[category]) {
-          const exists = updatedOverlays[category].some(c => c.id === caption.id);
+          // Kiểm tra trùng lặp bằng preset_id hoặc id
+          const exists = updatedOverlays[category].some(
+            c => (c.preset_id === caption.preset_id) || (c.id === caption.preset_id)
+          );
           if (!exists) {
             updatedOverlays[category] = [...updatedOverlays[category], caption];
             hasChanges = true;
@@ -222,7 +239,6 @@ export const useOverlayStore = create((set, get) => ({
 
       if (hasChanges) {
         set({ captionOverlays: updatedOverlays });
-        // Cập nhật lại cache session nếu muốn
         sessionStorage.setItem("captionOverlays", JSON.stringify(updatedOverlays));
       }
     }
