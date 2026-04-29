@@ -43,7 +43,6 @@ exports.imagePostPayloadDefault = ({ imageUrl, optionsData }) => {
   const data = createBaseImagePayload({ imageUrl, optionsData });
 
   if (caption?.trim()) {
-    data.caption = caption;
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color: "#FFFFFF",
@@ -62,7 +61,6 @@ exports.imagePostPayloadDecorative = ({ imageUrl, optionsData }) => {
   const data = createBaseImagePayload({ imageUrl, optionsData });
 
   if (caption?.trim()) {
-    data.caption = caption;
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color,
@@ -83,7 +81,6 @@ exports.imagePostPayloadCustome = ({ imageUrl, optionsData }) => {
   const data = createBaseImagePayload({ imageUrl, optionsData });
 
   if (caption?.trim()) {
-    data.caption = caption;
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color,
@@ -104,7 +101,6 @@ exports.imagePostPayloadIcon = ({ imageUrl, optionsData }) => {
   const data = createBaseImagePayload({ imageUrl, optionsData });
 
   if (caption?.trim()) {
-    data.caption = caption;
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color,

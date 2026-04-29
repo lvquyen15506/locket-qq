@@ -42,7 +42,6 @@ exports.videoPostPayloadDefault = ({ videoUrl, thumbnailUrl, optionsData }) => {
   const data = createBaseVideoPayload({ videoUrl, thumbnailUrl, optionsData });
 
   if (caption?.trim()) {
-    data.caption = caption;
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color: "#FFFFFF",
@@ -66,7 +65,6 @@ exports.videoPostPayloadDecorative = ({
   const data = createBaseVideoPayload({ videoUrl, thumbnailUrl, optionsData });
 
   if (caption?.trim()) {
-    data.caption = caption;
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color,
@@ -87,7 +85,6 @@ exports.videoPostPayloadCustome = ({ videoUrl, thumbnailUrl, optionsData }) => {
   const data = createBaseVideoPayload({ videoUrl, thumbnailUrl, optionsData });
 
   if (caption?.trim()) {
-    data.caption = caption;
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color,
@@ -108,7 +105,6 @@ exports.videoPostPayloadIcon = ({ videoUrl, thumbnailUrl, optionsData }) => {
   const data = createBaseVideoPayload({ videoUrl, thumbnailUrl, optionsData });
 
   if (caption?.trim()) {
-    data.caption = caption;
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color,
