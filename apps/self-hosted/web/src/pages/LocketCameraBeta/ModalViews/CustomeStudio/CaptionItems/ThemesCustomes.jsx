@@ -51,8 +51,14 @@ const ThemesCustomes = ({ title = "Chọn preset", presets = [], onSelect }) => 
                 )
               }
             >
-              <span className="text-base">
-                {(preset.icon || "") + " "}
+              <span className="text-base flex items-center gap-1">
+                {preset.icon && (
+                  preset.icon.startsWith("http") ? (
+                    <img src={preset.icon} alt="" className="w-5 h-5 object-contain" />
+                  ) : (
+                    <span>{preset.icon}</span>
+                  )
+                )}
                 {preset.caption || preset.preset_caption || "Caption"}
               </span>
             </button>
