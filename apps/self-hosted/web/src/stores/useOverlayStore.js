@@ -4,8 +4,7 @@ import { getAllOverlayCaption, getCollabCaption } from "@/services";
 import {
   DEFAULT_CAPTION_IDS,
   DEFAULT_CAPTIONS_DATA,
-  DEFAULT_IMAGE_ICONS,
-  DEFAULT_IMAGE_GIFS,
+  KANADE_THEME_IDS,
 } from "@/config/defaultCaptions";
 
 const USER_CAPTION_KEY = "Yourcaptions";
@@ -21,8 +20,8 @@ const groupThemesByType = (themes) => {
   const decorative = themes.filter((t) => t.type === "decorative");
   const custome = themes.filter((t) => t.type === "custome");
   const background = themes.filter((t) => t.type === "background");
-  const image_icon = [...themes.filter((t) => t.type === "image_icon"), ...DEFAULT_IMAGE_ICONS];
-  const image_gif = [...themes.filter((t) => t.type === "image_gif"), ...DEFAULT_IMAGE_GIFS];
+  const image_icon = themes.filter((t) => t.type === "image_icon");
+  const image_gif = themes.filter((t) => t.type === "image_gif");
   const special = themes.filter((t) => t.type === "special");
 
   return {
@@ -78,8 +77,8 @@ export const useOverlayStore = create((set, get) => ({
     decorative: [],
     custome: [],
     background: [],
-    image_icon: [...DEFAULT_IMAGE_ICONS],
-    image_gif: [...DEFAULT_IMAGE_GIFS],
+    image_icon: [],
+    image_gif: [],
     special: [],
   },
   isLoading: false,
@@ -128,8 +127,8 @@ export const useOverlayStore = create((set, get) => ({
         decorative: [],
         custome: [],
         background: [],
-        image_icon: [...DEFAULT_IMAGE_ICONS],
-        image_gif: [...DEFAULT_IMAGE_GIFS],
+        image_icon: [],
+        image_gif: [],
         special: [],
       },
     });
@@ -174,6 +173,58 @@ export const useOverlayStore = create((set, get) => ({
         localStorage.getItem(USER_CAPTION_KEY) || "[]"
       );
       set({ userCaptions: mergeAllCaptions(userSaved) });
+    }
+  },
+
+  /**
+   * Tải toàn bộ ID từ KANADE_THEME_IDS cho từng danh mục
+   */
+  fetchKanadeThemes: async () => {
+    // Thu thập tất cả ID cần tải và đánh dấu chúng thuộc danh mục nào
+    const idsToFetchMap = {};
+    for (const [category, ids] of Object.entries(KANADE_THEME_IDS)) {
+      if (Array.isArray(ids)) {
+        ids.forEach(id => {
+          idsToFetchMap[id] = category;
+        });
+      }
+    }
+
+    const allIds = Object.keys(idsToFetchMap);
+    if (allIds.length === 0) return;
+
+    // Tải các ID này từ API Kanade
+    const results = await Promise.allSettled(
+      allIds.map((id) => getCollabCaption(id))
+    );
+
+    const newCaptions = results
+      .filter((r) => r.status === "fulfilled" && r.value)
+      .map((r) => r.value);
+
+    if (newCaptions.length > 0) {
+      // Phân bổ chúng vào captionOverlays hiện tại
+      const currentOverlays = get().captionOverlays;
+      const updatedOverlays = { ...currentOverlays };
+      let hasChanges = false;
+
+      newCaptions.forEach(caption => {
+        const category = idsToFetchMap[caption.id];
+        // Đảm bảo không trùng lặp nếu API gốc (getAllOverlayCaption) đã trả về
+        if (category && updatedOverlays[category]) {
+          const exists = updatedOverlays[category].some(c => c.id === caption.id);
+          if (!exists) {
+            updatedOverlays[category] = [...updatedOverlays[category], caption];
+            hasChanges = true;
+          }
+        }
+      });
+
+      if (hasChanges) {
+        set({ captionOverlays: updatedOverlays });
+        // Cập nhật lại cache session nếu muốn
+        sessionStorage.setItem("captionOverlays", JSON.stringify(updatedOverlays));
+      }
     }
   },
 

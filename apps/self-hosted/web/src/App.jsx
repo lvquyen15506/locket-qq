@@ -44,6 +44,7 @@ function AppContent() {
   const syncStreak = useStreakStore((s) => s.syncStreak);
   const fetchCaptionOverlays = useOverlayStore((s) => s.fetchCaptionOverlays);
   const fetchDefaultCaptions = useOverlayStore((s) => s.fetchDefaultCaptions);
+  const fetchKanadeThemes = useOverlayStore((s) => s.fetchKanadeThemes);
   const hydrateUploadQueue = useUploadQueueStore((s) => s.hydrateUploadQueue);
   const loadFriendsV2 = useFriendStoreV2((s) => s.loadFriends);
 
@@ -61,7 +62,9 @@ function AppContent() {
     hydrate();
     init();
     showDevWarning();
-    fetchCaptionOverlays();
+    fetchCaptionOverlays().then(() => {
+      fetchKanadeThemes();
+    });
     fetchDefaultCaptions();
   }, []);
 

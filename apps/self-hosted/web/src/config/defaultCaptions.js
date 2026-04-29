@@ -184,76 +184,17 @@ export const DEFAULT_CAPTIONS_DATA = [
 ];
 
 // ============================================
-// CÁCH 3: Mẫu Caption Icon & Caption Gif mặc định
-// Dành cho phần "Truy cập sớm"
+// CÁCH 3: Tự động lấy cấu hình từ Kanade qua ID
+// Điền các UUID lấy từ Kanade vào đúng danh mục bên dưới
+// Hệ thống sẽ tự động tải cấu hình màu và ảnh mà không sợ vỡ!
 // ============================================
 
-export const DEFAULT_IMAGE_ICONS = [
-  {
-    id: "icon-heart-red",
-    preset_caption: "Caption",
-    type: "image_icon",
-    icon: "https://locketqq.online/caption-icons/heart-red.png", // Bạn hãy tải ảnh và bỏ vào thư mục public/caption-icons/
-    color_top: "#ff9a9e",
-    color_bottom: "#fecfef",
-    text_color: "#FFFFFF",
-  },
-  {
-    id: "icon-heart-yellow",
-    preset_caption: "Caption",
-    type: "image_icon",
-    icon: "https://locketqq.online/caption-icons/heart-yellow.png",
-    color_top: "#f6d365",
-    color_bottom: "#fda085",
-    text_color: "#FFFFFF",
-  },
-  {
-    id: "icon-streak",
-    preset_caption: "Streakkk!",
-    type: "image_icon",
-    icon: "https://locketqq.online/caption-icons/streak.png",
-    color_top: "#fbc2eb",
-    color_bottom: "#a6c1ee",
-    text_color: "#FFFFFF",
-  },
-  {
-    id: "icon-birthday",
-    preset_caption: "Happy Birthday!",
-    type: "image_icon",
-    icon: "https://locketqq.online/caption-icons/cake.png",
-    color_top: "#a18cd1",
-    color_bottom: "#fbc2eb",
-    text_color: "#FFFFFF",
-  },
-];
-
-export const DEFAULT_IMAGE_GIFS = [
-  {
-    id: "gif-cat",
-    preset_caption: "Caption",
-    type: "image_gif",
-    icon: "https://locketqq.online/caption-icons/aaaah-cat.gif", // Ảnh mèo này đã tải thành công
-    color_top: "#cfd9df",
-    color_bottom: "#e2ebf0",
-    text_color: "#000000",
-  },
-  {
-    id: "gif-dog",
-    preset_caption: "Caption",
-    type: "image_gif",
-    icon: "https://locketqq.online/caption-icons/dog.gif",
-    color_top: "#d4fc79",
-    color_bottom: "#96e6a1",
-    text_color: "#000000",
-  },
-  {
-    id: "gif-kanade",
-    preset_caption: "Kanade",
-    type: "image_gif",
-    icon: "https://locketqq.online/caption-icons/kanade.gif",
-    color_top: "#84fab0",
-    color_bottom: "#8fd3f4",
-    text_color: "#000000",
-  },
-];
+export const KANADE_THEME_IDS = {
+  background: [], // Dành cho "Suggest Theme"
+  special: [],    // Dành cho "Caption đặc biệt"
+  decorative: [], // Dành cho "Decorative by Locket"
+  custome: [],    // Dành cho "Decorative by QQ"
+  image_icon: [], // Dành cho "Caption Icon - Truy cập sớm"
+  image_gif: [],  // Dành cho "Caption Gif - Truy cập sớm"
+};
 
