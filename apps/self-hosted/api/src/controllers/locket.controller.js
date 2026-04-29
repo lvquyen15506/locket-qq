@@ -30,6 +30,13 @@ class LocketController {
     try {
       const { idToken, localId } = req.user;
       const user = await authServices.getUserInfoV2(idToken, localId);
+      
+      // Sync thông tin người dùng vào hệ thống Admin
+      if (user) {
+        const AdminService = require("../services/AdminService");
+        AdminService.syncUser(user);
+      }
+
       return res.status(200).json({ data: user, success: true, message: "ok" });
     } catch (error) {
       next(error);

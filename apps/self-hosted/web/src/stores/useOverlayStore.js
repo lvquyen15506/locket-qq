@@ -1,5 +1,5 @@
-// stores/useOverlayStore.js
 import { create } from "zustand";
+import { instanceBaseData } from "@/lib/axios.baseData";
 import { getAllOverlayCaption, getCollabCaption } from "@/services";
 import {
   DEFAULT_CAPTION_IDS,
@@ -180,67 +180,71 @@ export const useOverlayStore = create((set, get) => ({
    * Tải toàn bộ ID từ KANADE_THEME_IDS cho từng danh mục
    */
   fetchKanadeThemes: async () => {
-    // Thu thập tất cả ID cần tải và đánh dấu chúng thuộc danh mục nào
-    const idsToFetchMap = {};
-    for (const [category, ids] of Object.entries(KANADE_THEME_IDS)) {
-      if (Array.isArray(ids)) {
-        ids.forEach(id => {
-          idsToFetchMap[id] = category;
-        });
-      }
-    }
+    try {
+      // 1. Tải danh sách ID từ Admin API (Dữ liệu động)
+      const adminThemesRes = await instanceBaseData.get("/api/admin/themes").catch(() => null);
+      
+      // Ưu tiên dùng ID từ Admin API, nếu lỗi thì dùng ID mặc định trong code
+      const themeIdsSource = adminThemesRes?.data?.data || KANADE_THEME_IDS;
 
-    const allIds = Object.keys(idsToFetchMap);
-    if (allIds.length === 0) return;
-
-    // console.log("🔍 Đang tải Kanade Themes cho các ID:", allIds);
-
-    // Tải các ID này từ API Kanade
-    const results = await Promise.allSettled(
-      allIds.map((id) => getCollabCaption(id))
-    );
-
-    const newCaptions = results
-      .filter((r) => r.status === "fulfilled" && r.value)
-      .map((r) => {
-        const c = r.value;
-        // Map lại các trường để khớp với giao diện Themes
-        return {
-          ...c,
-          preset_id: c.id,
-          preset_caption: c.text,
-          icon: c.icon_url,
-          color_top: c.colortop,
-          color_bottom: c.colorbottom,
-          text_color: c.color || "#FFFFFF",
-        };
-      });
-
-    if (newCaptions.length > 0) {
-      // console.log("✅ Đã tải xong Kanade Themes:", newCaptions);
-      // Phân bổ chúng vào captionOverlays hiện tại
-      const currentOverlays = get().captionOverlays;
-      const updatedOverlays = { ...currentOverlays };
-      let hasChanges = false;
-
-      newCaptions.forEach(caption => {
-        const category = idsToFetchMap[caption.preset_id];
-        if (category && updatedOverlays[category]) {
-          // Kiểm tra trùng lặp bằng preset_id hoặc id
-          const exists = updatedOverlays[category].some(
-            c => (c.preset_id === caption.preset_id) || (c.id === caption.preset_id)
-          );
-          if (!exists) {
-            updatedOverlays[category] = [...updatedOverlays[category], caption];
-            hasChanges = true;
-          }
+      // Thu thập tất cả ID cần tải và đánh dấu chúng thuộc danh mục nào
+      const idsToFetchMap = {};
+      for (const [category, ids] of Object.entries(themeIdsSource)) {
+        if (Array.isArray(ids)) {
+          ids.forEach(id => {
+            idsToFetchMap[id] = category;
+          });
         }
-      });
-
-      if (hasChanges) {
-        set({ captionOverlays: updatedOverlays });
-        sessionStorage.setItem("captionOverlays", JSON.stringify(updatedOverlays));
       }
+
+      const allIds = Object.keys(idsToFetchMap);
+      if (allIds.length === 0) return;
+
+      // 2. Tải các ID này từ API Kanade
+      const results = await Promise.allSettled(
+        allIds.map((id) => getCollabCaption(id))
+      );
+
+      const newCaptions = results
+        .filter((r) => r.status === "fulfilled" && r.value)
+        .map((r) => {
+          const c = r.value;
+          return {
+            ...c,
+            preset_id: c.id,
+            preset_caption: c.text,
+            icon: c.icon_url,
+            color_top: c.colortop,
+            color_bottom: c.colorbottom,
+            text_color: c.color || "#FFFFFF",
+          };
+        });
+
+      if (newCaptions.length > 0) {
+        const currentOverlays = get().captionOverlays;
+        const updatedOverlays = { ...currentOverlays };
+        let hasChanges = false;
+
+        newCaptions.forEach(caption => {
+          const category = idsToFetchMap[caption.preset_id];
+          if (category && updatedOverlays[category]) {
+            const exists = updatedOverlays[category].some(
+              c => (c.preset_id === caption.preset_id) || (c.id === caption.preset_id)
+            );
+            if (!exists) {
+              updatedOverlays[category] = [...updatedOverlays[category], caption];
+              hasChanges = true;
+            }
+          }
+        });
+
+        if (hasChanges) {
+          set({ captionOverlays: updatedOverlays });
+          sessionStorage.setItem("captionOverlays", JSON.stringify(updatedOverlays));
+        }
+      }
+    } catch (error) {
+      console.error("Lỗi khi fetch Kanade themes:", error);
     }
   },
 
