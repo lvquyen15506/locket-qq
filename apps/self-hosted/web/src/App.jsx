@@ -62,9 +62,8 @@ function AppContent() {
     hydrate();
     init();
     showDevWarning();
-    fetchCaptionOverlays().then(() => {
-      fetchKanadeThemes();
-    });
+    fetchCaptionOverlays();
+    fetchKanadeThemes();
     fetchDefaultCaptions();
   }, []);
 
