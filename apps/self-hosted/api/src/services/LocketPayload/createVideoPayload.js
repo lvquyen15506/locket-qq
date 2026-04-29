@@ -21,7 +21,7 @@ const createCaptionOverlay = (caption, options = {}) => {
       },
       background: {
         material_blur: "ultra_thin",
-        colors: [color_top, color_bottom].filter(c => c !== "transparent"),
+        colors: [color_top, color_bottom].filter(c => Boolean(c) && c !== "transparent"),
       },
     },
     alt_text: caption,
