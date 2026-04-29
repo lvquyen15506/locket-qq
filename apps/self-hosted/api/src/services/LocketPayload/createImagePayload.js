@@ -6,7 +6,7 @@ const createCaptionOverlay = (caption, options = {}) => {
     color_top = "transparent",
     color_bottom = "transparent",
     icon = "",
-    icon_type = "emoji",
+    icon_type = "emoji", // "emoji" hoặc "image"
     overlay_id = "caption",
   } = options;
 
@@ -15,7 +15,10 @@ const createCaptionOverlay = (caption, options = {}) => {
       text: caption,
       text_color: text_color,
       type: "static_content",
-      max_lines: 4,
+      max_lines: {
+        "@type": "type.googleapis.com/google.protobuf.Int64Value",
+        value: "4",
+      },
       background: {
         material_blur: "ultra_thin",
         colors: [color_top, color_bottom].filter(c => c !== "transparent"),
@@ -30,7 +33,6 @@ const createCaptionOverlay = (caption, options = {}) => {
     overlay.data.icon = {
       type: icon_type,
       data: icon,
-      source: icon_type === "emoji" ? "emoji" : "url"
     };
   }
 
@@ -44,7 +46,14 @@ exports.imagePostPayloadDefault = ({ imageUrl, optionsData }) => {
 
   if (caption?.trim()) {
     data.caption = caption;
-    data.overlays.push(createCaptionOverlay(caption));
+    data.overlays.push(
+      createCaptionOverlay(caption, {
+        text_color: "#FFFFFF",
+        color_top: "transparent",
+        color_bottom: "transparent",
+        overlay_id: "caption",
+      })
+    );
   }
   return { data };
 };
