@@ -4,6 +4,8 @@ import { getAllOverlayCaption, getCollabCaption } from "@/services";
 import {
   DEFAULT_CAPTION_IDS,
   DEFAULT_CAPTIONS_DATA,
+  DEFAULT_IMAGE_ICONS,
+  DEFAULT_IMAGE_GIFS,
 } from "@/config/defaultCaptions";
 
 const USER_CAPTION_KEY = "Yourcaptions";
@@ -15,14 +17,23 @@ const sortByOrderIndex = (themes) => {
   );
 };
 
-const groupThemesByType = (themes) => ({
-  decorative: sortByOrderIndex(themes.filter((t) => t.type === "decorative")),
-  custome: sortByOrderIndex(themes.filter((t) => t.type === "custome")),
-  background: sortByOrderIndex(themes.filter((t) => t.type === "background")),
-  image_icon: sortByOrderIndex(themes.filter((t) => t.type === "image_icon")),
-  image_gif: sortByOrderIndex(themes.filter((t) => t.type === "image_gif")),
-  special: sortByOrderIndex(themes.filter((t) => t.type === "special")),
-});
+const groupThemesByType = (themes) => {
+  const decorative = themes.filter((t) => t.type === "decorative");
+  const custome = themes.filter((t) => t.type === "custome");
+  const background = themes.filter((t) => t.type === "background");
+  const image_icon = [...themes.filter((t) => t.type === "image_icon"), ...DEFAULT_IMAGE_ICONS];
+  const image_gif = [...themes.filter((t) => t.type === "image_gif"), ...DEFAULT_IMAGE_GIFS];
+  const special = themes.filter((t) => t.type === "special");
+
+  return {
+    decorative: sortByOrderIndex(decorative),
+    custome: sortByOrderIndex(custome),
+    background: sortByOrderIndex(background),
+    image_icon: sortByOrderIndex(image_icon),
+    image_gif: sortByOrderIndex(image_gif),
+    special: sortByOrderIndex(special),
+  };
+};
 
 /**
  * Lấy caption mặc định đã cache (fetch từ ID)
@@ -67,8 +78,8 @@ export const useOverlayStore = create((set, get) => ({
     decorative: [],
     custome: [],
     background: [],
-    image_icon: [],
-    image_gif: [],
+    image_icon: [...DEFAULT_IMAGE_ICONS],
+    image_gif: [...DEFAULT_IMAGE_GIFS],
     special: [],
   },
   isLoading: false,
@@ -117,8 +128,8 @@ export const useOverlayStore = create((set, get) => ({
         decorative: [],
         custome: [],
         background: [],
-        image_icon: [],
-        image_gif: [],
+        image_icon: [...DEFAULT_IMAGE_ICONS],
+        image_gif: [...DEFAULT_IMAGE_GIFS],
         special: [],
       },
     });

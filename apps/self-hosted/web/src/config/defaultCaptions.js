@@ -182,3 +182,78 @@ export const DEFAULT_CAPTIONS_DATA = [
     colorbottom: "#283E51",
   },
 ];
+
+// ============================================
+// CÁCH 3: Mẫu Caption Icon & Caption Gif mặc định
+// Dành cho phần "Truy cập sớm"
+// ============================================
+
+export const DEFAULT_IMAGE_ICONS = [
+  {
+    id: "icon-heart-red",
+    preset_caption: "Caption",
+    type: "image_icon",
+    icon: "https://cdn.locket-dio.com/v1/caption/caption-icon/heart-red.png", // Bạn có thể thay đổi link thật
+    color_top: "#ff9a9e",
+    color_bottom: "#fecfef",
+    text_color: "#FFFFFF",
+  },
+  {
+    id: "icon-heart-yellow",
+    preset_caption: "Caption",
+    type: "image_icon",
+    icon: "https://cdn.locket-dio.com/v1/caption/caption-icon/heart-yellow.png",
+    color_top: "#f6d365",
+    color_bottom: "#fda085",
+    text_color: "#FFFFFF",
+  },
+  {
+    id: "icon-streak",
+    preset_caption: "Streakkk!",
+    type: "image_icon",
+    icon: "https://cdn.locket-dio.com/v1/caption/caption-icon/streak.png",
+    color_top: "#fbc2eb",
+    color_bottom: "#a6c1ee",
+    text_color: "#FFFFFF",
+  },
+  {
+    id: "icon-birthday",
+    preset_caption: "Happy Birthday!",
+    type: "image_icon",
+    icon: "https://cdn.locket-dio.com/v1/caption/caption-icon/cake.png",
+    color_top: "#a18cd1",
+    color_bottom: "#fbc2eb",
+    text_color: "#FFFFFF",
+  },
+];
+
+export const DEFAULT_IMAGE_GIFS = [
+  {
+    id: "gif-cat",
+    preset_caption: "Caption",
+    type: "image_gif",
+    icon: "https://cdn.locket-dio.com/v1/caption/caption-gif/aaaah-cat.gif", // Đã dùng trong ảnh test
+    color_top: "#cfd9df",
+    color_bottom: "#e2ebf0",
+    text_color: "#000000",
+  },
+  {
+    id: "gif-dog",
+    preset_caption: "Caption",
+    type: "image_gif",
+    icon: "https://cdn.locket-dio.com/v1/caption/caption-gif/dog.gif",
+    color_top: "#d4fc79",
+    color_bottom: "#96e6a1",
+    text_color: "#000000",
+  },
+  {
+    id: "gif-kanade",
+    preset_caption: "Kanade",
+    type: "image_gif",
+    icon: "https://cdn.locket-dio.com/v1/caption/caption-gif/kanade.gif",
+    color_top: "#84fab0",
+    color_bottom: "#8fd3f4",
+    text_color: "#000000",
+  },
+];
+
