@@ -97,13 +97,15 @@ exports.imagePostPayloadCustome = ({ imageUrl, optionsData }) => {
 };
 
 exports.imagePostPayloadIcon = ({ imageUrl, optionsData }) => {
-  const { caption, text_color, icon } = optionsData;
+  const { caption, text_color, color_top, color_bottom, icon } = optionsData;
   const data = createBaseImagePayload({ imageUrl, optionsData });
 
   if (caption?.trim()) {
     data.overlays.push(
       createCaptionOverlay(caption, {
         text_color,
+        color_top,
+        color_bottom,
         icon,
         icon_type: "image",
         overlay_id: "caption:ootd",
