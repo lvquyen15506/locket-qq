@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ChevronLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import ChatDetail from "./View/ChatDetail";
-import SocketStatus from "./View/SocketStatus";
 import { ConversationItem } from "./View/Conversation/ConversationItem";
 import { markReadMessage } from "@/services";
 import { ConversationSkeleton } from "./View/Conversation/ConversationSkeleton";
 import { CONFIG } from "@/config";
-import { useSocket } from "@/context/SocketContext";
-import { SocketEvent } from "@/constants/socketEvents";
 import { useAuthStore, useMessagesStore } from "@/stores";
 
 const INITIAL_DISPLAY_COUNT = CONFIG.ui.chat.initialVisible;
+const POLL_INTERVAL_LIST = 10000;  // Poll danh sách hội thoại mỗi 10s
+const POLL_INTERVAL_CHAT = 8000;   // Poll tin nhắn trong chat mỗi 8s
 
 // ================= Component: RightHomeScreen =================
 const RightHomeScreen = ({ setIsHomeOpen }) => {
@@ -19,8 +18,7 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
   const { navigation } = useApp();
   const { isHomeOpen } = navigation;
 
-  const { socket, isConnected, socketState } = useSocket();
-  const [selectedChat, setSelectedChat] = useState(null); // conversation đang mở
+  const [selectedChat, setSelectedChat] = useState(null);
   const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY_COUNT);
 
   const idToken = localStorage.getItem("idToken");
@@ -28,71 +26,11 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
   const {
     messages,
     fetchConversations,
-    upsertConversation,
     loading,
     conversations,
     getMessagesByUser,
     addMessageWithUserV2,
   } = useMessagesStore();
-
-  const handleListMessage = (upsertConversation) => (data) => {
-    if (!Array.isArray(data) || !data.length) return;
-    data.forEach(upsertConversation);
-  };
-
-  const handleNewMessageWithUserV2 = (data) => {
-    if (!data) return;
-
-    const items = Array.isArray(data) ? data : [data];
-
-    items.forEach((msg) => {
-      const convId = msg.uid;
-      if (!convId) return;
-
-      addMessageWithUserV2(convId, msg);
-    });
-  };
-
-  // ================= Socket init =================
-  useEffect(() => {
-    if (isHomeOpen || !socket) return;
-
-    const handler = handleListMessage(upsertConversation);
-
-    socket.on(SocketEvent.LIST_MESSAGE, handler);
-    socket.on("new_on_list_message", handler);
-
-    return () => {
-      socket.off(SocketEvent.LIST_MESSAGE, handler);
-      socket.off("new_on_list_message", handler); // gỡ đúng handler
-    };
-  }, [socket]); // << chỉ theo socket, không theo idToken
-
-  // emit tách riêng
-  useEffect(() => {
-    if (isHomeOpen || !idToken || !socket) return;
-
-    socket.emit(SocketEvent.GET_LIST_MESSAGES, {
-      timestamp: null,
-      token: idToken,
-    });
-  }, [idToken, socket]);
-  // ================= Socket listener cho selectedChat =================
-  useEffect(() => {
-    if (!socket || !selectedChat?.uid) return;
-
-    socket.on("new_message_with_user", handleNewMessageWithUserV2);
-
-    socket.emit("get_messages_with_user", {
-      messageId: selectedChat.uid,
-      timestamp: null,
-      token: idToken,
-    });
-
-    return () => {
-      socket.off("new_message_with_user", handleNewMessageWithUserV2);
-    };
-  }, [socket, selectedChat?.uid]);
 
   // ================= Reset displayCount khi đóng isHomeOpen =================
   useEffect(() => {
@@ -101,22 +39,22 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
     }
   }, [isHomeOpen]);
 
-  // ================= Fetch conversations =================
+  // ================= Fetch conversations lần đầu =================
   useEffect(() => {
     if (!idToken) return;
     fetchConversations();
   }, [idToken]);
 
-  // Poll conversations khi realtime chưa connected.
+  // ================= Polling danh sách hội thoại (chỉ khi đang mở tin nhắn) =================
   useEffect(() => {
-    if (!idToken || socketState === "connected") return;
+    if (!idToken || !isHomeOpen) return;
 
     const intervalId = setInterval(() => {
       fetchConversations();
-    }, 20000); // Tăng lên 20s để giảm tải
+    }, POLL_INTERVAL_LIST);
 
     return () => clearInterval(intervalId);
-  }, [idToken, socketState, fetchConversations]);
+  }, [idToken, isHomeOpen, fetchConversations]);
 
   // ================= Chọn chat =================
   const handleSelectChat = async (chat) => {
@@ -124,24 +62,24 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
 
     if (!chat?.uid) return;
 
-    await getMessagesByUser(chat.uid, chat.with_user || null);
+    // Lấy tin nhắn cả cũ và mới (limit tăng lên 100)
+    await getMessagesByUser(chat.uid, chat.with_user || null, true);
 
     if (chat.isRead === false) {
       await markReadMessage(chat.uid);
     }
   };
 
-  // Poll messages của chat đang mở khi realtime chưa connected.
+  // ================= Polling tin nhắn của chat đang mở =================
   useEffect(() => {
-    if (!selectedChat?.uid || socketState === "connected") return;
+    if (!selectedChat?.uid || !isHomeOpen) return;
 
-    // Giảm tần suất gọi API xuống 15 giây để tránh sập Vercel
     const intervalId = setInterval(() => {
       getMessagesByUser(selectedChat.uid, selectedChat.with_user || null, true);
-    }, 15000);
+    }, POLL_INTERVAL_CHAT);
 
     return () => clearInterval(intervalId);
-  }, [selectedChat?.uid, selectedChat?.with_user, socketState, getMessagesByUser]);
+  }, [selectedChat?.uid, selectedChat?.with_user, isHomeOpen, getMessagesByUser]);
 
   // ================= Load more conversations =================
   const handleLoadMore = () => {
@@ -186,7 +124,9 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
           >
             <ChevronLeft size={30} />
           </button>
-          <SocketStatus isConnected={isConnected} socketState={socketState} />
+          <span className="text-sm font-medium text-base-content/60">
+            Tin nhắn
+          </span>
         </div>
 
         <div className="flex-1 px-4 py-6 overflow-y-auto space-y-4">

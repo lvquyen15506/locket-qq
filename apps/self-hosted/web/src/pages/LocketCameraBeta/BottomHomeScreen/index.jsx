@@ -8,7 +8,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import "swiper/css";
 import MomentSlide from "./MomentsView/MomentSlide";
-import { useSocket } from "@/context/SocketContext";
 import { useAuthStore, useMomentsStoreV2 } from "@/stores";
 import { clearAllDB } from "@/cache/configDB";
 
@@ -37,7 +36,6 @@ const BottomHomeScreen = () => {
 
   const { user } = useAuthStore();
 
-  const { socket, isConnected } = useSocket();
 
   const selectedKey = selectedFriendUid ?? "all";
 
@@ -99,41 +97,7 @@ const BottomHomeScreen = () => {
     setSelectedMomentId(null);
   };
 
-  const idToken = localStorage.getItem("idToken");
 
-  // ================= Socket init =================
-  useEffect(() => {
-    if (!idToken || !socket) return;
-
-    const handleMoments = (data) => {
-      if (!data) return;
-
-      // 🧠 Snapshot (xoá / sync)
-      if (Array.isArray(data) && data.length > 1) {
-        syncMomentsSnapshot(data);
-        return;
-      }
-
-      // 🧠 Add realtime
-      addNewMoment(data);
-    };
-    // LISTEN
-    socket.on("new_on_moments", handleMoments);
-
-    // EMIT để server gửi moments đầu tiên
-    socket.emit("on_moments", {
-      timestamp: null,
-      token: idToken,
-      friendId: null,
-      limit: 5,
-    });
-    // console.log(socket._callbacks);
-
-    // CLEANUP — rất quan trọng
-    return () => {
-      socket.off("new_on_moments", handleMoments); // phải cùng tên event!
-    };
-  }, [idToken, socket]); // nên thêm socket vào dependency
 
   // Tính toán selectedAnimate dựa trên selectedMoment và selectedQueue
   const selectedAnimate =

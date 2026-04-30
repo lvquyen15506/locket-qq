@@ -17,6 +17,7 @@ export const getMessagesWithUser = async ({
   conversationId = null,
   withUser = null,
   timestamp = null,
+  limit = 100, // Tăng mặc định lên 100
 }) => {
   try {
     const res = await api.post("/locket/getMessageWithUserV2", {
@@ -24,6 +25,7 @@ export const getMessagesWithUser = async ({
       conversationId: conversationId || messageId,
       with_user: withUser || null,
       timestamp,
+      limit, // Gửi limit lên backend
     });
     return res.data?.data;
   } catch (err) {
