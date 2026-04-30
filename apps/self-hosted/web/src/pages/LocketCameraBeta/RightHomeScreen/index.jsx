@@ -63,7 +63,7 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
     if (!chat?.uid) return;
 
     // Lấy tin nhắn cả cũ và mới (limit tăng lên 100)
-    await getMessagesByUser(chat.uid, chat.with_user || null, true);
+    await getMessagesByUser(chat.uid, null, true);
 
     if (chat.isRead === false) {
       await markReadMessage(chat.uid);
@@ -75,7 +75,7 @@ const RightHomeScreen = ({ setIsHomeOpen }) => {
     if (!selectedChat?.uid || !isHomeOpen) return;
 
     const intervalId = setInterval(() => {
-      getMessagesByUser(selectedChat.uid, selectedChat.with_user || null, true);
+      getMessagesByUser(selectedChat.uid, null, true);
     }, POLL_INTERVAL_CHAT);
 
     return () => clearInterval(intervalId);

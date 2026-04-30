@@ -90,13 +90,6 @@ const getMessagesWithUser = async ({
     }
   }
 
-  // Nếu đã đủ 10 tin từ Firestore thì trả về luôn
-  if (allFirestoreMessages.length >= 10) {
-    return {
-      messages: allFirestoreMessages.sort((a, b) => (b.create_time || 0) - (a.create_time || 0)),
-      nextPageToken: finalNextPageToken,
-    };
-  }
 
   // Nếu vẫn ít tin nhắn, thử Locket API để lấy thêm tin mới nhất
   const locketApiMessages = await fetchMessagesViaLocketApi({

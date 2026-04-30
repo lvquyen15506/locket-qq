@@ -25,7 +25,7 @@ export const getMessagesWithUser = async ({
       conversationId: conversationId || messageId,
       with_user: withUser || null,
       timestamp,
-      limit, // Gửi limit lên backend
+      limit: Number(limit), // Gửi limit lên backend dưới dạng số
     });
     return res.data?.data;
   } catch (err) {

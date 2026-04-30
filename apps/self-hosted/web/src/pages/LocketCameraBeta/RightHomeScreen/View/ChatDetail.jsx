@@ -83,7 +83,7 @@ const ChatDetail = ({ selectedChat, messages, setSelectedChat, isLoading }) => {
 
         await loadOlderMessages(
           selectedChat.uid,
-          selectedChat.with_user || null,
+          null,
           oldestMessage.create_time
         );
 
