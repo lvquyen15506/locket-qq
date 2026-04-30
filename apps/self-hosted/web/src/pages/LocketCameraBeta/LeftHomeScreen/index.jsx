@@ -24,11 +24,12 @@ const LeftHomeScreen = ({ setIsProfileOpen }) => {
   //   return () => document.body.classList.remove("overflow-hidden");
   // }, [isProfileOpen]);
   const postedMoments = useUploadQueueStore((s) => s.postedMoments);
-  const bucketAll = useMomentsStoreV2((s) => s.momentsByUser["all"]);
+  const userKey = user?.localId || user?.uid;
+  const bucketUser = useMomentsStoreV2((s) => s.momentsByUser[userKey]);
   const fetchMoments = useMomentsStoreV2((s) => s.fetchMoments);
   const didHydrateMomentsRef = useRef("");
 
-  const remoteMoments = bucketAll?.items || [];
+  const remoteMoments = bucketUser?.items || [];
 
   const normalizeMomentForCalendar = (m) => {
     if (!m) return null;
@@ -111,21 +112,23 @@ const LeftHomeScreen = ({ setIsProfileOpen }) => {
 
     const hydrateAllMoments = async () => {
       try {
-        await fetchMoments(user, null);
+        // Chỉ lấy bài đăng của chính user (truyền userKey làm friendId)
+        // Không truyền null vì null = lấy tất cả bạn bè → rất lag
+        await fetchMoments(user, userKey);
 
         // Tải thêm từng trang đến khi hết dữ liệu hoặc đạt giới hạn an toàn.
         for (let i = 0; i < 30; i += 1) {
           if (canceled) break;
 
           const store = useMomentsStoreV2.getState();
-          const bucket = store.momentsByUser["all"];
+          const bucket = store.momentsByUser[userKey];
 
           if (!bucket?.hasMore || bucket?.isLoadingMore) break;
 
           const before = bucket.items?.length || 0;
-          await store.loadMoreOlder(null);
+          await store.loadMoreOlder(userKey);
 
-          const after = useMomentsStoreV2.getState().momentsByUser["all"]?.items?.length || 0;
+          const after = useMomentsStoreV2.getState().momentsByUser[userKey]?.items?.length || 0;
           if (after <= before) break;
         }
       } catch (error) {
