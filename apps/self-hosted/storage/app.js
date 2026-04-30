@@ -10,7 +10,7 @@ const app = express();
 // ✅ Cấu hình CORS nâng cao
 const allowedOrigins = [
   /^http:\/\/localhost:\d+$/, // localhost:*
-  /\.vercel\.app$/,          // Vercel deployments
+  /^https?:\/\/.*\.vercel\.app$/,          // Vercel deployments
   /^https?:\/\/(?:[a-zA-Z0-9-]+\.)?locketqq\.online$/,
 ];
 

@@ -10,9 +10,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Thay thế URL này bằng URL API thật của bạn
-        const res = await axios.get('https://locketqq.online/api/admin/stats', {
-          headers: { 'x-admin-secret': localStorage.getItem('admin_secret') }
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://locketqq.online/api';
+        const token = localStorage.getItem('admin_token');
+        const res = await axios.get(`${apiUrl}/admin/stats`, {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
         setStats(res.data.data);
       } catch (error) {

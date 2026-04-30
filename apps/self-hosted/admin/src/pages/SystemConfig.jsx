@@ -18,7 +18,8 @@ const SystemConfig = () => {
 
   const fetchConfig = async () => {
     try {
-      const res = await axios.get('https://locketqq.online/api/admin/config');
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://locketqq.online/api';
+      const res = await axios.get(`${apiUrl}/admin/config`);
       setConfig(res.data.data);
     } catch (error) {
       toast.error('Lỗi khi tải cấu hình hệ thống');
@@ -30,8 +31,10 @@ const SystemConfig = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await axios.post('https://locketqq.online/api/admin/config', config, {
-        headers: { 'x-admin-secret': localStorage.getItem('admin_secret') }
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://locketqq.online/api';
+      const token = localStorage.getItem('admin_token');
+      await axios.post(`${apiUrl}/admin/config`, config, {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
       toast.success('Đã cập nhật cấu hình hệ thống!');
     } catch (error) {

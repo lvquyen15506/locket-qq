@@ -8,8 +8,8 @@ import Login from './pages/Login';
 import { Toaster } from 'sonner';
 
 const ProtectedRoute = ({ children }) => {
-  const isAdmin = localStorage.getItem('admin_secret');
-  if (!isAdmin) {
+  const token = localStorage.getItem('admin_token');
+  if (!token) {
     return <Navigate to="/login" replace />;
   }
   return <AdminLayout>{children}</AdminLayout>;

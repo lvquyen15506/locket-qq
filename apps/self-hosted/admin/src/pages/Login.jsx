@@ -1,20 +1,39 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, ShieldCheck } from 'lucide-react';
+import { Lock, User, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || 'https://locketqq.online/api';
 
 const Login = () => {
-  const [secret, setSecret] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (secret) {
-      localStorage.setItem('admin_secret', secret);
-      toast.success('Đăng nhập Admin thành công!');
-      navigate('/');
-    } else {
-      toast.error('Vui lòng nhập Admin Secret Key');
+    if (!username || !password) {
+      toast.error('Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await axios.post(`${API_URL}/admin/login`, { username, password });
+      if (res.data.success && res.data.token) {
+        localStorage.setItem('admin_token', res.data.token);
+        toast.success('Đăng nhập Admin thành công!');
+        navigate('/');
+      } else {
+        toast.error('Đăng nhập thất bại');
+      }
+    } catch (error) {
+      const msg = error.response?.data?.message || 'Sai tài khoản hoặc mật khẩu';
+      toast.error(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,13 +49,31 @@ const Login = () => {
           
           <h2 className="text-3xl font-bold text-center mb-2">Admin Login</h2>
           <p className="text-base-content/60 text-center mb-8">
-            Nhập Admin Secret Key để tiếp tục
+            Đăng nhập để quản lý Locket QQ
           </p>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-semibold">Secret Key</span>
+                <span className="label-text font-semibold">Tài khoản</span>
+              </label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-base-content/40" size={20} />
+                <input
+                  type="text"
+                  placeholder="admin"
+                  className="input input-bordered w-full pl-12 rounded-xl focus:border-primary focus:outline-none"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  autoComplete="username"
+                />
+              </div>
+            </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text font-semibold">Mật khẩu</span>
               </label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-base-content/40" size={20} />
@@ -44,15 +81,20 @@ const Login = () => {
                   type="password"
                   placeholder="••••••••"
                   className="input input-bordered w-full pl-12 rounded-xl focus:border-primary focus:outline-none"
-                  value={secret}
-                  onChange={(e) => setSecret(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
+                  autoComplete="current-password"
                 />
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full rounded-xl text-lg mt-4 shadow-lg shadow-primary/20">
-              Truy cập Dashboard
+            <button 
+              type="submit" 
+              className="btn btn-primary w-full rounded-xl text-lg mt-4 shadow-lg shadow-primary/20"
+              disabled={loading}
+            >
+              {loading ? <span className="loading loading-spinner"></span> : 'Truy cập Dashboard'}
             </button>
           </form>
         </div>
