@@ -4,7 +4,7 @@ import { Lock, User, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://locket-api-seven.vercel.app/api';
+const API_URL = 'https://locket-api-seven.vercel.app/api';
 
 const Login = () => {
   const [username, setUsername] = useState('');
