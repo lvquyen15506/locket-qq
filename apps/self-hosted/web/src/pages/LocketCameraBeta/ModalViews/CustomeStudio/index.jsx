@@ -158,7 +158,7 @@ const ScreenCustomeStudio = () => {
           <div className="flex items-center space-x-2 text-primary">
             <Palette size={22} />
             <div className="text-2xl font-lovehouse mt-1.5 font-semibold">
-              Customize studio (v2){" "}
+              Customize studio{" "}
             </div>
           </div>
           <button

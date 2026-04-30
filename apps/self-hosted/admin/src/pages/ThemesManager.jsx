@@ -146,7 +146,7 @@ const ThemesManager = () => {
     <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-black mb-1">Quản lý Theme Động (v2)</h1>
+          <h1 className="text-4xl font-black mb-1">Quản lý Theme Động</h1>
           <p className="text-base-content/60">Quản lý linh hoạt các danh mục và Theme hiển thị trên Web App</p>
         </div>
         <div className="flex gap-2">
@@ -220,17 +220,21 @@ const ThemesManager = () => {
                     <div className="flex-1 min-w-0 overflow-hidden flex items-center gap-2">
                       {themeDetails[id] ? (
                         <>
-                           <span className="text-xl flex-shrink-0">{themeDetails[id].icon_url}</span>
+                           {themeDetails[id].icon_url?.includes('http') ? (
+                             <img src={themeDetails[id].icon_url} alt="icon" className="w-8 h-8 rounded object-cover flex-shrink-0" />
+                           ) : (
+                             <span className="text-xl flex-shrink-0">{themeDetails[id].icon_url}</span>
+                           )}
                            <span className="font-semibold text-sm truncate">{themeDetails[id].text}</span>
-                           <code className="text-xs font-mono opacity-40 ml-2 truncate hidden sm:block">{id.split('-')[0]}...</code>
+                           <code className="text-xs font-mono opacity-40 ml-2 truncate hidden sm:block">{String(id).split('-')[0]}...</code>
                         </>
-                      ) : (id || '').trim().startsWith('http') ? (
+                      ) : String(id).includes('http') ? (
                         <>
-                           <img src={id.trim()} alt="" className="w-8 h-8 rounded object-cover flex-shrink-0" />
-                           <code className="text-xs truncate font-mono opacity-70 ml-2">{id}</code>
+                           <img src={String(id).trim()} alt="img" className="w-8 h-8 rounded object-cover flex-shrink-0" />
+                           <code className="text-xs truncate font-mono opacity-70 ml-2">{String(id)}</code>
                         </>
                       ) : (
-                        <code className="text-xs truncate font-mono opacity-70">{id}</code>
+                        <code className="text-xs truncate font-mono opacity-70">{String(id)}</code>
                       )}
                     </div>
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
