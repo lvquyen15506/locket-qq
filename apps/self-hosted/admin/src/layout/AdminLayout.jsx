@@ -3,7 +3,7 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Palette, Settings, LogOut, Users } from 'lucide-react';
 import { clsx } from 'clsx';
 
-const AdminLayout = () => {
+const AdminLayout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ const AdminLayout = () => {
       {/* Main Content */}
       <main className="flex-1 p-4 md:p-8 overflow-y-auto">
         <div className="max-w-6xl mx-auto">
-          <Outlet />
+          {children || <Outlet />}
         </div>
       </main>
     </div>
