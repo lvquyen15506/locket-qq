@@ -18,7 +18,7 @@ const SystemConfig = () => {
 
   const fetchConfig = async () => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://locketqq.online/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://locket-api-seven.vercel.app/api';
       const res = await axios.get(`${apiUrl}/admin/config`);
       setConfig(res.data.data);
     } catch (error) {
@@ -31,7 +31,7 @@ const SystemConfig = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://locketqq.online/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://locket-api-seven.vercel.app/api';
       const token = localStorage.getItem('admin_token');
       await axios.post(`${apiUrl}/admin/config`, config, {
         headers: { 'Authorization': `Bearer ${token}` }

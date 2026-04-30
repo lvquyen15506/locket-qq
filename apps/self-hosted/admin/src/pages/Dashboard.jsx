@@ -10,7 +10,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://locketqq.online/api';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://locket-api-seven.vercel.app/api';
         const token = localStorage.getItem('admin_token');
         const res = await axios.get(`${apiUrl}/admin/stats`, {
           headers: { 'Authorization': `Bearer ${token}` }
