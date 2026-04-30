@@ -26,7 +26,7 @@ const getCachedDefaults = () => {
  */
 const mergeAllCaptions = (userSaved) => {
   const cachedDefaults = getCachedDefaults();
-  const all = [...userSaved, ...cachedDefaults, ...DEFAULT_CAPTIONS_DATA];
+  const all = [...userSaved, ...cachedDefaults];
   // Loại trùng ID, giữ bản đầu tiên
   const seen = new Set();
   const merged = all.filter((c) => {
@@ -37,7 +37,6 @@ const mergeAllCaptions = (userSaved) => {
 
   // Gán cờ isDefault cho tất cả caption thuộc dạng mặc định
   const defaultIds = new Set([
-    ...DEFAULT_CAPTIONS_DATA.map(c => c.id),
     ...cachedDefaults.map(c => c.id)
   ]);
 

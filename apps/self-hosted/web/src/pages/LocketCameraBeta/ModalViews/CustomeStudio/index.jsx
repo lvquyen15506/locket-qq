@@ -13,6 +13,7 @@ import FeatureGate from "@/components/common/FeatureGate";
 import SavedCaptions from "./CaptionItems/SavedCaptions";
 import SpecialCaption from "./CaptionItems/SpecialCaption";
 import { useOverlayStore } from "@/stores";
+import { DEFAULT_CAPTIONS_DATA } from "@/config/defaultCaptions";
 
 const ScreenCustomeStudio = () => {
   const navigate = useNavigate();
@@ -22,6 +23,18 @@ const ScreenCustomeStudio = () => {
   const { isFilterOpen, setIsFilterOpen } = navigation;
   const { setPostOverlay } = post;
   const { captionOverlays, userCaptions } = useOverlayStore();
+
+  const defaultStatusPresets = React.useMemo(() => {
+    return DEFAULT_CAPTIONS_DATA.map(c => ({
+      ...c,
+      preset_id: c.id,
+      preset_caption: c.text,
+      icon: c.icon_url,
+      color_top: c.colortop,
+      color_bottom: c.colorbottom,
+      text_color: c.color || "#FFFFFF",
+    }));
+  }, []);
 
   const canUseCaptionGif = useFeatureVisible("caption_gif");
   const canUseCaptionIcon = useFeatureVisible("caption_icon");
@@ -160,6 +173,11 @@ const ScreenCustomeStudio = () => {
           <GeneralThemes
             title="🎨 General"
             onSelect={handleCustomeSelectTest}
+          />
+          <ThemesCustomes
+            title="✨ Status"
+            presets={defaultStatusPresets}
+            onSelect={handleCustomeSelect}
           />
           {Array.isArray(captionOverlays) && captionOverlays.map(category => {
             if (category.id === 'special') {
