@@ -59,15 +59,29 @@ const ThemesManager = () => {
     categories.forEach(cat => cat.themeIds?.forEach(id => allIds.add(id)));
     
     allIds.forEach(async (id) => {
-      if (!themeDetails[id]) {
-        try {
-          const res = await axios.post('https://locket-api-seven.vercel.app/api/collab/getCaption', { id });
-          if (res.data?.caption) {
-            setThemeDetails(prev => ({ ...prev, [id]: res.data.caption }));
-          }
-        } catch (e) {
-          // ignore
+      if (themeDetails[id]) return;
+      
+      const cleanId = String(id || '').trim();
+      
+      // If this ID is a direct image URL, create a synthetic detail object immediately
+      // Do NOT call the Kanade API for URLs (it returns 403)
+      if (cleanId.includes('http')) {
+        setThemeDetails(prev => ({ ...prev, [id]: { 
+          icon_url: cleanId, 
+          text: 'Custom Image',
+          isDirectUrl: true 
+        }}));
+        return;
+      }
+      
+      // For Kanade UUIDs, fetch caption details from proxy API
+      try {
+        const res = await axios.post('https://locket-api-seven.vercel.app/api/collab/getCaption', { id: cleanId });
+        if (res.data?.caption) {
+          setThemeDetails(prev => ({ ...prev, [id]: res.data.caption }));
         }
+      } catch (e) {
+        // ignore fetch errors
       }
     });
   }, [categories]);
