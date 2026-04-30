@@ -161,41 +161,48 @@ const ScreenCustomeStudio = () => {
             title="🎨 General"
             onSelect={handleCustomeSelectTest}
           />
-          <ThemesCustomes
-            title="🎨 Suggest Theme"
-            presets={captionOverlays.background}
-            onSelect={handleCustomeSelect}
-          />
-          <SpecialCaption
-            title="⭐ Caption đặc biệt"
-            presets={captionOverlays.special}
-            onSelect={handleCustomeSelect}
-          />
-          {/* Decorative by Locket */}
-          <ThemesCustomes
-            title="🎨 Decorative by Locket"
-            presets={captionOverlays.decorative}
-            onSelect={handleCustomeSelect}
-          />
-          <ThemesCustomes
-            title="🎨 Decorative by QQ"
-            presets={captionOverlays.custome}
-            onSelect={handleCustomeSelect}
-          />
-          <FeatureGate canUse={canUseCaptionIcon}>
-            <CaptionIconSelector
-              title="🎨 Caption Icon - Truy cập sớm"
-              captionThemes={captionOverlays}
-              onSelect={handleCustomeSelectTest}
-            />
-          </FeatureGate>
-          <FeatureGate canUse={canUseCaptionGif}>
-            <CaptionGifThemes
-              title="🎨 Caption Gif - Truy cập sớm"
-              captionThemes={captionOverlays}
-              onSelect={handleCustomeSelectTest}
-            />
-          </FeatureGate>
+          {Array.isArray(captionOverlays) && captionOverlays.map(category => {
+            if (category.id === 'special') {
+              return (
+                <SpecialCaption
+                  key={category.id}
+                  title={category.title || "⭐ Caption đặc biệt"}
+                  presets={category.items || []}
+                  onSelect={handleCustomeSelect}
+                />
+              );
+            }
+            if (category.id === 'image_icon') {
+              return (
+                <FeatureGate key={category.id} canUse={canUseCaptionIcon}>
+                  <CaptionIconSelector
+                    title={category.title || "🎨 Caption Icon"}
+                    presets={category.items || []}
+                    onSelect={handleCustomeSelectTest}
+                  />
+                </FeatureGate>
+              );
+            }
+            if (category.id === 'image_gif') {
+              return (
+                <FeatureGate key={category.id} canUse={canUseCaptionGif}>
+                  <CaptionGifThemes
+                    title={category.title || "🎨 Caption Gif"}
+                    presets={category.items || []}
+                    onSelect={handleCustomeSelectTest}
+                  />
+                </FeatureGate>
+              );
+            }
+            return (
+              <ThemesCustomes
+                key={category.id}
+                title={category.title}
+                presets={category.items || []}
+                onSelect={handleCustomeSelect}
+              />
+            );
+          })}
           <SavedCaptions
             title="🎨 Caption Kanade hợp tác"
             captions={userCaptions}

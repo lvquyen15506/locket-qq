@@ -2,7 +2,7 @@ import React from "react";
 
 export default function CaptionIconSelector({
   title,
-  captionThemes,
+  presets = [],
   onSelect,
 }) {
   return (
@@ -16,7 +16,7 @@ export default function CaptionIconSelector({
         </>
       )}
       <div className="flex flex-wrap gap-4 pt-2 pb-5 justify-start">
-        {captionThemes?.image_icon?.map((preset) => (
+        {presets.map((preset) => (
           <button
             key={preset.id}
             onClick={() => onSelect(preset)}

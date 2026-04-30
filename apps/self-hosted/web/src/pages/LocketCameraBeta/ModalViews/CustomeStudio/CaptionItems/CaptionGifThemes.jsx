@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CaptionGifThemes({ title, captionThemes, onSelect }) {
+export default function CaptionGifThemes({ title, presets = [], onSelect }) {
   return (
     <div className="px-4">
       {title && (
@@ -12,7 +12,7 @@ export default function CaptionGifThemes({ title, captionThemes, onSelect }) {
         </>
       )}
       <div className="flex flex-wrap gap-4 pt-2 pb-5 justify-start">
-        {captionThemes?.image_gif.map((preset) => (
+        {presets.map((preset) => (
           <button
             key={preset.id}
             onClick={() => onSelect(preset)}

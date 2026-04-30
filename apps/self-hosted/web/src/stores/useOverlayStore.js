@@ -4,35 +4,10 @@ import { getAllOverlayCaption, getCollabCaption } from "@/services";
 import {
   DEFAULT_CAPTION_IDS,
   DEFAULT_CAPTIONS_DATA,
-  KANADE_THEME_IDS,
 } from "@/config/defaultCaptions";
 
 const USER_CAPTION_KEY = "Yourcaptions";
 const DEFAULT_CACHE_KEY = "DefaultCaptionsCache";
-
-const sortByOrderIndex = (themes) => {
-  return [...themes].sort(
-    (a, b) => (a.order_index ?? 9999) - (b.order_index ?? 9999)
-  );
-};
-
-const groupThemesByType = (themes) => {
-  const decorative = themes.filter((t) => t.type === "decorative");
-  const custome = themes.filter((t) => t.type === "custome");
-  const background = themes.filter((t) => t.type === "background");
-  const image_icon = themes.filter((t) => t.type === "image_icon");
-  const image_gif = themes.filter((t) => t.type === "image_gif");
-  const special = themes.filter((t) => t.type === "special");
-
-  return {
-    decorative: sortByOrderIndex(decorative),
-    custome: sortByOrderIndex(custome),
-    background: sortByOrderIndex(background),
-    image_icon: sortByOrderIndex(image_icon),
-    image_gif: sortByOrderIndex(image_gif),
-    special: sortByOrderIndex(special),
-  };
-};
 
 /**
  * Lấy caption mặc định đã cache (fetch từ ID)
@@ -60,7 +35,7 @@ const mergeAllCaptions = (userSaved) => {
     return true;
   });
 
-  // Gán cờ isDefault cho tất cả caption thuộc dạng mặc định (dù nó nằm trong userSaved hay cache)
+  // Gán cờ isDefault cho tất cả caption thuộc dạng mặc định
   const defaultIds = new Set([
     ...DEFAULT_CAPTIONS_DATA.map(c => c.id),
     ...cachedDefaults.map(c => c.id)
@@ -73,25 +48,17 @@ const mergeAllCaptions = (userSaved) => {
 };
 
 export const useOverlayStore = create((set, get) => ({
-  captionOverlays: {
-    decorative: [],
-    custome: [],
-    background: [],
-    image_icon: [],
-    image_gif: [],
-    special: [],
-  },
+  // dynamic categories
+  captionOverlays: [],
   isLoading: false,
   error: null,
 
   fetchCaptionOverlays: async () => {
-    // tránh gọi API nhiều lần
-    if (get().captionOverlays.decorative.length > 0) return;
+    if (get().captionOverlays.length > 0) return;
 
     set({ isLoading: true, error: null });
 
     try {
-      // check sessionStorage
       const cached = sessionStorage.getItem("captionOverlays");
       if (cached) {
         set({
@@ -102,12 +69,69 @@ export const useOverlayStore = create((set, get) => ({
       }
 
       const result = await getAllOverlayCaption();
-      const grouped = groupThemesByType(result);
+      // Expecting result to be an array of categories
+      let categories = Array.isArray(result) ? result : [];
 
-      sessionStorage.setItem("captionOverlays", JSON.stringify(grouped));
+      // Backward compatibility if old object format is returned
+      if (!Array.isArray(result) && result) {
+        categories = [];
+        const oldMap = [
+          { key: 'background', label: '🎨 Suggest Theme' },
+          { key: 'special', label: '⭐ Caption Đặc biệt' },
+          { key: 'decorative', label: '🎨 Decorative by Locket' },
+          { key: 'custome', label: '🎨 Decorative by QQ' },
+          { key: 'image_icon', label: '🎨 Caption Icon' },
+          { key: 'image_gif', label: '🎨 Caption Gif' },
+        ];
+        for (const cat of oldMap) {
+          if (result[cat.key] && Array.isArray(result[cat.key])) {
+            categories.push({
+              id: cat.key,
+              title: cat.label,
+              themeIds: result[cat.key]
+            });
+          }
+        }
+      }
+
+      // Now we have the categories and their themeIds
+      // We need to fetch the actual theme details from Kanade API
+      const fullCategories = [];
+      for (const category of categories) {
+        if (!category.themeIds || category.themeIds.length === 0) {
+          fullCategories.push({ ...category, items: [] });
+          continue;
+        }
+
+        const results = await Promise.allSettled(
+          category.themeIds.map((id) => getCollabCaption(id))
+        );
+
+        const newCaptions = results
+          .filter((r) => r.status === "fulfilled" && r.value)
+          .map((r) => {
+            const c = r.value;
+            return {
+              ...c,
+              preset_id: c.id,
+              preset_caption: c.text,
+              icon: c.icon_url,
+              color_top: c.colortop,
+              color_bottom: c.colorbottom,
+              text_color: c.color || "#FFFFFF",
+            };
+          });
+
+        fullCategories.push({
+          ...category,
+          items: newCaptions
+        });
+      }
+
+      sessionStorage.setItem("captionOverlays", JSON.stringify(fullCategories));
 
       set({
-        captionOverlays: grouped,
+        captionOverlays: fullCategories,
         isLoading: false,
       });
     } catch (err) {
@@ -119,40 +143,23 @@ export const useOverlayStore = create((set, get) => ({
     }
   },
 
-  // optional: clear cache khi cần
   clearCaptionOverlays: () => {
     sessionStorage.removeItem("captionOverlays");
     set({
-      captionOverlays: {
-        decorative: [],
-        custome: [],
-        background: [],
-        image_icon: [],
-        image_gif: [],
-        special: [],
-      },
+      captionOverlays: [],
     });
   },
 
-   /* ===============================
-   *  USER CAPTIONS KANADE (LOCAL)
-   *  Merge: user saved + fetched defaults + static defaults
-   * =============================== */
   userCaptions: mergeAllCaptions(
     JSON.parse(localStorage.getItem(USER_CAPTION_KEY) || "[]")
   ),
 
-  /**
-   * Fetch caption mặc định từ DEFAULT_CAPTION_IDS (chạy 1 lần)
-   * Kết quả cache vào localStorage để không fetch lại
-   */
   fetchDefaultCaptions: async () => {
     if (DEFAULT_CAPTION_IDS.length === 0) return;
 
     const cached = getCachedDefaults();
     const cachedIds = new Set(cached.map((c) => c.id));
 
-    // Chỉ fetch những ID chưa cache
     const idsToFetch = DEFAULT_CAPTION_IDS.filter((id) => !cachedIds.has(id));
     if (idsToFetch.length === 0) return;
 
@@ -168,7 +175,6 @@ export const useOverlayStore = create((set, get) => ({
       const updatedCache = [...cached, ...newCaptions];
       localStorage.setItem(DEFAULT_CACHE_KEY, JSON.stringify(updatedCache));
 
-      // Cập nhật UI
       const userSaved = JSON.parse(
         localStorage.getItem(USER_CAPTION_KEY) || "[]"
       );
@@ -176,72 +182,9 @@ export const useOverlayStore = create((set, get) => ({
     }
   },
 
-  /**
-   * Tải toàn bộ ID từ KANADE_THEME_IDS cho từng danh mục
-   */
   fetchKanadeThemes: async () => {
-    // Thu thập tất cả ID cần tải và đánh dấu chúng thuộc danh mục nào
-    const idsToFetchMap = {};
-    for (const [category, ids] of Object.entries(KANADE_THEME_IDS)) {
-      if (Array.isArray(ids)) {
-        ids.forEach(id => {
-          idsToFetchMap[id] = category;
-        });
-      }
-    }
-
-    const allIds = Object.keys(idsToFetchMap);
-    if (allIds.length === 0) return;
-
-    // console.log("🔍 Đang tải Kanade Themes cho các ID:", allIds);
-
-    // Tải các ID này từ API Kanade
-    const results = await Promise.allSettled(
-      allIds.map((id) => getCollabCaption(id))
-    );
-
-    const newCaptions = results
-      .filter((r) => r.status === "fulfilled" && r.value)
-      .map((r) => {
-        const c = r.value;
-        // Map lại các trường để khớp với giao diện Themes
-        return {
-          ...c,
-          preset_id: c.id,
-          preset_caption: c.text,
-          icon: c.icon_url,
-          color_top: c.colortop,
-          color_bottom: c.colorbottom,
-          text_color: c.color || "#FFFFFF",
-        };
-      });
-
-    if (newCaptions.length > 0) {
-      // console.log("✅ Đã tải xong Kanade Themes:", newCaptions);
-      // Phân bổ chúng vào captionOverlays hiện tại
-      const currentOverlays = get().captionOverlays;
-      const updatedOverlays = { ...currentOverlays };
-      let hasChanges = false;
-
-      newCaptions.forEach(caption => {
-        const category = idsToFetchMap[caption.preset_id];
-        if (category && updatedOverlays[category]) {
-          // Kiểm tra trùng lặp bằng preset_id hoặc id
-          const exists = updatedOverlays[category].some(
-            c => (c.preset_id === caption.preset_id) || (c.id === caption.preset_id)
-          );
-          if (!exists) {
-            updatedOverlays[category] = [...updatedOverlays[category], caption];
-            hasChanges = true;
-          }
-        }
-      });
-
-      if (hasChanges) {
-        set({ captionOverlays: updatedOverlays });
-        sessionStorage.setItem("captionOverlays", JSON.stringify(updatedOverlays));
-      }
-    }
+    // Hàm này đã không còn tác dụng vì logic load theme ID đã được chuyển vào fetchCaptionOverlays
+    // Giữ lại để tránh lỗi tham chiếu ở nơi khác, hoặc có thể xóa đi.
   },
 
   loadUserCaptions: () => {
@@ -275,20 +218,17 @@ export const useOverlayStore = create((set, get) => ({
   },
 
   removeUserCaption: (id) => {
-    // Xóa khỏi localStorage (caption mặc định nếu bị xóa khỏi localStorage vẫn sẽ được giữ lại nhờ mergeAllCaptions)
     const savedCaptions = JSON.parse(
       localStorage.getItem(USER_CAPTION_KEY) || "[]"
     );
     const updatedSaved = savedCaptions.filter((c) => c.id !== id);
     localStorage.setItem(USER_CAPTION_KEY, JSON.stringify(updatedSaved));
 
-    // Cập nhật lại UI
     set({ userCaptions: mergeAllCaptions(updatedSaved) });
   },
 
   clearUserCaptions: () => {
     localStorage.removeItem(USER_CAPTION_KEY);
-    // Reset về chỉ còn caption mặc định
     set({ userCaptions: mergeAllCaptions([]) });
   },
 }));

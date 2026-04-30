@@ -77,23 +77,25 @@ class AdminService {
         try {
             const url = `${BASE_URL}/settings/global_themes?key=${API_KEY}`;
             const res = await axios.get(url);
-            return fromFirestore(res.data);
+            const data = fromFirestore(res.data);
+            if (data.raw_data) {
+                return JSON.parse(data.raw_data);
+            }
+            return data;
         } catch {
-            return {
-                background: [],
-                special: [],
-                decorative: [],
-                custome: [],
-                image_icon: [],
-                image_gif: [],
-            };
+            return [];
         }
     }
 
     async updateGlobalThemes(themes) {
         try {
             const url = `${BASE_URL}/settings/global_themes?key=${API_KEY}`;
-            await axios.patch(url, toFirestoreFields(themes));
+            const payload = {
+                fields: {
+                    raw_data: { stringValue: JSON.stringify(themes) }
+                }
+            };
+            await axios.patch(url, payload);
             return themes;
         } catch (error) {
             logError('AdminService', `updateThemes error: ${error.message}`);
