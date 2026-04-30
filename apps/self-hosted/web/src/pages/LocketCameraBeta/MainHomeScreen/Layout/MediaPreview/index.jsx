@@ -8,7 +8,7 @@ import { SonnerInfo } from "@/components/ui/SonnerToast";
 import { useUIStore } from "@/stores/useUIStore";
 
 const MediaPreview = () => {
-  const { post, useloading, camera } = useApp();
+  const { post, useloading, camera, navigation } = useApp();
   const { selectedFile, preview, isSizeMedia } = post;
   const {
     streamRef,
@@ -22,6 +22,10 @@ const MediaPreview = () => {
     setDeviceId,
   } = camera;
   const { setSendLoading } = useloading;
+  const { isBottomOpen, isProfileOpen, isHomeOpen } = navigation;
+
+  // Camera chỉ nên chạy khi user đang ở màn hình chụp
+  const isOnCaptureScreen = !isBottomOpen && !isProfileOpen && !isHomeOpen;
 
   const cameraInitialized = useRef(false);
   const lastCameraMode = useRef(cameraMode);
@@ -107,7 +111,24 @@ const MediaPreview = () => {
   //   };
   // }, [cameraActive, cameraMode, preview, selectedFile]);
 
+  // Tắt camera khi rời khỏi màn hình chụp (feed, profile, chat, ...)
+  // Bật lại khi quay về màn hình chụp
   useEffect(() => {
+    if (!isOnCaptureScreen) {
+      // User đang ở màn hình khác → tắt camera để tiết kiệm pin
+      stopCamera();
+      setCameraActive(false);
+    } else {
+      // User quay lại màn hình chụp → bật camera nếu chưa có preview
+      if (!preview && !selectedFile && !cameraActive) {
+        setCameraActive(true);
+      }
+    }
+  }, [isOnCaptureScreen]);
+
+  useEffect(() => {
+    if (!isOnCaptureScreen) return; // Không làm gì nếu không ở màn chụp
+
     if (cameraActive && !preview && !selectedFile) {
       startCamera();
     } else if (!cameraActive || preview || selectedFile) {
@@ -121,13 +142,14 @@ const MediaPreview = () => {
         stopCamera();
       }
     };
-  }, [cameraActive, cameraMode, preview, selectedFile]);
+  }, [cameraActive, cameraMode, preview, selectedFile, isOnCaptureScreen]);
 
   useEffect(() => {
+    if (!isOnCaptureScreen) return; // Không auto-bật nếu không ở màn chụp
     if (!preview && !selectedFile && !cameraActive) {
       setCameraActive(true);
     }
-  }, [preview, selectedFile, cameraActive]);
+  }, [preview, selectedFile, cameraActive, isOnCaptureScreen]);
 
   const handleCycleZoomCamera = async () => {
     const cameras = await getAvailableCameras();
