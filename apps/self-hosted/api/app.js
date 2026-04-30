@@ -26,6 +26,7 @@ app.use(
   cors({
     origin: [
       /^http:\/\/localhost:\d+$/,
+      /^http:\/\/127\.0\.0\.1:\d+$/,
       /\.vercel\.app$/,
       /^https?:\/\/(?:[a-zA-Z0-9-]+\.)?locketqq\.online$/,
     ],

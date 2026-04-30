@@ -11,7 +11,7 @@ const Dashboard = () => {
     const fetchStats = async () => {
       try {
         // Thay thế URL này bằng URL API thật của bạn
-        const res = await axios.get('https://locketqq.online/api/admin/stats', {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/stats`, {
           headers: { 'x-admin-secret': localStorage.getItem('admin_secret') }
         });
         setStats(res.data.data);

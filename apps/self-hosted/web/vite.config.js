@@ -71,6 +71,24 @@ export default defineConfig({
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   server: {
     host: true,
+    proxy: {
+      "/locket": {
+        target: "http://127.0.0.1:5001",
+        changeOrigin: true,
+      },
+      "/api": {
+        target: "http://127.0.0.1:5001",
+        changeOrigin: true,
+      },
+      "/validateEmailAddress": {
+        target: "http://127.0.0.1:5001",
+        changeOrigin: true,
+      },
+      "/socket.io": {
+        target: "http://127.0.0.1:5001",
+        ws: true,
+      },
+    },
   },
   plugins: [tailwindcss(), react(), VitePWA(manifestForPlugIn), visualizer()],
   resolve: {

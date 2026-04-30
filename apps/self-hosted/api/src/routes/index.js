@@ -11,5 +11,6 @@ module.exports = (app) => {
   app.use("/locket", locketRouter);
   app.use("/api/collab", collabRouter);
   app.use("/api/admin", adminRouter);
+  app.use("/v1/public", adminRouter); // Thêm để Web app gọi được public themes
   app.use("/api", convertRouter);
 };
