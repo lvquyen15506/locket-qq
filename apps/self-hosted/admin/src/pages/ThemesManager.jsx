@@ -30,9 +30,7 @@ const ThemesManager = () => {
 
   const fetchThemes = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/themes`, {
-        headers: { 'x-admin-secret': localStorage.getItem('admin_secret') }
-      });
+      const res = await axios.get('https://locketqq.online/api/admin/themes');
       setThemes(res.data.data);
     } catch (error) {
       toast.error('Lỗi khi tải danh sách Theme');
@@ -60,7 +58,7 @@ const ThemesManager = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/admin/themes`, themes, {
+      await axios.post('https://locketqq.online/api/admin/themes', themes, {
         headers: { 'x-admin-secret': localStorage.getItem('admin_secret') }
       });
       toast.success('Đã lưu thay đổi thành công!');

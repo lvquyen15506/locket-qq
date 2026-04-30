@@ -9,7 +9,6 @@ const { verifyIdToken } = require("../middlewares/verifyToken.js");
 const saveUploadFile = require("../middlewares/save-upload-files.js");
 
 router.post("/login", locketController.login);
-router.post("/validateEmailAddress", locketController.validateEmailAddress);
 router.get("/logout", locketController.logout);
 router.post("/refresh-token", locketController.refreshToken);
 

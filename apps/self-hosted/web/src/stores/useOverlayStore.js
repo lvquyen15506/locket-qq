@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { instanceBaseData } from "@/lib/axios.data";
+import { instanceBaseData } from "@/lib/axios.baseData";
 import { getAllOverlayCaption, getCollabCaption } from "@/services";
 import {
   DEFAULT_CAPTION_IDS,

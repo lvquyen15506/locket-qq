@@ -26,16 +26,6 @@ class LocketController {
     }
   }
 
-  async validateEmailAddress(req, res, next) {
-    try {
-      const { instanceLocketV2 } = require("../libs/instanceLocket");
-      const response = await instanceLocketV2.post("/validateEmailAddress", req.body);
-      return res.status(200).json(response.data);
-    } catch (error) {
-      next(error);
-    }
-  }
-
   async getInfoLocket(req, res, next) {
     try {
       const { idToken, localId } = req.user;
