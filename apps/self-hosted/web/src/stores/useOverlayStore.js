@@ -60,11 +60,12 @@ export const useOverlayStore = create((set, get) => ({
     try {
       const cached = sessionStorage.getItem("captionOverlays");
       if (cached) {
-        set({
-          captionOverlays: JSON.parse(cached),
-          isLoading: false,
-        });
-        return;
+        // IMPORTANT: Temporarily disabled caching to ensure dynamic themes load immediately
+        // set({
+        //   captionOverlays: JSON.parse(cached),
+        //   isLoading: false,
+        // });
+        // return;
       }
 
       const result = await getAllOverlayCaption();

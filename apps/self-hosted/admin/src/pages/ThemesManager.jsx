@@ -7,6 +7,7 @@ const ThemesManager = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [themeDetails, setThemeDetails] = useState({});
 
   const predefinedColors = ['primary', 'secondary', 'accent', 'info', 'warning', 'error', 'success'];
 
@@ -52,6 +53,24 @@ const ThemesManager = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const allIds = new Set();
+    categories.forEach(cat => cat.themeIds?.forEach(id => allIds.add(id)));
+    
+    allIds.forEach(async (id) => {
+      if (!themeDetails[id]) {
+        try {
+          const res = await axios.post('https://locket-api-seven.vercel.app/api/collab/getCaption', { id });
+          if (res.data?.caption) {
+            setThemeDetails(prev => ({ ...prev, [id]: res.data.caption }));
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+    });
+  }, [categories]);
 
   const handleAddCategory = () => {
     const title = prompt('Nhập tên Danh mục mới (VD: Sự kiện Tết):');
@@ -198,7 +217,17 @@ const ThemesManager = () => {
               ) : (
                 cat.themeIds.map((id, index) => (
                   <div key={index} className="flex items-center gap-2 p-3 bg-base-200 rounded-xl group transition-all hover:bg-base-300">
-                    <code className="text-xs flex-1 truncate font-mono opacity-70">{id}</code>
+                    <div className="flex-1 min-w-0 overflow-hidden flex items-center gap-2">
+                      {themeDetails[id] ? (
+                        <>
+                           <span className="text-xl flex-shrink-0">{themeDetails[id].icon_url}</span>
+                           <span className="font-semibold text-sm truncate">{themeDetails[id].text}</span>
+                           <code className="text-xs font-mono opacity-40 ml-2 truncate hidden sm:block">{id.split('-')[0]}...</code>
+                        </>
+                      ) : (
+                        <code className="text-xs truncate font-mono opacity-70">{id}</code>
+                      )}
+                    </div>
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <a 
                         href={`https://captionkanade.site/p/${id}`} 
