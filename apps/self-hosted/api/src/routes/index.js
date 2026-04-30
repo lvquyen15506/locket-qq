@@ -11,6 +11,7 @@ module.exports = (app) => {
   app.use("/locket", locketRouter);
   app.use("/api/collab", collabRouter);
   app.use("/api/admin", adminRouter);
+  app.use("/api/v1/public", adminRouter);
   app.use("/v1/public", adminRouter); 
   app.use("/api", convertRouter);
 };

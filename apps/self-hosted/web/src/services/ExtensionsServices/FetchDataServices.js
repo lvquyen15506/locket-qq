@@ -1,3 +1,4 @@
+import axios from "axios";
 import { PUBLIC_API } from "@/config/apiConfig";
 import { instanceBaseData } from "@/lib/axios.data";
 
@@ -121,12 +122,12 @@ export const GetInfoPlanWithId = async (planId) => {
 };
 export const getAllOverlayCaption = async () => {
   try {
-    const res = await instanceBaseData.get(PUBLIC_API.themes);
-    if (!res?.data) {
+    const res = await axios.get("https://locket-api-seven.vercel.app/api/admin/themes");
+    if (!res?.data?.data) {
       console.error("❌ Không có dữ liệu hợp lệ", res?.data);
       return null;
     }
-    return res.data;
+    return res.data.data;
   } catch (error) {
     console.error("🚨 Lỗi khi gọi API:", error.message);
     return null;
