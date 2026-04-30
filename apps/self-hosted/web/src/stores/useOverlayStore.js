@@ -104,7 +104,20 @@ export const useOverlayStore = create((set, get) => ({
         }
 
         const results = await Promise.allSettled(
-          category.themeIds.map((id) => getCollabCaption(id))
+          category.themeIds.map(async (id) => {
+            if (id.startsWith('http')) {
+              return {
+                id: `url_${id.substring(id.length - 10)}_${Math.random()}`,
+                text: "Ảnh",
+                icon_url: id,
+                colortop: "transparent",
+                colorbottom: "transparent",
+                color: "#FFFFFF",
+                type: "image_icon"
+              };
+            }
+            return await getCollabCaption(id);
+          })
         );
 
         const newCaptions = results

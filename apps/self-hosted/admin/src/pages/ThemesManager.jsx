@@ -224,6 +224,11 @@ const ThemesManager = () => {
                            <span className="font-semibold text-sm truncate">{themeDetails[id].text}</span>
                            <code className="text-xs font-mono opacity-40 ml-2 truncate hidden sm:block">{id.split('-')[0]}...</code>
                         </>
+                      ) : id.startsWith('http') ? (
+                        <>
+                           <img src={id} alt="" className="w-8 h-8 rounded object-cover flex-shrink-0" />
+                           <code className="text-xs truncate font-mono opacity-70 ml-2">{id}</code>
+                        </>
                       ) : (
                         <code className="text-xs truncate font-mono opacity-70">{id}</code>
                       )}
