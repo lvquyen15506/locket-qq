@@ -122,7 +122,7 @@ export const GetInfoPlanWithId = async (planId) => {
 };
 export const getAllOverlayCaption = async () => {
   try {
-    const res = await axios.get("https://locket-api-seven.vercel.app/api/admin/themes");
+    const res = await axios.get(`https://locket-api-seven.vercel.app/api/admin/themes?t=${Date.now()}`);
     if (!res?.data?.data) {
       console.error("❌ Không có dữ liệu hợp lệ", res?.data);
       return null;

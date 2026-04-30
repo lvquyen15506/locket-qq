@@ -146,7 +146,7 @@ const ThemesManager = () => {
     <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-black mb-1">Quản lý Theme Động</h1>
+          <h1 className="text-4xl font-black mb-1">Quản lý Theme Động (v2)</h1>
           <p className="text-base-content/60">Quản lý linh hoạt các danh mục và Theme hiển thị trên Web App</p>
         </div>
         <div className="flex gap-2">
@@ -224,9 +224,9 @@ const ThemesManager = () => {
                            <span className="font-semibold text-sm truncate">{themeDetails[id].text}</span>
                            <code className="text-xs font-mono opacity-40 ml-2 truncate hidden sm:block">{id.split('-')[0]}...</code>
                         </>
-                      ) : id.startsWith('http') ? (
+                      ) : (id || '').trim().startsWith('http') ? (
                         <>
-                           <img src={id} alt="" className="w-8 h-8 rounded object-cover flex-shrink-0" />
+                           <img src={id.trim()} alt="" className="w-8 h-8 rounded object-cover flex-shrink-0" />
                            <code className="text-xs truncate font-mono opacity-70 ml-2">{id}</code>
                         </>
                       ) : (

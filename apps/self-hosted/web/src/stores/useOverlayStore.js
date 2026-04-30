@@ -105,11 +105,12 @@ export const useOverlayStore = create((set, get) => ({
 
         const results = await Promise.allSettled(
           category.themeIds.map(async (id) => {
-            if (id.startsWith('http')) {
+            const cleanId = (id || '').trim();
+            if (cleanId.startsWith('http')) {
               return {
-                id: `url_${id.substring(id.length - 10)}_${Math.random()}`,
+                id: `url_${cleanId.substring(cleanId.length - 10)}_${Math.random()}`,
                 text: "Ảnh",
-                icon_url: id,
+                icon_url: cleanId,
                 colortop: "transparent",
                 colorbottom: "transparent",
                 color: "#FFFFFF",
